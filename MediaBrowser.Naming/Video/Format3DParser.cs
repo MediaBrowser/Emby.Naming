@@ -17,7 +17,7 @@ namespace MediaBrowser.Naming.Video
 
         public Format3DResult Parse(string path)
         {
-            return Parse(new VideoFileParser(_options, _logger).GetFlags(path));
+            return Parse(new FlagParser(_options).GetFlags(path));
         }
 
         internal Format3DResult Parse(string[] videoFlags)
@@ -43,6 +43,11 @@ namespace MediaBrowser.Naming.Video
             {
                 result.Format3D = new[] { rule.Token }.FirstOrDefault(i => videoFlags.Contains(i, StringComparer.OrdinalIgnoreCase));
                 result.Is3D = !string.IsNullOrWhiteSpace(result.Format3D);
+
+                if (result.Is3D)
+                {
+                    result.Tokens.Add(rule.Token);
+                }
             }
             else
             {
@@ -53,9 +58,12 @@ namespace MediaBrowser.Naming.Video
                 {
                     if (foundPrefix)
                     {
+                        result.Tokens.Add(rule.PreceedingToken);
+
                         if (string.Equals(rule.Token, flag, StringComparison.OrdinalIgnoreCase))
                         {
                             format = flag;
+                            result.Tokens.Add(rule.Token);
                         }
                         break;
                     }

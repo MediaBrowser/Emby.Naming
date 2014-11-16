@@ -41,6 +41,7 @@
     <Compile Include="Audio\AudioFileParser.cs" />
     <Compile Include="Audio\AudioOptions.cs" />
     <Compile Include="Common\MediaType.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IO\FileInfoType.cs" />
     <Compile Include="IO\PortableFileInfo.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -53,9 +54,11 @@
     <Compile Include="Video\CleanDateTimeResult.cs" />
     <Compile Include="Video\CleanStringParser.cs" />
     <Compile Include="Video\CleanStringResult.cs" />
+    <Compile Include="Video\ExtraResult.cs" />
     <Compile Include="Video\ExtraRule.cs" />
     <Compile Include="Video\ExtraRuleType.cs" />
     <Compile Include="Video\ExtraTypeParser.cs" />
+    <Compile Include="Video\FlagParser.cs" />
     <Compile Include="Video\Format3DParser.cs" />
     <Compile Include="Video\Format3DResult.cs" />
     <Compile Include="Video\Format3DRule.cs" />
@@ -68,7 +71,7 @@
     <Compile Include="Video\VideoFileInfo.cs" />
     <Compile Include="Video\VideoInfo.cs" />
     <Compile Include="Video\VideoOptions.cs" />
-    <Compile Include="Video\VideoFileParser.cs" />
+    <Compile Include="Video\VideoResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

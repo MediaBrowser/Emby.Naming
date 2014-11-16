@@ -26,13 +26,13 @@ https://www.nuget.org/packages/MediaBrowser.Naming
             // Developers are encouraged to create their own ILogger implementation
 			var logger = new NullLogger();
 
-			// Use VideoOptions for Kodi
+			// VideoOptions is based on Kodi wiki documentation
 			// ExpandedVideoOptions includes newly introduced Media Browser features
 			var options = new VideoOptions();
 
-			var parser = new VideoFileParser(options, logger);
+			var resolver = new VideoResolver(options, logger);
 
-			var result = parser.ParseFile(file);
+			var result = resolver.ResolveFile(file);
 ```
 
 The result object will then have a number of properties, including:
@@ -59,3 +59,7 @@ Different parts of the algorithm can be used separately as needed via the follow
 - StubParser
 
 See the unit tests for samples.
+
+## Configuration
+
+Most of the classes expect a VideoOptions and/or an AudioOptions object. This is intended to gradually support all of the configuration available in Kodi advanced settings: http://kodi.wiki/view/Advancedsettings.xml.

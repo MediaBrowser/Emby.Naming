@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace MediaBrowser.Naming.Video
 {
     public class StubResult
@@ -13,5 +14,15 @@ namespace MediaBrowser.Naming.Video
         /// </summary>
         /// <value>The type of the stub.</value>
         public string StubType { get; set; }
+        /// <summary>
+        /// Gets or sets the tokens.
+        /// </summary>
+        /// <value>The tokens.</value>
+        public List<string> Tokens { get; set; }
+
+        public StubResult()
+        {
+            Tokens = new List<string>();
+        }
     }
 }

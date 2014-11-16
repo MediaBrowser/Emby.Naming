@@ -1,7 +1,9 @@
-﻿using MediaBrowser.Naming.IO;
+﻿using MediaBrowser.Naming.Audio;
+using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
 
 namespace MediaBrowser.Naming.Tests.Video
 {
@@ -11,71 +13,105 @@ namespace MediaBrowser.Naming.Tests.Video
         [TestMethod]
         public void TestMultiPartFiles()
         {
-            Assert.IsFalse(IsMultiPartFile(@"d:\\Braveheart.mkv"));
-            Assert.IsFalse(IsMultiPartFile(@"Braveheart - 480p.mkv"));
-            Assert.IsFalse(IsMultiPartFile(@"Braveheart - 720p.mkv"));
+            TestFile(@"Braveheart.mkv", false, "Braveheart");
+            TestFile(@"Braveheart-trailer.mkv", false, "Braveheart-trailer");
+            TestFile(@"Braveheart - 480p.mkv", false, "Braveheart - 480p");
+            TestFile(@"Braveheart - 720p.mkv", false, "Braveheart - 720p");
 
-            Assert.IsFalse(IsMultiPartFile(@"blah blah.mkv"));
+            TestFile(@"Braveheart.3d.sbs.mkv", false, "Braveheart.3d.sbs");
+            TestFile(@"300.3d.sbs.mkv", false, "300.3d.sbs");
+     
+            TestFile(@"blah blah.mkv", false, "blah blah");
 
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - cd1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - disc1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - disk1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - pt1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - part1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - dvd1.mkv"));
+            TestFile(@"blah blah - cd1.mkv", true, "blah blah");
+            TestFile(@"blah blah - disc1.mkv", true, "blah blah");
+            TestFile(@"blah blah - disk1.mkv", true, "blah blah");
+            TestFile(@"blah blah - pt1.mkv", true, "blah blah");
+            TestFile(@"blah blah - part1.mkv", true, "blah blah");
+            TestFile(@"blah blah - dvd1.mkv", true, "blah blah");
 
             // Add a space
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - cd 1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - disc 1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - disk 1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - pt 1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - part 1.mkv"));
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - dvd 1.mkv"));
+            TestFile(@"blah blah - cd 1.mkv", true, "blah blah");
+            TestFile(@"blah blah - disc 1.mkv", true, "blah blah");
+            TestFile(@"blah blah - disk 1.mkv", true, "blah blah");
+            TestFile(@"blah blah - pt 1.mkv", true, "blah blah");
+            TestFile(@"blah blah - part 1.mkv", true, "blah blah");
+            TestFile(@"blah blah - dvd 1.mkv", true, "blah blah");
 
             // Not case sensitive
-            Assert.IsTrue(IsMultiPartFile(@"blah blah - Disc1.mkv"));
+            TestFile(@"blah blah - Disc1.mkv", true, "blah blah");
+
+            // See if the -2 fools it into matching part-X
+            TestFile(@"\\server\\Movies\\Braveheart (2007)\\Braveheart (2006)-1.mkv", false, "Braveheart (2006)-1");
+            TestFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-2.mkv", false, "300 (2006)-2");
+
+            // See if the -trailer fools it into matching part-AZ
+            TestFile(@"\\server\\Movies\\Braveheart (2007)\\Braveheart (2006)-trailer.mkv", false, "Braveheart (2006)-trailer");
+            TestFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-trailer.mkv", false, "300 (2006)-trailer");
         }
 
         [TestMethod]
         public void TestMultiPartFolders()
         {
-            Assert.IsFalse(IsMultiPartDirectory(@"blah blah"));
-            Assert.IsFalse(IsMultiPartDirectory(@"d:\\music\weezer\\03 Pinkerton"));
-            Assert.IsFalse(IsMultiPartDirectory(@"d:\\music\\michael jackson\\Bad (2012 Remaster)"));
+            TestDirectory(@"blah blah", false, @"blah blah");
+            TestDirectory(@"d:\\music\weezer\\03 Pinkerton", false, "03 Pinkerton");
+            TestDirectory(@"d:\\music\\michael jackson\\Bad (2012 Remaster)", false, "Bad (2012 Remaster)");
 
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - cd1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - disc1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - disk1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - pt1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - part1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - dvd1"));
+            TestDirectory(@"blah blah - cd1", true, "blah blah");
+            TestDirectory(@"blah blah - disc1", true, "blah blah");
+            TestDirectory(@"blah blah - disk1", true, "blah blah");
+            TestDirectory(@"blah blah - pt1", true, "blah blah");
+            TestDirectory(@"blah blah - part1", true, "blah blah");
+            TestDirectory(@"blah blah - dvd1", true, "blah blah");
 
             // Add a space
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - cd 1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - disc 1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - disk 1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - pt 1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - part 1"));
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - dvd 1"));
+            TestDirectory(@"blah blah - cd 1", true, "blah blah");
+            TestDirectory(@"blah blah - disc 1", true, "blah blah");
+            TestDirectory(@"blah blah - disk 1", true, "blah blah");
+            TestDirectory(@"blah blah - pt 1", true, "blah blah");
+            TestDirectory(@"blah blah - part 1", true, "blah blah");
+            TestDirectory(@"blah blah - dvd 1", true, "blah blah");
 
             // Not case sensitive
-            Assert.IsTrue(IsMultiPartDirectory(@"blah blah - Disc1"));
+            TestDirectory(@"blah blah - Disc1", true, "blah blah");
         }
 
-        private bool IsMultiPartFile(string path)
+        private void TestFile(string path, bool isMultiPart, string name)
         {
             var options = new VideoOptions();
-            var parser = new MultiPartParser(options, new NullLogger());
+            var parser = new MultiPartParser(options, new AudioOptions(), new NullLogger());
 
-            return parser.Parse(path, FileInfoType.File).IsMultiPart;
-        }   
+            var result = parser.Parse(path, FileInfoType.File);
 
-        private bool IsMultiPartDirectory(string path)
+            Assert.AreEqual(isMultiPart, result.IsMultiPart);
+
+            if (name == null)
+            {
+                Assert.IsNull(result.Name);
+            }
+            else
+            {
+                Assert.AreEqual(name, result.Name, true, CultureInfo.InvariantCulture);
+            }
+        }
+        
+        private void TestDirectory(string path, bool isMultiPart, string name)
         {
             var options = new VideoOptions();
-            var parser = new MultiPartParser(options, new NullLogger());
+            var parser = new MultiPartParser(options, new AudioOptions(), new NullLogger());
 
-            return parser.Parse(path, FileInfoType.Directory).IsMultiPart;
+            var result = parser.Parse(path, FileInfoType.Directory);
+
+            Assert.AreEqual(isMultiPart, result.IsMultiPart);
+
+            if (name == null)
+            {
+                Assert.IsNull(result.Name);
+            }
+            else
+            {
+                Assert.AreEqual(name, result.Name, true, CultureInfo.InvariantCulture);
+            }
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using MediaBrowser.Naming.IO;
+﻿using MediaBrowser.Naming.Audio;
+using MediaBrowser.Naming.Extensions;
+using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,10 +14,12 @@ namespace MediaBrowser.Naming.Video
     {
         private readonly VideoOptions _options;
         private readonly ILogger _logger;
+        private readonly AudioOptions _audioOptions;
 
-        public MultiPartParser(VideoOptions options, ILogger logger)
+        public MultiPartParser(VideoOptions options, AudioOptions audioOptions, ILogger logger)
         {
             _options = options;
+            _audioOptions = audioOptions;
             _logger = logger;
         }
 
@@ -25,17 +30,75 @@ namespace MediaBrowser.Naming.Video
                 throw new ArgumentNullException("path");
             }
 
+            var format3DResult = new Format3DParser(_options, _logger).Parse(path);
+            var stubResult = new StubParser(_options, _logger).ParseFile(path);
+            var extraResult = new ExtraTypeParser(_options, _audioOptions, _logger).GetExtraInfo(path);
+
+            return Parse(path, stubResult, extraResult, format3DResult, type);
+        }
+
+        public MultiPartResult Parse(string path, StubResult stubResult, ExtraResult extraResult, Format3DResult format3DResult, FileInfoType type)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException("path");
+            }
+
             path = Path.GetFileName(path);
+            string originalName;
 
             if (type == FileInfoType.Directory)
             {
+                originalName = path;
+
                 // Dummy this up since the stacking expressions currently expect an extension
                 path += ".mkv";
             }
+            else
+            {
+                originalName = Path.GetFileNameWithoutExtension(path);
+            }
 
+            // The presence of 3d tokens, .e.g. movie.3d, can create a false positive (part 3)
+            path = StripTokens(path, format3DResult.Tokens);
+
+            // The presence of stub tokens, .e.g. movie.bluray, can create a false positive (part b)
+            path = StripTokens(path, stubResult.Tokens);
+
+            // The presence of extra tokens, .e.g. movie-trailer, can create a false positive (part t)
+            foreach (var token in extraResult.Tokens)
+            {
+                var newPath = path.Replace(token, string.Empty, StringComparison.OrdinalIgnoreCase);
+
+                if (!string.Equals(path, newPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    path = newPath;
+                    break;
+                }
+            }
+            
             return _options.FileStackingExpressions.Select(i => Parse(path, i))
                 .FirstOrDefault(i => i.IsMultiPart) ??
-                new MultiPartResult();
+                new MultiPartResult { Name = originalName };
+        }
+
+        private string StripTokens(string path, IEnumerable<string> tokens)
+        {
+            foreach (var token in tokens)
+            {
+                foreach (var character in _options.FlagDelimiters)
+                {
+                    var newPath = path.Replace(character + token, string.Empty, StringComparison.OrdinalIgnoreCase);
+
+                    if (!string.Equals(path, newPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        path = newPath;
+                        break;
+                    }
+                }
+            }
+
+            return path;
         }
 
         private MultiPartResult Parse(string file, string expression)

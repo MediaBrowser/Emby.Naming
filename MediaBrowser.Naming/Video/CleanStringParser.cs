@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace MediaBrowser.Naming.Video
@@ -27,7 +28,7 @@ namespace MediaBrowser.Naming.Video
             };
         }
 
-        public CleanStringResult Clean(string name, string expression)
+        private CleanStringResult Clean(string name, string expression)
         {
             var result = new CleanStringResult();
 

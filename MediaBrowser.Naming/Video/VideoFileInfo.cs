@@ -42,11 +42,6 @@ namespace MediaBrowser.Naming.Video
         /// <value>The type of the extra.</value>
         public string ExtraType { get; set; }
         /// <summary>
-        /// Gets or sets the flags.
-        /// </summary>
-        /// <value>The flags.</value>
-        public string[] Flags { get; set; }
-        /// <summary>
         /// Gets or sets the format3 d.
         /// </summary>
         /// <value>The format3 d.</value>
@@ -66,10 +61,5 @@ namespace MediaBrowser.Naming.Video
         /// </summary>
         /// <value>The type of the stub.</value>
         public string StubType { get; set; }
-
-        public VideoFileInfo()
-        {
-            Flags = new string[] {};
-        }
     }
 }

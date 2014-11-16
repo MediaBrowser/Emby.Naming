@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -12,8 +13,17 @@ namespace MediaBrowser.Naming.Video
     {
         public CleanDateTimeResult Clean(string name, IEnumerable<string> expressions)
         {
+            var originalName = name;
+
+            // Dummy up a file extension because the expressions will fail without one
+            if (string.IsNullOrWhiteSpace(Path.GetExtension(name)))
+            {
+                name += ".mkv";
+            }
+
             return expressions.Select(i => Clean(name, i))
-                .FirstOrDefault(i => i.HasChanged);
+                .FirstOrDefault(i => i.HasChanged) ??
+                new CleanDateTimeResult { Name = originalName };
         }
 
         public CleanDateTimeResult Clean(string name, string expression)

@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Audio;
+using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,11 +13,11 @@ namespace MediaBrowser.Naming.Tests.Video
         ///</summary>
         public TestContext TestContext { get; set; }
 
-        protected VideoFileParser GetParser()
+        protected VideoResolver GetParser()
         {
-            var options = new VideoOptions();
+            var options = new ExpandedVideoOptions();
 
-            return new VideoFileParser(options, new NullLogger());
+            return new VideoResolver(options, new AudioOptions(), new NullLogger());
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MediaBrowser.Naming.Audio;
 using MediaBrowser.Naming.Logging;
-using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MediaBrowser.Naming.Tests.Music
@@ -13,13 +12,6 @@ namespace MediaBrowser.Naming.Tests.Music
         ///information about and functionality for the current test run.
         ///</summary>
         public TestContext TestContext { get; set; }
-
-        private MultiPartParser GetParser()
-        {
-            var options = new VideoOptions();
-
-            return new MultiPartParser(options, new NullLogger());
-        }
 
         [TestMethod]
         public void TestMultiDiscAlbums()

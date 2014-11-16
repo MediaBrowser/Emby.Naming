@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.IO;
+﻿using MediaBrowser.Naming.Audio;
+using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
@@ -6,45 +7,47 @@ using System.Linq;
 
 namespace MediaBrowser.Naming.Video
 {
-    public class VideoFileParser
+    public class VideoResolver
     {
         private readonly ILogger _logger;
         private readonly VideoOptions _options;
+        private readonly AudioOptions _audioOptions;
 
-        public VideoFileParser(VideoOptions options, ILogger logger)
+        public VideoResolver(VideoOptions options, AudioOptions audioOptions, ILogger logger)
         {
             _options = options;
+            _audioOptions = audioOptions;
             _logger = logger;
         }
 
         /// <summary>
-        /// Parses the directory.
+        /// Resolves the directory.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns>VideoFileInfo.</returns>
-        public VideoFileInfo ParseDirectory(string path)
+        public VideoFileInfo ResolveDirectory(string path)
         {
-            return ParsePath(path, FileInfoType.Directory);
-        }
-        
-        /// <summary>
-        /// Parses a video file.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns>VideoFileInfo.</returns>
-        public VideoFileInfo ParseFile(string path)
-        {
-            return ParsePath(path, FileInfoType.File);
+            return Resolve(path, FileInfoType.Directory);
         }
 
         /// <summary>
-        /// Parses the path.
+        /// Resolves the file.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>VideoFileInfo.</returns>
+        public VideoFileInfo ResolveFile(string path)
+        {
+            return Resolve(path, FileInfoType.File);
+        }
+
+        /// <summary>
+        /// Resolves the specified path.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="type">The type.</param>
         /// <returns>VideoFileInfo.</returns>
         /// <exception cref="System.ArgumentNullException">path</exception>
-        public VideoFileInfo ParsePath(string path, FileInfoType type)
+        public VideoFileInfo Resolve(string path, FileInfoType type)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -53,6 +56,8 @@ namespace MediaBrowser.Naming.Video
 
             var isStub = false;
             string container = null;
+            string stubType = null;
+            StubResult stubResult = null;
 
             if (type == FileInfoType.File)
             {
@@ -60,7 +65,7 @@ namespace MediaBrowser.Naming.Video
                 // Check supported extensions
                 if (!_options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
-                    var stubResult = new StubParser(_options, _logger).ParseFile(path);
+                    stubResult = new StubParser(_options, _logger).ParseFile(path);
 
                     isStub = stubResult.IsStub;
 
@@ -69,43 +74,43 @@ namespace MediaBrowser.Naming.Video
                     {
                         return null;
                     }
+
+                    stubType = stubResult.StubType;
                 }
 
                 container = extension.TrimStart('.');
             }
 
-            var multiPartResult = GetMultiPartParserResult(path, type);
+            var flags = new FlagParser(_options).GetFlags(path);
+            var format3DResult = GetFormat3DInfo(flags);
+
+            var extraResult = new ExtraTypeParser(_options, _audioOptions, _logger).GetExtraInfo(path);
+
+            var multiPartResult = new MultiPartParser(_options, _audioOptions, _logger).Parse(path, stubResult ?? new StubResult(), extraResult, format3DResult, type);
 
             var name = multiPartResult.IsMultiPart ?
                 multiPartResult.Name :
-                (type == FileInfoType.File ?
-                Path.GetFileNameWithoutExtension(path) :
-                Path.GetFileName(path));
+                Path.GetFileName(path);
 
             var cleanDateTimeResult = CleanDateTime(name);
 
             name = cleanDateTimeResult.Name;
             name = CleanString(name).Name;
 
-            var flags = GetFlags(path);
-
             var info = new VideoFileInfo
             {
                 Path = path,
-                Flags = flags,
                 Container = container,
                 IsStub = isStub,
                 Name = name,
-                Year = cleanDateTimeResult.Year
+                Year = cleanDateTimeResult.Year,
+                StubType = stubType,
+                Is3D = format3DResult.Is3D,
+                Format3D = format3DResult.Format3D,
+                IsMultiPart = multiPartResult.IsMultiPart,
+                Part = multiPartResult.Part,
+                ExtraType = extraResult.ExtraType
             };
-
-            var format3DResult = GetFormat3DInfo(flags);
-
-            info.Is3D = format3DResult.Is3D;
-            info.Format3D = format3DResult.Format3D;
-
-            info.IsMultiPart = multiPartResult.IsMultiPart;
-            info.Part = multiPartResult.Part;
 
             return info;
         }
@@ -114,20 +119,6 @@ namespace MediaBrowser.Naming.Video
         {
             var extension = Path.GetExtension(path) ?? string.Empty;
             return _options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
-        }
-
-        public string[] GetFlags(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException("path");
-            }
-
-            // Note: the tags need be be surrounded be either a space ( ), hyphen -, dot . or underscore _.
-
-            var file = Path.GetFileName(path);
-
-            return file.Split(_options.FlagDelimiters, StringSplitOptions.RemoveEmptyEntries);
         }
 
         public CleanStringResult CleanString(string name)
@@ -143,11 +134,6 @@ namespace MediaBrowser.Naming.Video
         private Format3DResult GetFormat3DInfo(string[] flags)
         {
             return new Format3DParser(_options, _logger).Parse(flags);
-        }
-
-        private MultiPartResult GetMultiPartParserResult(string path, FileInfoType type)
-        {
-            return new MultiPartParser(_options, _logger).Parse(path, type);
         }
     }
 }

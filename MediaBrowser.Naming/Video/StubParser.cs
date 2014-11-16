@@ -34,6 +34,8 @@ namespace MediaBrowser.Naming.Video
                     if (string.Equals(rule.Token, token, StringComparison.OrdinalIgnoreCase))
                     {
                         result.StubType = rule.StubType;
+                        result.Tokens.Add(token);
+                        break;
                     }
                 }
             }

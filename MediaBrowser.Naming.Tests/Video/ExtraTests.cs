@@ -65,7 +65,7 @@ namespace MediaBrowser.Naming.Tests.Video
         {
             var parser = GetExtraTypeParser(videoOptions);
 
-            var extraType = parser.GetExtraType(input);
+            var extraType = parser.GetExtraInfo(input).ExtraType;
 
             if (expectedType == null)
             {
