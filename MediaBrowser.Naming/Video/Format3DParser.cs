@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace MediaBrowser.Naming.Video
 {
-    public class Format3D
+    public class Format3DParser
     {
         private readonly VideoOptions _options;
         private readonly ILogger _logger;
 
-        public Format3D(VideoOptions options, ILogger logger)
+        public Format3DParser(VideoOptions options, ILogger logger)
         {
             _options = options;
             _logger = logger;
@@ -19,14 +19,29 @@ namespace MediaBrowser.Naming.Video
         {
             return Parse(new VideoFileParser(_options, _logger).GetFlags(path));
         }
-        
-        public Format3DResult Parse(string[] videoFlags)
+
+        internal Format3DResult Parse(string[] videoFlags)
+        {
+            foreach (var rule in _options.Format3DRules)
+            {
+                var result = Parse(videoFlags, rule);
+
+                if (result.Is3D)
+                {
+                    return result;
+                }
+            }
+
+            return new Format3DResult();
+        }
+
+        private Format3DResult Parse(string[] videoFlags, Format3DRule rule)
         {
             var result = new Format3DResult();
 
-            if (string.IsNullOrWhiteSpace(_options.Format3DPrefix))
+            if (string.IsNullOrWhiteSpace(rule.PreceedingToken))
             {
-                result.Format3D = _options.Format3DFlags.FirstOrDefault(i => videoFlags.Contains(i, StringComparer.OrdinalIgnoreCase));
+                result.Format3D = new[] { rule.Token }.FirstOrDefault(i => videoFlags.Contains(i, StringComparer.OrdinalIgnoreCase));
                 result.Is3D = !string.IsNullOrWhiteSpace(result.Format3D);
             }
             else
@@ -38,16 +53,16 @@ namespace MediaBrowser.Naming.Video
                 {
                     if (foundPrefix)
                     {
-                        if (_options.Format3DFlags.Contains(flag, StringComparer.OrdinalIgnoreCase))
+                        if (string.Equals(rule.Token, flag, StringComparison.OrdinalIgnoreCase))
                         {
                             format = flag;
                         }
                         break;
                     }
-                    foundPrefix = string.Equals(flag, _options.Format3DPrefix, StringComparison.OrdinalIgnoreCase);
+                    foundPrefix = string.Equals(flag, rule.PreceedingToken, StringComparison.OrdinalIgnoreCase);
                 }
 
-                result.Is3D = foundPrefix;
+                result.Is3D = foundPrefix && !string.IsNullOrWhiteSpace(format);
                 result.Format3D = format;
             }
 

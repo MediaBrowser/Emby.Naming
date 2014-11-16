@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MediaBrowser.Naming.Common;
+using System.Collections.Generic;
 
 namespace MediaBrowser.Naming.Video
 {
@@ -7,13 +8,14 @@ namespace MediaBrowser.Naming.Video
         public List<string> FileStackingExpressions { get; set; }
         public List<string> FileExtensions { get; set; }
         public List<string> StubFileExtensions { get; set; }
+        public List<StubTypeRule> StubTypes { get; set; }
         public List<string> IgnoreExpressions { get; set; }
         public List<string> CleanDateTimes { get; set; }
         public List<string> CleanStrings { get; set; }
+        public List<ExtraRule> ExtraRules { get; set; }
         public char[] FlagDelimiters { get; set; }
 
-        public string Format3DPrefix { get; set; }
-        public List<string> Format3DFlags { get; set; }
+        public List<Format3DRule> Format3DRules { get; set; }
 
         public VideoOptions()
         {
@@ -91,6 +93,60 @@ namespace MediaBrowser.Naming.Video
                 ".disc"
             };
 
+            StubTypes = new List<StubTypeRule>
+            {
+                new StubTypeRule
+                {
+                     StubType = "dvd",
+                     Token = "dvd"
+                },
+                new StubTypeRule
+                {
+                     StubType = "hddvd",
+                     Token = "hddvd"
+                },
+                new StubTypeRule
+                {
+                     StubType = "bluray",
+                     Token = "bluray"
+                },
+                new StubTypeRule
+                {
+                     StubType = "bluray",
+                     Token = "brrip"
+                },
+                new StubTypeRule
+                {
+                     StubType = "bluray",
+                     Token = "bd25"
+                },
+                new StubTypeRule
+                {
+                     StubType = "bluray",
+                     Token = "bd50"
+                },
+                new StubTypeRule
+                {
+                     StubType = "vhs",
+                     Token = "vhs"
+                },
+                new StubTypeRule
+                {
+                     StubType = "tv",
+                     Token = "HDTV"
+                },
+                new StubTypeRule
+                {
+                     StubType = "tv",
+                     Token = "PDTV"
+                },
+                new StubTypeRule
+                {
+                     StubType = "tv",
+                     Token = "DSR"
+                }
+            };
+
             IgnoreExpressions = new List<string>
             {
 
@@ -102,7 +158,9 @@ namespace MediaBrowser.Naming.Video
                 ')', 
                 '-', 
                 '.', 
-                '_'
+                '_', 
+                '[', 
+                ']'
             };
 
             CleanDateTimes = new List<string>
@@ -116,13 +174,54 @@ namespace MediaBrowser.Naming.Video
                 @"(\[.*\])"
             };
 
-            Format3DPrefix = "3d";
-            Format3DFlags = new List<string>
+            Format3DRules = new List<Format3DRule>
             {
-                "hsbs",
-                "sbs",
-                "htab",
-                "tab"
+                // Kodi rules:
+                new Format3DRule
+                {
+                    PreceedingToken = "3d",
+                    Token = "hsbs"
+                },
+                new Format3DRule
+                {
+                    PreceedingToken = "3d",
+                    Token = "sbs"
+                },
+                new Format3DRule
+                {
+                    PreceedingToken = "3d",
+                    Token = "htab"
+                },
+                new Format3DRule
+                {
+                    PreceedingToken = "3d",
+                    Token = "tab"
+                }
+            };
+
+            ExtraRules = new List<ExtraRule>
+            {
+                new ExtraRule
+                {
+                    ExtraType = "trailer",
+                    RuleType = ExtraRuleType.Filename,
+                    Token = "trailer",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "trailer",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = "-trailer",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "themesong",
+                    RuleType = ExtraRuleType.Filename,
+                    Token = "theme",
+                    MediaType = MediaType.Audio
+                }
             };
         }
     }

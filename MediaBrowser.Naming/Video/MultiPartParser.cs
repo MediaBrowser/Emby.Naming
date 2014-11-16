@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.IO;
+using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace MediaBrowser.Naming.Video
             _logger = logger;
         }
 
-        public MultiPartParserResult Parse(string path)
+        public MultiPartResult Parse(string path, FileInfoType type)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -26,40 +27,46 @@ namespace MediaBrowser.Naming.Video
 
             path = Path.GetFileName(path);
 
+            if (type == FileInfoType.Directory)
+            {
+                // Dummy this up since the stacking expressions currently expect an extension
+                path += ".mkv";
+            }
+
             return _options.FileStackingExpressions.Select(i => Parse(path, i))
                 .FirstOrDefault(i => i.IsMultiPart) ??
-                new MultiPartParserResult { Path = path };
+                new MultiPartResult();
         }
 
-        private MultiPartParserResult Parse(string file, string expression)
+        private MultiPartResult Parse(string file, string expression)
         {
-            var match = GetRegex(expression).Match(file);
+            var match = Regex.Match(file, expression, RegexOptions.IgnoreCase);
 
-            var result = new MultiPartParserResult();
+            var result = new MultiPartResult();
 
             if (match.Success && match.Groups.Count >= 3)
             {
                 var name = match.Groups[1].Value;
+                var part = match.Groups[2].Value;
+
+                // See if the matched part represents the whole filename
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    if (string.Equals(part, Path.GetFileNameWithoutExtension(file), StringComparison.OrdinalIgnoreCase))
+                    {
+                        name = part;
+                    }
+                }
 
                 if (!string.IsNullOrWhiteSpace(name))
                 {
                     result.IsMultiPart = true;
                     result.Name = name;
-                    result.Part = match.Groups[2].Value;
+                    result.Part = part;
                 }
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Gets the regex.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns>Regex.</returns>
-        private Regex GetRegex(string expression)
-        {
-            return new Regex(expression, RegexOptions.IgnoreCase);
         }
     }
 }

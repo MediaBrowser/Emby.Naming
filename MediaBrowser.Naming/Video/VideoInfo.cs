@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MediaBrowser.Naming.Subtitles;
+﻿using MediaBrowser.Naming.Subtitles;
+using System.Collections.Generic;
 
 namespace MediaBrowser.Naming.Video
 {

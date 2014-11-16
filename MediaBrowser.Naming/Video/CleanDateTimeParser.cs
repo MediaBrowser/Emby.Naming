@@ -8,7 +8,7 @@ namespace MediaBrowser.Naming.Video
     /// <summary>
     /// http://kodi.wiki/view/Advancedsettings.xml#video
     /// </summary>
-    public class CleanDateTime
+    public class CleanDateTimeParser
     {
         public CleanDateTimeResult Clean(string name, IEnumerable<string> expressions)
         {
@@ -18,11 +18,9 @@ namespace MediaBrowser.Naming.Video
 
         public CleanDateTimeResult Clean(string name, string expression)
         {
-            var regex = GetRegex(expression);
-
             var result = new CleanDateTimeResult();
 
-            var match = regex.Match(name);
+            var match = Regex.Match(name, expression, RegexOptions.IgnoreCase);
 
             if (match.Success && match.Groups.Count == 4)
             {
@@ -37,11 +35,6 @@ namespace MediaBrowser.Naming.Video
 
             result.Name = name;
             return result;
-        }
-
-        private Regex GetRegex(string expression)
-        {
-            return new Regex(expression, RegexOptions.IgnoreCase);
         }
     }
 }

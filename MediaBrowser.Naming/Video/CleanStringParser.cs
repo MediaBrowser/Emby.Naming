@@ -6,7 +6,7 @@ namespace MediaBrowser.Naming.Video
     /// <summary>
     /// http://kodi.wiki/view/Advancedsettings.xml#video
     /// </summary>
-    public class CleanString
+    public class CleanStringParser
     {
         public CleanStringResult Clean(string name, IEnumerable<string> expressions)
         {
@@ -29,11 +29,9 @@ namespace MediaBrowser.Naming.Video
 
         public CleanStringResult Clean(string name, string expression)
         {
-            var regex = GetRegex(expression);
-
             var result = new CleanStringResult();
 
-            var match = regex.Match(name);
+            var match = Regex.Match(name, expression, RegexOptions.IgnoreCase);
 
             if (match.Success)
             {
@@ -43,11 +41,6 @@ namespace MediaBrowser.Naming.Video
 
             result.Name = name;
             return result;
-        }
-
-        private Regex GetRegex(string expression)
-        {
-            return new Regex(expression, RegexOptions.IgnoreCase);
         }
     }
 }

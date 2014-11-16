@@ -7,7 +7,7 @@ namespace MediaBrowser.Naming.Tests.Video
     public class CleanStringTests : BaseVideoTest
     {
         [TestMethod]
-        public void CleanBasicTest()
+        public void TestCleanString()
         {
             Test("Super movie 480p.mp4", "Super movie");
             Test("Super movie 480p 2001.mp4", "Super movie");

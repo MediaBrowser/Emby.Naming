@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.IO;
+using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,33 @@ namespace MediaBrowser.Naming.Video
         }
 
         /// <summary>
+        /// Parses the directory.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>VideoFileInfo.</returns>
+        public VideoFileInfo ParseDirectory(string path)
+        {
+            return ParsePath(path, FileInfoType.Directory);
+        }
+        
+        /// <summary>
         /// Parses a video file.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <returns>VideoFileInfo.</returns>
         public VideoFileInfo ParseFile(string path)
+        {
+            return ParsePath(path, FileInfoType.File);
+        }
+
+        /// <summary>
+        /// Parses the path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>VideoFileInfo.</returns>
+        /// <exception cref="System.ArgumentNullException">path</exception>
+        public VideoFileInfo ParsePath(string path, FileInfoType type)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -29,27 +52,35 @@ namespace MediaBrowser.Naming.Video
             }
 
             var isStub = false;
+            string container = null;
 
-            var extension = Path.GetExtension(path);
-            // Check supported extensions
-            if (!_options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+            if (type == FileInfoType.File)
             {
-                // It's not supported. Check stub extensions
-                if (_options.StubFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+                var extension = Path.GetExtension(path) ?? string.Empty;
+                // Check supported extensions
+                if (!_options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
-                    isStub = true;
+                    var stubResult = new StubParser(_options, _logger).ParseFile(path);
+
+                    isStub = stubResult.IsStub;
+
+                    // It's not supported. Check stub extensions
+                    if (!isStub)
+                    {
+                        return null;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+
+                container = extension.TrimStart('.');
             }
 
-            var multiPartResult = GetMultiPartParserResult(path);
+            var multiPartResult = GetMultiPartParserResult(path, type);
 
             var name = multiPartResult.IsMultiPart ?
                 multiPartResult.Name :
-                Path.GetFileNameWithoutExtension(path);
+                (type == FileInfoType.File ?
+                Path.GetFileNameWithoutExtension(path) :
+                Path.GetFileName(path));
 
             var cleanDateTimeResult = CleanDateTime(name);
 
@@ -62,7 +93,7 @@ namespace MediaBrowser.Naming.Video
             {
                 Path = path,
                 Flags = flags,
-                Container = (extension ?? string.Empty).TrimStart('.'),
+                Container = container,
                 IsStub = isStub,
                 Name = name,
                 Year = cleanDateTimeResult.Year
@@ -77,6 +108,12 @@ namespace MediaBrowser.Naming.Video
             info.Part = multiPartResult.Part;
 
             return info;
+        }
+
+        public bool IsVideoFile(string path)
+        {
+            var extension = Path.GetExtension(path) ?? string.Empty;
+            return _options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
 
         public string[] GetFlags(string path)
@@ -95,27 +132,22 @@ namespace MediaBrowser.Naming.Video
 
         public CleanStringResult CleanString(string name)
         {
-            return new CleanString().Clean(name, _options.CleanStrings);
+            return new CleanStringParser().Clean(name, _options.CleanStrings);
         }
 
         public CleanDateTimeResult CleanDateTime(string name)
         {
-            return new CleanDateTime().Clean(name, _options.CleanDateTimes);
+            return new CleanDateTimeParser().Clean(name, _options.CleanDateTimes);
         }
 
         private Format3DResult GetFormat3DInfo(string[] flags)
         {
-            return new Format3D(_options, _logger).Parse(flags);
+            return new Format3DParser(_options, _logger).Parse(flags);
         }
 
-        /// <summary>
-        /// Determines whether [is multi part file] [the specified path].
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <exception cref="System.ArgumentNullException">path</exception>
-        public MultiPartParserResult GetMultiPartParserResult(string path)
+        private MultiPartResult GetMultiPartParserResult(string path, FileInfoType type)
         {
-            return new MultiPartParser(_options, _logger).Parse(path);
+            return new MultiPartParser(_options, _logger).Parse(path, type);
         }
     }
 }

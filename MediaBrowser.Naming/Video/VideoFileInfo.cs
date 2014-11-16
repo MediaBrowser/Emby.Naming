@@ -61,6 +61,11 @@ namespace MediaBrowser.Naming.Video
         /// </summary>
         /// <value><c>true</c> if this instance is stub; otherwise, <c>false</c>.</value>
         public bool IsStub { get; set; }
+        /// <summary>
+        /// Gets or sets the type of the stub.
+        /// </summary>
+        /// <value>The type of the stub.</value>
+        public string StubType { get; set; }
 
         public VideoFileInfo()
         {

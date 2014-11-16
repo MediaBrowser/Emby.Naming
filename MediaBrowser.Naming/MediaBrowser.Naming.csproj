@@ -37,7 +37,10 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\AlbumParser.cs" />
+    <Compile Include="Audio\AudioFileParser.cs" />
     <Compile Include="Audio\AudioOptions.cs" />
+    <Compile Include="Common\MediaType.cs" />
     <Compile Include="IO\FileInfoType.cs" />
     <Compile Include="IO\PortableFileInfo.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -46,20 +49,33 @@
     <Compile Include="Subtitles\SubtitleInfo.cs" />
     <Compile Include="Subtitles\SubtitleOptions.cs" />
     <Compile Include="Subtitles\SubtitleParser.cs" />
-    <Compile Include="Video\CleanDateTime.cs" />
+    <Compile Include="Video\CleanDateTimeParser.cs" />
     <Compile Include="Video\CleanDateTimeResult.cs" />
-    <Compile Include="Video\CleanString.cs" />
+    <Compile Include="Video\CleanStringParser.cs" />
     <Compile Include="Video\CleanStringResult.cs" />
-    <Compile Include="Video\Format3D.cs" />
+    <Compile Include="Video\ExtraRule.cs" />
+    <Compile Include="Video\ExtraRuleType.cs" />
+    <Compile Include="Video\ExtraTypeParser.cs" />
+    <Compile Include="Video\Format3DParser.cs" />
     <Compile Include="Video\Format3DResult.cs" />
+    <Compile Include="Video\Format3DRule.cs" />
+    <Compile Include="Video\ExpandedVideoOptions.cs" />
     <Compile Include="Video\MultiPartParser.cs" />
-    <Compile Include="Video\MultiPartParserResult.cs" />
+    <Compile Include="Video\MultiPartResult.cs" />
+    <Compile Include="Video\StubParser.cs" />
+    <Compile Include="Video\StubResult.cs" />
+    <Compile Include="Video\StubTypeRule.cs" />
     <Compile Include="Video\VideoFileInfo.cs" />
     <Compile Include="Video\VideoInfo.cs" />
     <Compile Include="Video\VideoOptions.cs" />
     <Compile Include="Video\VideoFileParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+xcopy "$(TargetPath)" "$(SolutionDir)\Nuget\dlls\" /y /d /r /i
+)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

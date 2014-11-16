@@ -7,7 +7,7 @@ namespace MediaBrowser.Naming.Tests.Video
     public class CleanDateTimeTests : BaseVideoTest
     {
         [TestMethod]
-        public void CleanBasicTest()
+        public void TestCleanDateTime()
         {
             Test("The Wolf of Wall Street (2013).mkv", "The Wolf of Wall Street", 2013);
             Test("The Wolf of Wall Street 2 (2013).mkv", "The Wolf of Wall Street 2", 2013);
