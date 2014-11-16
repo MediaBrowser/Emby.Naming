@@ -1,27 +1,13 @@
-﻿using MediaBrowser.Naming.Videos;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MediaBrowser.Naming.Tests.Videos
+namespace MediaBrowser.Naming.Tests.Video
 {
     /// <summary>
     /// Summary description for ExtraTests
     /// </summary>
     [TestClass]
-    public class ExtraTests
+    public class ExtraTests : BaseVideoTest
     {
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext { get; set; }
-
-        private VideoParser GetParser()
-        {
-            var options = new VideoOptions();
-
-            return new VideoParser(options);
-        }
-
         // Requirements
         // movie-trailer = ExtraType trailer
         // trailer.ext = ExtraType trailer

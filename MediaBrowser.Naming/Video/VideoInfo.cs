@@ -1,7 +1,7 @@
-﻿using MediaBrowser.Naming.Subtitles;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using MediaBrowser.Naming.Subtitles;
 
-namespace MediaBrowser.Naming.Videos
+namespace MediaBrowser.Naming.Video
 {
     /// <summary>
     /// Represents a complete video, including all parts and subtitles
