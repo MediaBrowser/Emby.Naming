@@ -40,9 +40,7 @@ The result object will then have a number of properties, including:
 - Path
 - Container (mkv, ts, etc)
 - Name
-- Year 
-- IsMultiPart
-- Part (disc 1, cd1, etc)
+- Year
 - ExtraType (trailer, themesong, etc)
 - Is3D
 - Format3D (hsbs, fsbs, etc)
@@ -55,8 +53,8 @@ Different parts of the algorithm can be used separately as needed via the follow
 - CleanStringParser
 - ExtraTypeParser
 - Format3DParser
-- MultiPartParser
-- StubParser
+- StackResolver
+- StubResolver
 
 See the unit tests for samples.
 

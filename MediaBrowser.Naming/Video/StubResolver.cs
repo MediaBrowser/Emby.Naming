@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace MediaBrowser.Naming.Video
 {
-    public class StubParser
+    public class StubResolver
     {
         private readonly VideoOptions _options;
         private readonly ILogger _logger;
 
-        public StubParser(VideoOptions options, ILogger logger)
+        public StubResolver(VideoOptions options, ILogger logger)
         {
             _options = options;
             _logger = logger;
         }
 
-        public StubResult ParseFile(string path)
+        public StubResult ResolveFile(string path)
         {
             var result = new StubResult();
             var extension = Path.GetExtension(path) ?? string.Empty;

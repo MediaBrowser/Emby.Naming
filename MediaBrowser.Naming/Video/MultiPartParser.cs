@@ -31,7 +31,7 @@ namespace MediaBrowser.Naming.Video
             }
 
             var format3DResult = new Format3DParser(_options, _logger).Parse(path);
-            var stubResult = new StubParser(_options, _logger).ParseFile(path);
+            var stubResult = new StubResolver(_options, _logger).ResolveFile(path);
             var extraResult = new ExtraTypeParser(_options, _audioOptions, _logger).GetExtraInfo(path);
 
             return Parse(path, stubResult, extraResult, format3DResult, type);
@@ -76,10 +76,20 @@ namespace MediaBrowser.Naming.Video
                     break;
                 }
             }
+            var list = new List<string>();
+            list.Add(_options.FileStackingExpressions.First());
+            list.Add(_options.FileStackingExpressions.Last());
+            foreach (var exp in _options.FileStackingExpressions)
+            {
+                var result = Parse(path, exp);
+
+                if (result.IsMultiPart)
+                {
+                    return result;
+                }
+            }
             
-            return _options.FileStackingExpressions.Select(i => Parse(path, i))
-                .FirstOrDefault(i => i.IsMultiPart) ??
-                new MultiPartResult { Name = originalName };
+            return new MultiPartResult { Name = originalName };
         }
 
         private string StripTokens(string path, IEnumerable<string> tokens)
@@ -107,7 +117,8 @@ namespace MediaBrowser.Naming.Video
 
             var result = new MultiPartResult();
 
-            if (match.Success && match.Groups.Count >= 3)
+            // (Title)(Volume)(Ignore)(Extension)
+            if (match.Success && match.Groups.Count >= 5)
             {
                 var name = match.Groups[1].Value;
                 var part = match.Groups[2].Value;
@@ -117,11 +128,11 @@ namespace MediaBrowser.Naming.Video
                 {
                     if (string.Equals(part, Path.GetFileNameWithoutExtension(file), StringComparison.OrdinalIgnoreCase))
                     {
-                        name = part;
+                        //name = part;
                     }
                 }
 
-                if (!string.IsNullOrWhiteSpace(name))
+                if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(part))
                 {
                     result.IsMultiPart = true;
                     result.Name = name;

@@ -28,9 +28,9 @@ namespace MediaBrowser.Naming.Tests.Video
         private void Test(string path, bool isStub, string stubType)
         {
             var options = new VideoOptions();
-            var parser = new StubParser(options, new NullLogger());
+            var parser = new StubResolver(options, new NullLogger());
 
-            var result = parser.ParseFile(path);
+            var result = parser.ResolveFile(path);
 
             Assert.AreEqual(isStub, result.IsStub);
 

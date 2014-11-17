@@ -21,9 +21,9 @@ namespace MediaBrowser.Naming.Video
         {
             FileStackingExpressions = new List<string>
             {
-                @"(.*?)([ _.-]*(?:cd|dvd|p(?:ar)?t|dis[ck]|d)[ _.-]*[0-9]+)(.*?)(\.[^.]+)$",
-                @"(.*?)([ _.-]*(?:cd|dvd|p(?:ar)?t|dis[ck]|d)[ _.-]*[a-d])(.*?)(\.[^.]+)$",
-                @"(.*?)([ ._-]*[a-d])(.*?)(\.[^.]+)$"
+                "(.*?)([ _.-]*(?:cd|dvd|p(?:(?:ar)?t)|dis[ck]|d)[ _.-]*[0-9]+)(.*?)(\\.[^.]+)$",
+                "(.*?)([ _.-]*(?:cd|dvd|p(?:(?:ar)?t)|dis[ck]|d)[ _.-]*[a-d])(.*?)(\\.[^.]+)$",
+                "(.*?)([ ._-]*[a-d])(.*?)(\\.[^.]+)$"
             };
 
             FileExtensions = new List<string>()

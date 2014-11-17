@@ -65,7 +65,7 @@ namespace MediaBrowser.Naming.Video
                 // Check supported extensions
                 if (!_options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
-                    stubResult = new StubParser(_options, _logger).ParseFile(path);
+                    stubResult = new StubResolver(_options, _logger).ResolveFile(path);
 
                     isStub = stubResult.IsStub;
 
@@ -86,11 +86,7 @@ namespace MediaBrowser.Naming.Video
 
             var extraResult = new ExtraTypeParser(_options, _audioOptions, _logger).GetExtraInfo(path);
 
-            var multiPartResult = new MultiPartParser(_options, _audioOptions, _logger).Parse(path, stubResult ?? new StubResult(), extraResult, format3DResult, type);
-
-            var name = multiPartResult.IsMultiPart ?
-                multiPartResult.Name :
-                Path.GetFileName(path);
+            var name = Path.GetFileName(path);
 
             var cleanDateTimeResult = CleanDateTime(name);
 
@@ -107,8 +103,6 @@ namespace MediaBrowser.Naming.Video
                 StubType = stubType,
                 Is3D = format3DResult.Is3D,
                 Format3D = format3DResult.Format3D,
-                IsMultiPart = multiPartResult.IsMultiPart,
-                Part = multiPartResult.Part,
                 ExtraType = extraResult.ExtraType
             };
 

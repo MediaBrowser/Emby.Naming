@@ -58,6 +58,7 @@
     <Compile Include="Video\ExtraRule.cs" />
     <Compile Include="Video\ExtraRuleType.cs" />
     <Compile Include="Video\ExtraTypeParser.cs" />
+    <Compile Include="Video\FileStack.cs" />
     <Compile Include="Video\FlagParser.cs" />
     <Compile Include="Video\Format3DParser.cs" />
     <Compile Include="Video\Format3DResult.cs" />
@@ -65,7 +66,9 @@
     <Compile Include="Video\ExpandedVideoOptions.cs" />
     <Compile Include="Video\MultiPartParser.cs" />
     <Compile Include="Video\MultiPartResult.cs" />
-    <Compile Include="Video\StubParser.cs" />
+    <Compile Include="Video\StackResolver.cs" />
+    <Compile Include="Video\StackResult.cs" />
+    <Compile Include="Video\StubResolver.cs" />
     <Compile Include="Video\StubResult.cs" />
     <Compile Include="Video\StubTypeRule.cs" />
     <Compile Include="Video\VideoFileInfo.cs" />

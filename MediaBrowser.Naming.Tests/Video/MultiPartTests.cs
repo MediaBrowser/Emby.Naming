@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Audio;
+﻿using System.Text.RegularExpressions;
+using MediaBrowser.Naming.Audio;
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
@@ -48,6 +49,22 @@ namespace MediaBrowser.Naming.Tests.Video
             // See if the -trailer fools it into matching part-AZ
             TestFile(@"\\server\\Movies\\Braveheart (2007)\\Braveheart (2006)-trailer.mkv", false, "Braveheart (2006)-trailer");
             TestFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-trailer.mkv", false, "300 (2006)-trailer");
+        }
+
+        [TestMethod]
+        public void TestFalsePositives()
+        {
+            TestFile(@"Bad Boys part 1.mkv", true, "Bad Boys");
+            
+            TestFile(@"Bad Boys.mkv", false, "Bad Boys");
+            TestFile(@"Bad Boys (1995).mkv", false, "Bad Boys (1995)");
+
+            TestFile("Harry Potter and the Deathly Hallows.mkv", false, "Harry Potter and the Deathly Hallows");
+            TestFile("Harry Potter and the Deathly Hallows 1.mkv", false, "Harry Potter and the Deathly Hallows 1");
+
+            TestFile("Avatar disc1.mkv", true, "Avatar");
+            
+            //TestFile("Harry Potter and the Deathly Hallows part1.mkv", true, "Harry Potter and the Deathly Hallows");
         }
 
         [TestMethod]
