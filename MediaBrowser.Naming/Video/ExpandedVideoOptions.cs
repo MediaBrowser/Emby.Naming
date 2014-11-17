@@ -1,4 +1,6 @@
-﻿using MediaBrowser.Naming.Common;
+﻿using System;
+using System.Linq;
+using MediaBrowser.Naming.Common;
 using System.Collections.Generic;
 
 namespace MediaBrowser.Naming.Video
@@ -88,6 +90,44 @@ namespace MediaBrowser.Naming.Video
                     MediaType = MediaType.Video
                 }
             });
+
+            var extensions = FileExtensions.ToList();
+
+            extensions.AddRange(new []
+            {
+                ".mkv",
+                ".m2t",
+                ".m2ts",
+                ".img",
+                ".iso",
+                ".mk3d",
+                ".ts",
+                ".rmvb",
+                ".mov",
+                ".avi",
+                ".mpg",
+                ".mpeg",
+                ".wmv",
+                ".mp4",
+                ".divx",
+                ".dvr-ms",
+                ".wtv",
+                ".ogm",
+                ".ogv",
+                ".asf",
+                ".m4v",
+                ".flv",
+                ".f4v",
+                ".3gp",
+                ".webm",
+                ".mts",
+                ".m2v",
+                ".rec"
+            });
+
+            FileExtensions = extensions
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
         }
     }
 }

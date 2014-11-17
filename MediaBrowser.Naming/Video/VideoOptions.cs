@@ -29,7 +29,7 @@ namespace MediaBrowser.Naming.Video
             FileExtensions = new List<string>()
             {
                 ".m4v",
-                ".3gp",
+                ".3gp", 
                 ".nsv", 
                 ".ts", 
                 ".ty", 
@@ -72,20 +72,7 @@ namespace MediaBrowser.Naming.Video
                 ".rar", 
                 ".001", 
                 ".wpl", 
-                ".zip",
-                ".wtv",
-                ".ogv",
-                ".m2t",
-                ".m2ts",
-                ".mk3d",
-                ".ts",
-                ".rmvb",
-                ".mov",
-                ".avi",
-                ".webm",
-                ".mts",
-                ".rec"
-
+                ".zip"
             };
 
             StubFileExtensions = new List<string>
