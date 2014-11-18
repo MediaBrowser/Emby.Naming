@@ -127,6 +127,8 @@ namespace MediaBrowser.Naming.Video
 
             // Problematic. Can always become configurable if needed.
             extensions.Remove(".dat");
+            extensions.Remove(".wpl");
+            extensions.Remove(".m3u");
 
             FileExtensions = extensions
                 .Distinct(StringComparer.OrdinalIgnoreCase)
