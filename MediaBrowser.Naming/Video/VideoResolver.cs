@@ -115,6 +115,12 @@ namespace MediaBrowser.Naming.Video
             return _options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
 
+        public bool IsStubFile(string path)
+        {
+            var extension = Path.GetExtension(path) ?? string.Empty;
+            return _options.StubFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+        }
+
         public CleanStringResult CleanString(string name)
         {
             return new CleanStringParser().Clean(name, _options.CleanStrings);

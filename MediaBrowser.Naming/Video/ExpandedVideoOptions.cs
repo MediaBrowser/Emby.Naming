@@ -125,6 +125,9 @@ namespace MediaBrowser.Naming.Video
                 ".rec"
             });
 
+            // Problematic. Can always become configurable if needed.
+            extensions.Remove(".dat");
+
             FileExtensions = extensions
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();

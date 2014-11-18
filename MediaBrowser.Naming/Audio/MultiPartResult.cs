@@ -1,5 +1,5 @@
 ﻿
-namespace MediaBrowser.Naming.Video
+namespace MediaBrowser.Naming.Audio
 {
     public class MultiPartResult
     {

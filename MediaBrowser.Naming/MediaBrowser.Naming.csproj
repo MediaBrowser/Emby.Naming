@@ -64,8 +64,7 @@
     <Compile Include="Video\Format3DResult.cs" />
     <Compile Include="Video\Format3DRule.cs" />
     <Compile Include="Video\ExpandedVideoOptions.cs" />
-    <Compile Include="Video\MultiPartParser.cs" />
-    <Compile Include="Video\MultiPartResult.cs" />
+    <Compile Include="Audio\MultiPartResult.cs" />
     <Compile Include="Video\StackResolver.cs" />
     <Compile Include="Video\StackResult.cs" />
     <Compile Include="Video\StubResolver.cs" />
