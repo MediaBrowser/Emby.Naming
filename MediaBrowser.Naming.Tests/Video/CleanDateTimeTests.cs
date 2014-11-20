@@ -42,6 +42,13 @@ namespace MediaBrowser.Naming.Tests.Video
 
             Test(@"\\server\\Movies\\300 (2007)\\300 (2006)", "300", 2006);
         }
+
+        [TestMethod]
+        public void TestCleanDateTimeWithoutDate()
+        {
+            Test(@"American.Psycho.mkv", "American.Psycho.mkv", null);
+            Test(@"American Psycho.mkv", "American Psycho.mkv", null);
+        }
         
         private void Test(string input, string expectedName, int? expectedYear)
         {

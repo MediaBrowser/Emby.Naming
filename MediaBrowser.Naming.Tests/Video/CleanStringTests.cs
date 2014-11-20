@@ -15,6 +15,13 @@ namespace MediaBrowser.Naming.Tests.Video
             Test("480 Super movie [tmdbid=12345].mp4", "480 Super movie");
         }
 
+        [TestMethod]
+        public void TestStringWithoutDate()
+        {
+            Test(@"American.Psycho.mkv", "American.Psycho.mkv");
+            Test(@"American Psycho.mkv", "American Psycho.mkv");
+        }
+
         private void Test(string input, string expectedName)
         {
             var result = GetParser().CleanString(input);

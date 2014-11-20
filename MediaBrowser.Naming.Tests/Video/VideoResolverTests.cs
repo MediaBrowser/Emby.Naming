@@ -204,5 +204,22 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual("brave", result.Name);
             Assert.IsNull(result.ExtraType);
         }
+
+        [TestMethod]
+        public void TestNameWithoutDate()
+        {
+            var parser = GetParser();
+
+            var result =
+                parser.ResolveFile(@"\\server\\Movies\\American Psycho\\American.Psycho.mkv");
+
+            Assert.AreEqual("mkv", result.Container);
+            Assert.AreEqual(null, result.Year);
+            Assert.AreEqual(false, result.IsStub);
+            Assert.AreEqual(false, result.Is3D);
+            Assert.AreEqual(null, result.Format3D);
+            Assert.AreEqual("American.Psycho", result.Name);
+            Assert.IsNull(result.ExtraType);
+        }
     }
 }

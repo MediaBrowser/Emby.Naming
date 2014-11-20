@@ -86,7 +86,9 @@ namespace MediaBrowser.Naming.Video
 
             var extraResult = new ExtraTypeParser(_options, _audioOptions, _logger).GetExtraInfo(path);
 
-            var name = Path.GetFileName(path);
+            var name = type == FileInfoType.File
+                ? Path.GetFileNameWithoutExtension(path)
+                : Path.GetFileName(path);
 
             var cleanDateTimeResult = CleanDateTime(name);
 
