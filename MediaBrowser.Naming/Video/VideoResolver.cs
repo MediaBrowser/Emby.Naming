@@ -130,7 +130,7 @@ namespace MediaBrowser.Naming.Video
 
         public CleanDateTimeResult CleanDateTime(string name)
         {
-            return new CleanDateTimeParser().Clean(name, _options.CleanDateTimes);
+            return new CleanDateTimeParser(_options).Clean(name);
         }
 
         private Format3DResult GetFormat3DInfo(string[] flags)

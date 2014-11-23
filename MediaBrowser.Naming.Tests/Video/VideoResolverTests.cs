@@ -221,5 +221,23 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual("American.Psycho", result.Name);
             Assert.IsNull(result.ExtraType);
         }
+
+        [TestMethod]
+        public void TestCleanDateAndStringsSequence()
+        {
+            var parser = GetParser();
+
+            // In this test case, running CleanDateTime first produces no date, so it will attempt to run CleanString first and then CleanDateTime again
+            var result =
+                parser.ResolveFile(@"\\server\\Movies\\3.Days.to.Kill\\3.Days.to.Kill.2014.720p.BluRay.x264.YIFY.mkv");
+
+            Assert.AreEqual("mkv", result.Container);
+            Assert.AreEqual(2014, result.Year);
+            Assert.AreEqual(false, result.IsStub);
+            Assert.AreEqual(false, result.Is3D);
+            Assert.AreEqual(null, result.Format3D);
+            Assert.AreEqual("3.Days.to.Kill", result.Name);
+            Assert.IsNull(result.ExtraType);
+        }
     }
 }

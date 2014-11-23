@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,7 +10,14 @@ namespace MediaBrowser.Naming.Video
     /// </summary>
     public class CleanDateTimeParser
     {
-        public CleanDateTimeResult Clean(string name, IEnumerable<string> expressions)
+        private readonly VideoOptions _videoOptions;
+
+        public CleanDateTimeParser(VideoOptions videoOptions)
+        {
+            _videoOptions = videoOptions;
+        }
+
+        public CleanDateTimeResult Clean(string name)
         {
             var originalName = name;
 
@@ -21,9 +27,26 @@ namespace MediaBrowser.Naming.Video
                 name += ".mkv";
             }
 
-            return expressions.Select(i => Clean(name, i))
+            var result = _videoOptions.CleanDateTimes.Select(i => Clean(name, i))
                 .FirstOrDefault(i => i.HasChanged) ??
                 new CleanDateTimeResult { Name = originalName };
+
+            if (result.HasChanged)
+            {
+                return result;
+            }
+
+            // Make a second pass, running clean string first
+            var cleanStringResult = new CleanStringParser().Clean(name, _videoOptions.CleanStrings);
+
+            if (!cleanStringResult.HasChanged)
+            {
+                return result;
+            }
+
+            return _videoOptions.CleanDateTimes.Select(i => Clean(cleanStringResult.Name, i))
+                .FirstOrDefault(i => i.HasChanged) ??
+                result;
         }
 
         public CleanDateTimeResult Clean(string name, string expression)

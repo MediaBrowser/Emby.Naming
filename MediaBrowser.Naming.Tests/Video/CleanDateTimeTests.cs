@@ -59,5 +59,13 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(expectedName, result.Name, true, CultureInfo.InvariantCulture);
             Assert.AreEqual(expectedYear, result.Year);
         }
+
+        [TestMethod]
+        public void TestCleanDateAndStringsSequence()
+        {
+            // In this test case, running CleanDateTime first produces no date, so it will attempt to run CleanString first and then CleanDateTime again
+
+            Test(@"3.Days.to.Kill.2014.720p.BluRay.x264.YIFY.mkv", "3.Days.to.Kill", 2014);
+        }
     }
 }
