@@ -69,6 +69,11 @@ namespace MediaBrowser.Naming.Video
                     // (Title)(Volume)(Ignore)(Extension)
                     match = Regex.Match(regexInput, exp, RegexOptions.IgnoreCase);
 
+                    if (!match.Success)
+                    {
+                        //match = Regex.Match(regexInput, exp, RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+                    }
+
                     if (match.Success)
                     {
                         expression = exp;

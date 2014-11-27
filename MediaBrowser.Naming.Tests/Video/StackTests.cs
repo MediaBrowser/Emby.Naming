@@ -397,6 +397,25 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(0, result.Stacks.Count);
         }
 
+        [TestMethod]
+        public void TestNumbersAppearingBeforePartNumber()
+        {
+            // No stacking here because there is no part/disc/etc
+            var files = new[]
+            {
+                "Neverland (2011)[720p][PG][Voted 6.5][Family-Fantasy]part1.mkv",
+                "Neverland (2011)[720p][PG][Voted 6.5][Family-Fantasy]part2.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.ResolveFiles(files);
+
+            // Default regex expressions do not support this. 
+            // It should find 0 stacks
+            Assert.AreEqual(0, result.Stacks.Count);
+        }
+
         private void TestStackInfo(FileStack stack, string name, int fileCount)
         {
             Assert.AreEqual(fileCount, stack.Files.Count);
