@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Audio\AlbumParser.cs" />
     <Compile Include="Audio\AudioFileParser.cs" />
+    <Compile Include="Common\EpisodeExpression.cs" />
     <Compile Include="Common\ExtendedNamingOptions.cs" />
     <Compile Include="Common\MediaType.cs" />
     <Compile Include="Common\NamingOptions.cs" />

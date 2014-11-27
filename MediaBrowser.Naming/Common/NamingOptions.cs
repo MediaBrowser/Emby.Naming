@@ -14,7 +14,7 @@ namespace MediaBrowser.Naming.Common
         public string[] SubtitleForcedFlags { get; set; }
         public string[] SubtitleDefaultFlags { get; set; }
 
-        public List<string> EpisodeExpressions { get; set; }
+        public List<EpisodeExpression> EpisodeExpressions { get; set; }
         public List<string> EpisodeWithoutSeasonExpressions { get; set; }
         public List<string> EpisodeMultiPartExpressions { get; set; }
 
@@ -271,15 +271,31 @@ namespace MediaBrowser.Naming.Common
                 ".oga"
             };
 
-            EpisodeExpressions = new List<string>
+            EpisodeExpressions = new List<EpisodeExpression>
             {
-                "s([0-9]+)[ ._-]*e([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$", 
-                "[\\._ -]()e(?:p[ ._-]?)?([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$", 
-                "([0-9]{4})[\\.-]([0-9]{2})[\\.-]([0-9]{2})", 
-                "([0-9]{2})[\\.-]([0-9]{2})[\\.-]([0-9]{4})", 
-                "[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$", 
-                "[\\\\/\\._ -]([0-9]+)([0-9][0-9](?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([\\._ -][^\\\\/]*)$", 
-                "[\\/._ -]p(?:ar)?t[_. -]()([ivx]+|[0-9]+)([._ -][^\\/]*)$"
+                new EpisodeExpression("s([0-9]+)[ ._-]*e([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
+                new EpisodeExpression("[\\._ -]()e(?:p[ ._-]?)?([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
+                new EpisodeExpression("([0-9]{4})[\\.-]([0-9]{2})[\\.-]([0-9]{2})", true)
+                {
+                    DateTimeFormats = new []
+                    {
+                        "yyyy.MM.dd",
+                        "yyyy-MM-dd",
+                        "yyyy_MM_dd"
+                    }
+                }, 
+                new EpisodeExpression("([0-9]{2})[\\.-]([0-9]{2})[\\.-]([0-9]{4})", true)
+                {
+                    DateTimeFormats = new []
+                    {
+                        "dd.MM.yyyy",
+                        "dd-MM-yyyy",
+                        "dd_MM_yyyy"
+                    }
+                }, 
+                new EpisodeExpression("[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
+                new EpisodeExpression("[\\\\/\\._ -]([0-9]+)([0-9][0-9](?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([\\._ -][^\\\\/]*)$"), 
+                new EpisodeExpression("[\\/._ -]p(?:ar)?t[_. -]()([ivx]+|[0-9]+)([._ -][^\\/]*)$")
             };
 
             EpisodeWithoutSeasonExpressions = new List<string>

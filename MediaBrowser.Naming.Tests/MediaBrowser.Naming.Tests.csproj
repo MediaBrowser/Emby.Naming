@@ -53,7 +53,9 @@
     <Compile Include="Music\MultiDiscAlbumTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subtitles\SubtitleParserTests.cs" />
-    <Compile Include="TV\EpisodeFilePathParserTests.cs" />
+    <Compile Include="TV\DailyEpisodeTests.cs" />
+    <Compile Include="TV\SimpleEpisodeTests.cs" />
+    <Compile Include="TV\EpisodeWithoutSeasonTests.cs" />
     <Compile Include="Video\BaseVideoTest.cs" />
     <Compile Include="Video\CleanDateTimeTests.cs" />
     <Compile Include="Video\CleanStringTests.cs" />

@@ -55,7 +55,6 @@ namespace MediaBrowser.Naming.Video
             var isStub = false;
             string container = null;
             string stubType = null;
-            StubResult stubResult = null;
 
             if (type == FileInfoType.File)
             {
@@ -63,7 +62,7 @@ namespace MediaBrowser.Naming.Video
                 // Check supported extensions
                 if (!_options.VideoFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
-                    stubResult = new StubResolver(_options, _logger).ResolveFile(path);
+                    var stubResult = new StubResolver(_options, _logger).ResolveFile(path);
 
                     isStub = stubResult.IsStub;
 

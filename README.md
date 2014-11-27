@@ -27,8 +27,8 @@ https://www.nuget.org/packages/MediaBrowser.Naming
 			var logger = new NullLogger();
 
 			// VideoOptions is based on Kodi wiki documentation
-			// ExpandedVideoOptions includes newly introduced Media Browser features
-			var options = new VideoOptions();
+			// ExtendedNamingOptions includes newly introduced Media Browser features
+			var options = new NamingOptions();
 
 			var resolver = new VideoResolver(options, logger);
 
@@ -60,4 +60,4 @@ See the unit tests for samples.
 
 ## Configuration
 
-Most of the classes expect a VideoOptions and/or an AudioOptions object. This is intended to gradually support all of the configuration available in Kodi advanced settings: http://kodi.wiki/view/Advancedsettings.xml.
+Most of the classes expect a NamingOptions object. This is intended to gradually support all of the configuration available in Kodi advanced settings: http://kodi.wiki/view/Advancedsettings.xml.

@@ -2,46 +2,40 @@
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.TV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Globalization;
 
 namespace MediaBrowser.Naming.Tests.TV
 {
     [TestClass]
-    public class EpisodeFilePathParserTests
+    public class EpisodeWithoutSeasonTests
     {
         [TestMethod]
-        public void TestSimpleEpisodePath()
+        public void TestWithoutSeason1()
         {
-            Test(@"\\server\anything_s01e02.ext", "anything", 1, 2);
-        }
-        [TestMethod]
-        public void TestSimpleEpisodePath2()
-        {
-            Test(@"\\server\anything_s1e2.ext", "anything", 1, 2);
+            Test(@"\\server\anything_ep02.ext", "anything", null, 2);
         }
 
         [TestMethod]
-        public void TestSimpleEpisodePath3()
+        public void TestWithoutSeason2()
         {
-            Test(@"\\server\anything_s01.e02.ext", "anything", 1, 2);
+            Test(@"\\server\anything_ep_02.ext", "anything", null, 2);
         }
 
         [TestMethod]
-        public void TestSimpleEpisodePath4()
+        public void TestWithoutSeason3()
         {
-            Test(@"\\server\anything_s01_e02.ext", "anything", 1, 2);
+            Test(@"\\server\anything_part.II.ext", "anything", null, 2);
         }
 
         [TestMethod]
-        public void TestSimpleEpisodePath5()
+        public void TestWithoutSeason4()
         {
-            Test(@"\\server\anything_102.ext", "anything", 1, 2);
+            Test(@"\\server\anything_pt.II.ext", "anything", null, 2);
         }
 
         [TestMethod]
-        public void TestSimpleEpisodePath6()
+        public void TestWithoutSeason5()
         {
-            Test(@"\\server\anything_1x02.ext", "anything", 1, 2);
+            Test(@"\\server\anything_pt_II.ext", "anything", null, 2);
         }
 
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)

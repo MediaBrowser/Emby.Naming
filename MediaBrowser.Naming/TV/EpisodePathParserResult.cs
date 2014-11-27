@@ -8,5 +8,10 @@ namespace MediaBrowser.Naming.TV
         public int? EndingEpsiodeNumber { get; set; }
         public string SeriesName { get; set; }
         public bool Success { get; set; }
+
+        public bool IsByDate { get; set; }
+        public int? Year { get; set; }
+        public int? Month { get; set; }
+        public int? Day { get; set; }
     }
 }

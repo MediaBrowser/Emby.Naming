@@ -39,7 +39,6 @@ namespace MediaBrowser.Naming.TV
             var isStub = false;
             string container = null;
             string stubType = null;
-            StubResult stubResult = null;
 
             if (type == FileInfoType.File)
             {
@@ -47,7 +46,7 @@ namespace MediaBrowser.Naming.TV
                 // Check supported extensions
                 if (!_options.VideoFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
-                    stubResult = new StubResolver(_options, _logger).ResolveFile(path);
+                    var stubResult = new StubResolver(_options, _logger).ResolveFile(path);
 
                     isStub = stubResult.IsStub;
 
@@ -79,7 +78,11 @@ namespace MediaBrowser.Naming.TV
                 SeriesName = parsingResult.SeriesName,
                 StubType = stubType,
                 Is3D = format3DResult.Is3D,
-                Format3D = format3DResult.Format3D
+                Format3D = format3DResult.Format3D,
+                IsByDate = parsingResult.IsByDate,
+                Day = parsingResult.Day,
+                Month = parsingResult.Month,
+                Year = parsingResult.Year
             };
         }
     }
