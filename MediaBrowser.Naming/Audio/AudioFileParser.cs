@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using MediaBrowser.Naming.Common;
 
 namespace MediaBrowser.Naming.Audio
 {
     public class AudioFileParser
     {
-        private readonly AudioOptions _options;
+        private readonly NamingOptions _options;
 
-        public AudioFileParser(AudioOptions options)
+        public AudioFileParser(NamingOptions options)
         {
             _options = options;
         }
@@ -16,7 +17,7 @@ namespace MediaBrowser.Naming.Audio
         public bool IsAudioFile(string path)
         {
             var extension = Path.GetExtension(path) ?? string.Empty;
-            return _options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            return _options.AudioFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
     }
 }

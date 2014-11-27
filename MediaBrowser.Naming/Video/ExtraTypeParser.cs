@@ -10,19 +10,17 @@ namespace MediaBrowser.Naming.Video
     public class ExtraTypeParser
     {
         private readonly ILogger _logger;
-        private readonly VideoOptions _videoOptions;
-        private readonly AudioOptions _audioOptions;
+        private readonly NamingOptions _options;
 
-        public ExtraTypeParser(VideoOptions videoOptions, AudioOptions audioOptions, ILogger logger)
+        public ExtraTypeParser(NamingOptions options, ILogger logger)
         {
-            _videoOptions = videoOptions;
-            _audioOptions = audioOptions;
+            _options = options;
             _logger = logger;
         }
 
         public ExtraResult GetExtraInfo(string path)
         {
-            return _videoOptions.ExtraRules
+            return _options.VideoExtraRules
                 .Select(i => GetExtraInfo(path, i))
                 .FirstOrDefault(i => !string.IsNullOrWhiteSpace(i.ExtraType)) ?? new ExtraResult();
         }
@@ -33,14 +31,14 @@ namespace MediaBrowser.Naming.Video
 
             if (rule.MediaType == MediaType.Audio)
             {
-                if (!new AudioFileParser(_audioOptions).IsAudioFile(path))
+                if (!new AudioFileParser(_options).IsAudioFile(path))
                 {
                     return result;
                 }
             }
             else if (rule.MediaType == MediaType.Video)
             {
-                if (!new VideoResolver(_videoOptions, _audioOptions, _logger).IsVideoFile(path))
+                if (!new VideoResolver(_options, _logger).IsVideoFile(path))
                 {
                     return result;
                 }

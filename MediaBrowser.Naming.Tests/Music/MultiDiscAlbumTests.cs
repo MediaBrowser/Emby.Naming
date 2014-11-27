@@ -1,4 +1,5 @@
 ﻿using MediaBrowser.Naming.Audio;
+using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -42,7 +43,7 @@ namespace MediaBrowser.Naming.Tests.Music
 
         private bool IsMultiDiscAlbumFolder(string path)
         {
-            var parser = new AlbumParser(new AudioOptions(), new NullLogger());
+            var parser = new AlbumParser(new NamingOptions(), new NullLogger());
 
             return parser.ParseMultiPart(path).IsMultiPart;
         }

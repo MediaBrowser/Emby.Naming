@@ -1,9 +1,9 @@
-﻿using System.IO;
-using MediaBrowser.Naming.Audio;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -11,14 +11,12 @@ namespace MediaBrowser.Naming.Video
 {
     public class StackResolver
     {
-        private readonly VideoOptions _options;
-        private readonly AudioOptions _audioOptions;
+        private readonly NamingOptions _options;
         private readonly ILogger _logger;
 
-        public StackResolver(VideoOptions options, AudioOptions audioOptions, ILogger logger)
+        public StackResolver(NamingOptions options, ILogger logger)
         {
             _options = options;
-            _audioOptions = audioOptions;
             _logger = logger;
         }
 
@@ -44,7 +42,7 @@ namespace MediaBrowser.Naming.Video
         {
             var result = new StackResult();
 
-            var resolver = new VideoResolver(_options, _audioOptions, _logger);
+            var resolver = new VideoResolver(_options, _logger);
 
             var list = files
                 .Where(i => i.Type == FileInfoType.Directory || (resolver.IsVideoFile(i.FullName) || resolver.IsStubFile(i.FullName)))
@@ -66,7 +64,7 @@ namespace MediaBrowser.Naming.Video
 
                 regexInput = Path.GetFileName(regexInput);
 
-                foreach (var exp in _options.FileStackingExpressions)
+                foreach (var exp in _options.VideoFileStackingExpressions)
                 {
                     // (Title)(Volume)(Ignore)(Extension)
                     match = Regex.Match(regexInput, exp, RegexOptions.IgnoreCase);

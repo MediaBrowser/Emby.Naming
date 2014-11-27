@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
@@ -27,7 +28,7 @@ namespace MediaBrowser.Naming.Tests.Video
 
         private void Test(string path, bool isStub, string stubType)
         {
-            var options = new VideoOptions();
+            var options = new NamingOptions();
             var parser = new StubResolver(options, new NullLogger());
 
             var result = parser.ResolveFile(path);

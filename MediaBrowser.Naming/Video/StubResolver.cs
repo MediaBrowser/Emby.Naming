@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
 using System.Linq;
@@ -7,10 +8,10 @@ namespace MediaBrowser.Naming.Video
 {
     public class StubResolver
     {
-        private readonly VideoOptions _options;
+        private readonly NamingOptions _options;
         private readonly ILogger _logger;
 
-        public StubResolver(VideoOptions options, ILogger logger)
+        public StubResolver(NamingOptions options, ILogger logger)
         {
             _options = options;
             _logger = logger;

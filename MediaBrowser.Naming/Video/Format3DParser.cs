@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using System;
 using System.Linq;
 
@@ -6,10 +7,10 @@ namespace MediaBrowser.Naming.Video
 {
     public class Format3DParser
     {
-        private readonly VideoOptions _options;
+        private readonly NamingOptions _options;
         private readonly ILogger _logger;
 
-        public Format3DParser(VideoOptions options, ILogger logger)
+        public Format3DParser(NamingOptions options, ILogger logger)
         {
             _options = options;
             _logger = logger;

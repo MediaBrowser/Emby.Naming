@@ -1,13 +1,14 @@
-﻿using System;
+﻿using MediaBrowser.Naming.Common;
+using System;
 using System.IO;
 
 namespace MediaBrowser.Naming.Video
 {
     public class FlagParser
     {
-        private readonly VideoOptions _options;
+        private readonly NamingOptions _options;
 
-        public FlagParser(VideoOptions options)
+        public FlagParser(NamingOptions options)
         {
             _options = options;
         }
@@ -23,7 +24,7 @@ namespace MediaBrowser.Naming.Video
 
             var file = Path.GetFileName(path);
 
-            return file.Split(_options.FlagDelimiters, StringSplitOptions.RemoveEmptyEntries);
+            return file.Split(_options.VideoFlagDelimiters, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

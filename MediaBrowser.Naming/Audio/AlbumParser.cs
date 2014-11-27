@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using System;
 using System.Globalization;
@@ -11,9 +12,9 @@ namespace MediaBrowser.Naming.Audio
     public class AlbumParser
     {
         private readonly ILogger _logger;
-        private readonly AudioOptions _options;
+        private readonly NamingOptions _options;
 
-        public AlbumParser(AudioOptions options, ILogger logger)
+        public AlbumParser(NamingOptions options, ILogger logger)
         {
             _options = options;
             _logger = logger;

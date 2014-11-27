@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
@@ -11,7 +12,7 @@ namespace MediaBrowser.Naming.Tests.Video
         [TestMethod]
         public void TestKodiFormat3D()
         {
-            var options = new VideoOptions();
+            var options = new NamingOptions();
 
             Test("Super movie.3d.mp4", false, null, options);
             Test("Super movie.3d.hsbs.mp4", true, "hsbs", options);
@@ -31,7 +32,7 @@ namespace MediaBrowser.Naming.Tests.Video
         {
             // These were introduced for Media Browser 3 
             // Kodi conventions are preferred but these still need to be supported
-            var options = new ExpandedVideoOptions();
+            var options = new ExtendedNamingOptions();
 
             Test("Super movie.3d.mp4", false, null, options);
             Test("Super movie.3d.hsbs.mp4", true, "hsbs", options);
@@ -53,7 +54,7 @@ namespace MediaBrowser.Naming.Tests.Video
             Test("Super movie [sbs3d].mp4", true, "sbs3d", options);
         }
 
-        private void Test(string input, bool is3D, string format3D, VideoOptions options)
+        private void Test(string input, bool is3D, string format3D, NamingOptions options)
         {
             var parser = new Format3DParser(options, new NullLogger());
 

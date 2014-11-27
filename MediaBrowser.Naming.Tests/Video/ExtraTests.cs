@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using MediaBrowser.Naming.Audio;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
 
 namespace MediaBrowser.Naming.Tests.Video
 {
@@ -20,7 +20,7 @@ namespace MediaBrowser.Naming.Tests.Video
         [TestMethod]
         public void TestKodiExtras()
         {
-            var videoOptions = new VideoOptions();
+            var videoOptions = new NamingOptions();
 
             Test("trailer.mp4", "trailer", videoOptions);
             Test("trailer.mp3", null, videoOptions);
@@ -42,7 +42,7 @@ namespace MediaBrowser.Naming.Tests.Video
         [TestMethod]
         public void TestExpandedExtras()
         {
-            var videoOptions = new ExpandedVideoOptions();
+            var videoOptions = new ExtendedNamingOptions();
 
             Test("trailer.mp4", "trailer", videoOptions);
             Test("trailer.mp3", null, videoOptions);
@@ -61,7 +61,7 @@ namespace MediaBrowser.Naming.Tests.Video
             Test("300-behindthescenes.mp4", "behindthescenes", videoOptions);
         }
 
-        private void Test(string input, string expectedType, VideoOptions videoOptions)
+        private void Test(string input, string expectedType, NamingOptions videoOptions)
         {
             var parser = GetExtraTypeParser(videoOptions);
 
@@ -77,11 +77,9 @@ namespace MediaBrowser.Naming.Tests.Video
             }
         }
 
-        private ExtraTypeParser GetExtraTypeParser(VideoOptions videoOptions)
+        private ExtraTypeParser GetExtraTypeParser(NamingOptions videoOptions)
         {
-            var audioOptions = new AudioOptions();
-
-            return new ExtraTypeParser(videoOptions, audioOptions, new NullLogger());
+            return new ExtraTypeParser(videoOptions, new NullLogger());
         }
     }
 }

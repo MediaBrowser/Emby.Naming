@@ -1,4 +1,4 @@
-﻿using MediaBrowser.Naming.Audio;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,9 +15,9 @@ namespace MediaBrowser.Naming.Tests.Video
 
         protected VideoResolver GetParser()
         {
-            var options = new ExpandedVideoOptions();
+            var options = new ExtendedNamingOptions();
 
-            return new VideoResolver(options, new AudioOptions(), new NullLogger());
+            return new VideoResolver(options, new NullLogger());
         }
     }
 }

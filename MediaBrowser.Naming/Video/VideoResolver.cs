@@ -1,4 +1,4 @@
-﻿using MediaBrowser.Naming.Audio;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using System;
@@ -10,13 +10,11 @@ namespace MediaBrowser.Naming.Video
     public class VideoResolver
     {
         private readonly ILogger _logger;
-        private readonly VideoOptions _options;
-        private readonly AudioOptions _audioOptions;
+        private readonly NamingOptions _options;
 
-        public VideoResolver(VideoOptions options, AudioOptions audioOptions, ILogger logger)
+        public VideoResolver(NamingOptions options, ILogger logger)
         {
             _options = options;
-            _audioOptions = audioOptions;
             _logger = logger;
         }
 
@@ -63,7 +61,7 @@ namespace MediaBrowser.Naming.Video
             {
                 var extension = Path.GetExtension(path) ?? string.Empty;
                 // Check supported extensions
-                if (!_options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+                if (!_options.VideoFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
                     stubResult = new StubResolver(_options, _logger).ResolveFile(path);
 
@@ -82,9 +80,9 @@ namespace MediaBrowser.Naming.Video
             }
 
             var flags = new FlagParser(_options).GetFlags(path);
-            var format3DResult = GetFormat3DInfo(flags);
+            var format3DResult = new Format3DParser(_options, _logger).Parse(flags);
 
-            var extraResult = new ExtraTypeParser(_options, _audioOptions, _logger).GetExtraInfo(path);
+            var extraResult = new ExtraTypeParser(_options, _logger).GetExtraInfo(path);
 
             var name = type == FileInfoType.File
                 ? Path.GetFileNameWithoutExtension(path)
@@ -95,7 +93,7 @@ namespace MediaBrowser.Naming.Video
             name = cleanDateTimeResult.Name;
             name = CleanString(name).Name;
 
-            var info = new VideoFileInfo
+            return new VideoFileInfo
             {
                 Path = path,
                 Container = container,
@@ -107,14 +105,12 @@ namespace MediaBrowser.Naming.Video
                 Format3D = format3DResult.Format3D,
                 ExtraType = extraResult.ExtraType
             };
-
-            return info;
         }
 
         public bool IsVideoFile(string path)
         {
             var extension = Path.GetExtension(path) ?? string.Empty;
-            return _options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+            return _options.VideoFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
 
         public bool IsStubFile(string path)
@@ -131,11 +127,6 @@ namespace MediaBrowser.Naming.Video
         public CleanDateTimeResult CleanDateTime(string name)
         {
             return new CleanDateTimeParser(_options).Clean(name);
-        }
-
-        private Format3DResult GetFormat3DInfo(string[] flags)
-        {
-            return new Format3DParser(_options, _logger).Parse(flags);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using MediaBrowser.Naming.Audio;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Video;
@@ -405,7 +405,7 @@ namespace MediaBrowser.Naming.Tests.Video
 
         private StackResolver GetResolver()
         {
-            return new StackResolver(new VideoOptions(), new AudioOptions(), new NullLogger());
+            return new StackResolver(new NamingOptions(), new NullLogger());
         }
     }
 }

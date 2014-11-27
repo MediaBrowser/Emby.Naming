@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace MediaBrowser.Naming.Subtitles
     public class SubtitleParser
     {
         private ILogger _logger;
-        private readonly SubtitleOptions _options;
+        private readonly NamingOptions _options;
 
-        public SubtitleParser(SubtitleOptions options, ILogger logger)
+        public SubtitleParser(NamingOptions options, ILogger logger)
         {
             _options = options;
             _logger = logger;
@@ -24,7 +25,7 @@ namespace MediaBrowser.Naming.Subtitles
             }
 
             var extension = Path.GetExtension(path);
-            if (!_options.FileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+            if (!_options.SubtitleFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
             {
                 return null;
             }
@@ -34,11 +35,11 @@ namespace MediaBrowser.Naming.Subtitles
             var info = new SubtitleInfo
             {
                 Path = path,
-                IsDefault = _options.DefaultFlags.Any(i => flags.Contains(i, StringComparer.OrdinalIgnoreCase)),
-                IsForced = _options.ForcedFlags.Any(i => flags.Contains(i, StringComparer.OrdinalIgnoreCase))
+                IsDefault = _options.SubtitleDefaultFlags.Any(i => flags.Contains(i, StringComparer.OrdinalIgnoreCase)),
+                IsForced = _options.SubtitleForcedFlags.Any(i => flags.Contains(i, StringComparer.OrdinalIgnoreCase))
             };
 
-            var parts = flags.Where(i => !_options.DefaultFlags.Contains(i, StringComparer.OrdinalIgnoreCase) && !_options.ForcedFlags.Contains(i, StringComparer.OrdinalIgnoreCase))
+            var parts = flags.Where(i => !_options.SubtitleDefaultFlags.Contains(i, StringComparer.OrdinalIgnoreCase) && !_options.SubtitleForcedFlags.Contains(i, StringComparer.OrdinalIgnoreCase))
                 .ToList();
 
             // Should have a name, language and file extension
@@ -61,7 +62,7 @@ namespace MediaBrowser.Naming.Subtitles
 
             var file = Path.GetFileName(path);
 
-            return file.Split(_options.FlagDelimiters, StringSplitOptions.RemoveEmptyEntries);
+            return file.Split(_options.SubtitleFlagDelimiters, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

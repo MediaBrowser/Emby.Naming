@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Logging;
+﻿using MediaBrowser.Naming.Common;
+using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Subtitles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
@@ -19,7 +20,7 @@ namespace MediaBrowser.Naming.Tests.Subtitles
 
         private SubtitleParser GetParser()
         {
-            var options = new SubtitleOptions();
+            var options = new NamingOptions();
 
             return new SubtitleParser(options, new NullLogger());
         }
