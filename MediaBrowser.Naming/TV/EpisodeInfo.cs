@@ -40,7 +40,7 @@ namespace MediaBrowser.Naming.TV
         public string StubType { get; set; }
 
         public int? SeasonNumber { get; set; }
-        public int? EpsiodeNumber { get; set; }
+        public int? EpisodeNumber { get; set; }
         public int? EndingEpsiodeNumber { get; set; }
 
         public int? Year { get; set; }

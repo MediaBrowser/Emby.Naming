@@ -82,7 +82,7 @@ namespace MediaBrowser.Naming.TV
 
                     if (int.TryParse(match.Groups[2].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
                     {
-                        result.EpsiodeNumber = num;
+                        result.EpisodeNumber = num;
                     }
                 }
 

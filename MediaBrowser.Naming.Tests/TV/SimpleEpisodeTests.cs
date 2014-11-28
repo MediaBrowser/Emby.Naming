@@ -52,7 +52,7 @@ namespace MediaBrowser.Naming.Tests.TV
                 .Parse(path, FileInfoType.File);
 
             Assert.AreEqual(seasonNumber, result.SeasonNumber);
-            Assert.AreEqual(episodeNumber, result.EpsiodeNumber);
+            Assert.AreEqual(episodeNumber, result.EpisodeNumber);
             //Assert.AreEqual(seriesName, result.SeriesName, true, CultureInfo.InvariantCulture);
         }
     }

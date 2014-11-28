@@ -34,7 +34,7 @@ namespace MediaBrowser.Naming.Tests.TV
                 .Parse(path, FileInfoType.File);
 
             Assert.IsNull(result.SeasonNumber);
-            Assert.IsNull(result.EpsiodeNumber);
+            Assert.IsNull(result.EpisodeNumber);
             Assert.AreEqual(year, result.Year);
             Assert.AreEqual(month, result.Month);
             Assert.AreEqual(day, result.Day);
