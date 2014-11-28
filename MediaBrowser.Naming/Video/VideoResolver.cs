@@ -11,11 +11,18 @@ namespace MediaBrowser.Naming.Video
     {
         private readonly ILogger _logger;
         private readonly NamingOptions _options;
+        private readonly IRegexProvider _iRegexProvider;
 
         public VideoResolver(NamingOptions options, ILogger logger)
+            : this(options, logger, new RegexProvider())
+        {
+        }
+
+        public VideoResolver(NamingOptions options, ILogger logger, IRegexProvider iRegexProvider)
         {
             _options = options;
             _logger = logger;
+            _iRegexProvider = iRegexProvider;
         }
 
         /// <summary>
@@ -120,12 +127,12 @@ namespace MediaBrowser.Naming.Video
 
         public CleanStringResult CleanString(string name)
         {
-            return new CleanStringParser().Clean(name, _options.CleanStrings);
+            return new CleanStringParser(_iRegexProvider).Clean(name, _options.CleanStrings);
         }
 
         public CleanDateTimeResult CleanDateTime(string name)
         {
-            return new CleanDateTimeParser(_options).Clean(name);
+            return new CleanDateTimeParser(_options, _iRegexProvider).Clean(name);
         }
     }
 }

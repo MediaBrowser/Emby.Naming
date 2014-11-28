@@ -1,6 +1,6 @@
-﻿using System;
-using MediaBrowser.Naming.Common;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,10 +11,12 @@ namespace MediaBrowser.Naming.TV
     public class EpisodePathParser
     {
         private readonly NamingOptions _options;
+        private readonly IRegexProvider _iRegexProvider;
 
-        public EpisodePathParser(NamingOptions options)
+        public EpisodePathParser(NamingOptions options, IRegexProvider iRegexProvider)
         {
             _options = options;
+            _iRegexProvider = iRegexProvider;
         }
 
         public EpisodePathParserResult Parse(string path, FileInfoType type)
@@ -39,7 +41,7 @@ namespace MediaBrowser.Naming.TV
         {
             var result = new EpisodePathParserResult();
 
-            var match = Regex.Match(name, expression.Expression, RegexOptions.IgnoreCase);
+            var match = _iRegexProvider.GetRegex(expression.Expression, RegexOptions.IgnoreCase).Match(name);
 
             // (Full)(Season)(Episode)(Extension)
             if (match.Success && match.Groups.Count >= 3)

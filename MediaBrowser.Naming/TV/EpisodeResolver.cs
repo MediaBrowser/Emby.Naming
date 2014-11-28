@@ -12,11 +12,18 @@ namespace MediaBrowser.Naming.TV
     {
         private readonly NamingOptions _options;
         private readonly ILogger _logger;
+        private readonly IRegexProvider _iRegexProvider;
 
         public EpisodeResolver(NamingOptions options, ILogger logger)
+            : this(options, logger, new RegexProvider())
+        {
+        }
+
+        public EpisodeResolver(NamingOptions options, ILogger logger, IRegexProvider iRegexProvider)
         {
             _options = options;
             _logger = logger;
+            _iRegexProvider = iRegexProvider;
         }
 
         public EpisodeInfo ParseFile(string path)
@@ -65,7 +72,7 @@ namespace MediaBrowser.Naming.TV
             var flags = new FlagParser(_options).GetFlags(path);
             var format3DResult = new Format3DParser(_options, _logger).Parse(flags);
 
-            var parsingResult = new EpisodePathParser(_options).Parse(path, type);
+            var parsingResult = new EpisodePathParser(_options, _iRegexProvider).Parse(path, type);
             
             return new EpisodeInfo
             {

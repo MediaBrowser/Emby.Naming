@@ -13,11 +13,18 @@ namespace MediaBrowser.Naming.Video
     {
         private readonly NamingOptions _options;
         private readonly ILogger _logger;
+        private readonly IRegexProvider _iRegexProvider;
 
         public StackResolver(NamingOptions options, ILogger logger)
+            : this(options, logger, new RegexProvider())
+        {
+        }
+
+        public StackResolver(NamingOptions options, ILogger logger, IRegexProvider iRegexProvider)
         {
             _options = options;
             _logger = logger;
+            _iRegexProvider = iRegexProvider;
         }
 
         public StackResult ResolveDirectories(IEnumerable<string> files)
@@ -118,8 +125,6 @@ namespace MediaBrowser.Naming.Video
                                     else if (!string.Equals(ignore1, ignore2, StringComparison.OrdinalIgnoreCase))
                                     {
                                         // False positive, try again with offset
-                                        // TODO: match1.Index or match2.Index ?
-                                        // offset = expr->GetSubStart(3);
                                         offset = match1.Groups[3].Index;
                                         break;
                                     }
@@ -171,11 +176,6 @@ namespace MediaBrowser.Naming.Video
                 }
             }
 
-            //if (stack.Files.Count > 1)
-            //{
-            //    result.Stacks.Add(stack);
-            //}
-
             return result;
         }
 
@@ -193,7 +193,7 @@ namespace MediaBrowser.Naming.Video
         {
             var regexInput = GetRegexInput(input);
 
-            var regex = new Regex(expression, RegexOptions.IgnoreCase);
+            var regex = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase);
             return regex.Match(regexInput, offset);
         }
     }

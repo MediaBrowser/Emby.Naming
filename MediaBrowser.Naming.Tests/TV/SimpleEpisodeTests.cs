@@ -48,7 +48,8 @@ namespace MediaBrowser.Naming.Tests.TV
         {
             var options = new NamingOptions();
 
-            var result = new EpisodePathParser(options).Parse(path, FileInfoType.File);
+            var result = new EpisodePathParser(options, new RegexProvider())
+                .Parse(path, FileInfoType.File);
 
             Assert.AreEqual(seasonNumber, result.SeasonNumber);
             Assert.AreEqual(episodeNumber, result.EpsiodeNumber);

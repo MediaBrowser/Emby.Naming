@@ -12,10 +12,12 @@ namespace MediaBrowser.Naming.Video
     public class CleanDateTimeParser
     {
         private readonly NamingOptions _options;
+        private readonly IRegexProvider _iRegexProvider;
 
-        public CleanDateTimeParser(NamingOptions options)
+        public CleanDateTimeParser(NamingOptions options, IRegexProvider iRegexProvider)
         {
             _options = options;
+            _iRegexProvider = iRegexProvider;
         }
 
         public CleanDateTimeResult Clean(string name)
@@ -38,7 +40,7 @@ namespace MediaBrowser.Naming.Video
             }
 
             // Make a second pass, running clean string first
-            var cleanStringResult = new CleanStringParser().Clean(name, _options.CleanStrings);
+            var cleanStringResult = new CleanStringParser(_iRegexProvider).Clean(name, _options.CleanStrings);
 
             if (!cleanStringResult.HasChanged)
             {
@@ -54,7 +56,7 @@ namespace MediaBrowser.Naming.Video
         {
             var result = new CleanDateTimeResult();
 
-            var match = Regex.Match(name, expression, RegexOptions.IgnoreCase);
+            var match = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase).Match(name);
 
             if (match.Success && match.Groups.Count == 4)
             {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using MediaBrowser.Naming.Common;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace MediaBrowser.Naming.Video
@@ -9,6 +9,13 @@ namespace MediaBrowser.Naming.Video
     /// </summary>
     public class CleanStringParser
     {
+        private readonly IRegexProvider _iRegexProvider;
+
+        public CleanStringParser(IRegexProvider iRegexProvider)
+        {
+            _iRegexProvider = iRegexProvider;
+        }
+
         public CleanStringResult Clean(string name, IEnumerable<string> expressions)
         {
             var hasChanged = false;
@@ -32,7 +39,7 @@ namespace MediaBrowser.Naming.Video
         {
             var result = new CleanStringResult();
 
-            var match = Regex.Match(name, expression, RegexOptions.IgnoreCase);
+            var match = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase).Match(name);
 
             if (match.Success)
             {
