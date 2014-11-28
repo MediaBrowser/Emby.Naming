@@ -411,9 +411,8 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var result = resolver.ResolveFiles(files);
 
-            // Default regex expressions do not support this. 
-            // It should find 0 stacks
-            Assert.AreEqual(0, result.Stacks.Count);
+            Assert.AreEqual(1, result.Stacks.Count);
+            Assert.AreEqual(2, result.Stacks[0].Files.Count);
         }
 
         private void TestStackInfo(FileStack stack, string name, int fileCount)

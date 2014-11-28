@@ -49,87 +49,152 @@ namespace MediaBrowser.Naming.Video
                 .OrderBy(i => i.FullName)
                 .ToList();
 
-            var stack = new FileStack();
-            var extraFiles = new List<string>();
+            var expressions = _options.VideoFileStackingExpressions;
 
-            foreach (var file in list)
+            for (var i = 0; i < list.Count; i++)
             {
-                Match match = null;
-                string expression = null;
+                var extraFiles = new List<string>();
+                var offset = 0;
 
-                // For directories, dummy up an extension otherwise the expressions will fail
-                var regexInput = file.Type == FileInfoType.File
-                    ? file.FullName
-                    : file.FullName + ".mkv";
+                var file1 = list[i];
 
-                regexInput = Path.GetFileName(regexInput);
-
-                foreach (var exp in _options.VideoFileStackingExpressions)
+                var expressionIndex = 0;
+                while (expressionIndex < expressions.Count)
                 {
-                    // (Title)(Volume)(Ignore)(Extension)
-                    match = Regex.Match(regexInput, exp, RegexOptions.IgnoreCase);
-
-                    if (!match.Success)
+                    var exp = expressions[expressionIndex];
+                    var stack = new FileStack
                     {
-                        //match = Regex.Match(regexInput, exp, RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+                        Expression = exp
+                    };
+
+                    // (Title)(Volume)(Ignore)(Extension)
+                    var match1 = FindMatch(file1, exp, offset);
+
+                    if (match1.Success)
+                    {
+                        var title1 = match1.Groups[1].Value;
+                        var volume1 = match1.Groups[2].Value;
+                        var ignore1 = match1.Groups[3].Value;
+                        var extension1 = match1.Groups[4].Value;
+
+                        var j = i + 1;
+                        while (j < list.Count)
+                        {
+                            var file2 = list[j];
+
+                            // (Title)(Volume)(Ignore)(Extension)
+                            var match2 = FindMatch(file2, exp, offset);
+
+                            if (match2.Success)
+                            {
+                                var title2 = match2.Groups[1].Value;
+                                var volume2 = match2.Groups[2].Value;
+                                var ignore2 = match2.Groups[3].Value;
+                                var extension2 = match2.Groups[4].Value;
+
+                                if (string.Equals(title1, title2, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    if (!string.Equals(volume1, volume2, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        if (string.Equals(ignore1, ignore2, StringComparison.OrdinalIgnoreCase) &&
+                                            string.Equals(extension1, extension2, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            if (stack.Files.Count == 0)
+                                            {
+                                                stack.Name = title1 + ignore1;
+                                                //stack.Name = title1 + ignore1 + extension1;
+                                                stack.Files.Add(file1.FullName);
+                                            }
+                                            stack.Files.Add(file2.FullName);
+                                        }
+                                        else 
+                                        {
+                                            // Sequel
+                                            offset = 0;
+                                            expressionIndex++;
+                                            break;
+                                        }
+                                    }
+                                    else if (!string.Equals(ignore1, ignore2, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        // False positive, try again with offset
+                                        // TODO: match1.Index or match2.Index ?
+                                        // offset = expr->GetSubStart(3);
+                                        offset = match1.Groups[3].Index;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        // Extension mismatch
+                                        offset = 0;
+                                        expressionIndex++;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    // Title mismatch
+                                    offset = 0;
+                                    expressionIndex++;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                // No match 2, next expression
+                                offset = 0;
+                                expressionIndex++;
+                                break;
+                            }
+
+                            j++;
+                        }
+
+                        if (j == list.Count)
+                        {
+                            expressionIndex = expressions.Count;
+                        }
+                    }
+                    else
+                    {
+                        // No match 1
+                        offset = 0;
+                        expressionIndex++;
                     }
 
-                    if (match.Success)
+                    if (stack.Files.Count > 1)
                     {
-                        expression = exp;
+                        result.Stacks.Add(stack);
+                        i += stack.Files.Count - 1;
                         break;
                     }
                 }
-
-                if (match != null && match.Success)
-                {
-                    var newStackName = match.Groups[1].Value + match.Groups[3].Value;
-
-                    if (stack.Files.Count == 0)
-                    {
-                        stack.Name = newStackName;
-                        stack.Files.Add(file.FullName);
-                        stack.Type = file.Type;
-                        stack.Expression = expression;
-                        continue;
-                    }
-
-                    if (string.Equals(stack.Name, newStackName, StringComparison.OrdinalIgnoreCase) &&
-                        stack.Type == file.Type)
-                    {
-                        stack.Files.Add(file.FullName);
-                        continue;
-                    }
-                }
-
-                if (stack.Files.Count > 1)
-                {
-                    result.Stacks.Add(stack);
-                }
-                else if (stack.Files.Count > 0)
-                {
-                    extraFiles.Add(stack.Files[0]);
-                }
-
-                stack = new FileStack();
-
-                if (match != null && match.Success)
-                {
-                    var newStackName = match.Groups[1].Value + match.Groups[3].Value;
-
-                    stack.Name = newStackName;
-                    stack.Files.Add(file.FullName);
-                    stack.Type = file.Type;
-                    stack.Expression = expression;
-                }
             }
 
-            if (stack.Files.Count > 1)
-            {
-                result.Stacks.Add(stack);
-            }
+            //if (stack.Files.Count > 1)
+            //{
+            //    result.Stacks.Add(stack);
+            //}
 
             return result;
+        }
+
+        private string GetRegexInput(PortableFileInfo file)
+        {
+            // For directories, dummy up an extension otherwise the expressions will fail
+            var input = file.Type == FileInfoType.File
+                ? file.FullName
+                : file.FullName + ".mkv";
+
+            return Path.GetFileName(input);
+        }
+
+        private Match FindMatch(PortableFileInfo input, string expression, int offset)
+        {
+            var regexInput = GetRegexInput(input);
+
+            var regex = new Regex(expression, RegexOptions.IgnoreCase);
+            return regex.Match(regexInput, offset);
         }
     }
 }
