@@ -415,6 +415,24 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(2, result.Stacks[0].Files.Count);
         }
 
+        [TestMethod]
+        public void TestMultiDiscs()
+        {
+            // No stacking here because there is no part/disc/etc
+            var files = new[]
+            {
+                @"M:\Movies (DVD)\Movies (Musical)\The Sound of Music\The Sound of Music (1965) (Disc 01)",
+                @"M:\Movies (DVD)\Movies (Musical)\The Sound of Music\The Sound of Music (1965) (Disc 02)"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.ResolveDirectories(files);
+
+            Assert.AreEqual(1, result.Stacks.Count);
+            Assert.AreEqual(2, result.Stacks[0].Files.Count);
+        }
+
         private void TestStackInfo(FileStack stack, string name, int fileCount)
         {
             Assert.AreEqual(fileCount, stack.Files.Count);

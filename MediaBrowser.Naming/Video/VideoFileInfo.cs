@@ -1,4 +1,5 @@
-﻿
+﻿using MediaBrowser.Naming.IO;
+
 namespace MediaBrowser.Naming.Video
 {
     /// <summary>
@@ -50,6 +51,25 @@ namespace MediaBrowser.Naming.Video
         /// Gets or sets the type of the stub.
         /// </summary>
         /// <value>The type of the stub.</value>
-        public string StubType { get; set; }
+        public string StubType { get; set; }        
+        /// <summary>
+        /// Gets or sets the type.
+        /// </summary>
+        /// <value>The type.</value>
+        public FileInfoType FileInfoType { get; set; }
+        /// <summary>
+        /// Gets the file name without extension.
+        /// </summary>
+        /// <value>The file name without extension.</value>
+        public string FileNameWithoutExtension
+        {
+            get { return FileInfoType == FileInfoType.File ? System.IO.Path.GetFileNameWithoutExtension(Path) : System.IO.Path.GetFileName(Path); }
+        }
+
+        public override string ToString()
+        {
+            // Makes debugging easier
+            return Name ?? base.ToString();
+        }
     }
 }

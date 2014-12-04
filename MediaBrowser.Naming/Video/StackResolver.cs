@@ -89,6 +89,12 @@ namespace MediaBrowser.Naming.Video
                         {
                             var file2 = list[j];
 
+                            if (file1.Type != file2.Type)
+                            {
+                                j++;
+                                continue;
+                            }
+
                             // (Title)(Volume)(Ignore)(Extension)
                             var match2 = FindMatch(file2, exp, offset);
 
@@ -109,6 +115,7 @@ namespace MediaBrowser.Naming.Video
                                             if (stack.Files.Count == 0)
                                             {
                                                 stack.Name = title1 + ignore1;
+                                                stack.Type = file1.Type;
                                                 //stack.Name = title1 + ignore1 + extension1;
                                                 stack.Files.Add(file1.FullName);
                                             }

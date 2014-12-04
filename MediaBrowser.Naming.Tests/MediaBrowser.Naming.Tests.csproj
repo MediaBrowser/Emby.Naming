@@ -63,6 +63,7 @@
     <Compile Include="Video\Format3DTests.cs" />
     <Compile Include="Video\StackTests.cs" />
     <Compile Include="Video\StubTests.cs" />
+    <Compile Include="Video\VideoListResolverTests.cs" />
     <Compile Include="Video\VideoResolverTests.cs" />
   </ItemGroup>
   <ItemGroup>

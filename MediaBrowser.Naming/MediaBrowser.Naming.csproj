@@ -64,7 +64,7 @@
     <Compile Include="Video\ExtraResult.cs" />
     <Compile Include="Video\ExtraRule.cs" />
     <Compile Include="Video\ExtraRuleType.cs" />
-    <Compile Include="Video\ExtraTypeParser.cs" />
+    <Compile Include="Video\ExtraResolver.cs" />
     <Compile Include="Video\FileStack.cs" />
     <Compile Include="Video\FlagParser.cs" />
     <Compile Include="Video\Format3DParser.cs" />
@@ -78,6 +78,7 @@
     <Compile Include="Video\StubTypeRule.cs" />
     <Compile Include="Video\VideoFileInfo.cs" />
     <Compile Include="Video\VideoInfo.cs" />
+    <Compile Include="Video\VideoListResolver.cs" />
     <Compile Include="Video\VideoResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

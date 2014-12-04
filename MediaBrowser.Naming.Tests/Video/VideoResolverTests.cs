@@ -65,8 +65,8 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
-            Assert.AreEqual("Brave", result.Name);
             Assert.AreEqual("trailer", result.ExtraType);
+            Assert.AreEqual("Brave (2006)-trailer", result.Name);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
-            Assert.AreEqual("300", result.Name);
+            Assert.AreEqual("300 (2006)-trailer", result.Name);
             Assert.AreEqual("trailer", result.ExtraType);
         }
 

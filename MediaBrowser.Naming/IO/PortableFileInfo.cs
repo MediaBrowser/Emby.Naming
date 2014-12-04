@@ -1,4 +1,5 @@
-﻿
+﻿using System.IO;
+
 namespace MediaBrowser.Naming.IO
 {
     public class PortableFileInfo
@@ -13,5 +14,14 @@ namespace MediaBrowser.Naming.IO
         /// </summary>
         /// <value>The type.</value>
         public FileInfoType Type { get; set; }
+
+        /// <summary>
+        /// Gets the file name without extension.
+        /// </summary>
+        /// <value>The file name without extension.</value>
+        public string FileNameWithoutExtension
+        {
+            get { return Type == FileInfoType.File ? Path.GetFileNameWithoutExtension(FullName) : Path.GetFileName(FullName); }
+        }
     }
 }

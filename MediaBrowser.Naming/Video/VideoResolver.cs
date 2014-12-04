@@ -11,18 +11,18 @@ namespace MediaBrowser.Naming.Video
     {
         private readonly ILogger _logger;
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
+        private readonly IRegexProvider _regexProvider;
 
         public VideoResolver(NamingOptions options, ILogger logger)
             : this(options, logger, new RegexProvider())
         {
         }
 
-        public VideoResolver(NamingOptions options, ILogger logger, IRegexProvider iRegexProvider)
+        public VideoResolver(NamingOptions options, ILogger logger, IRegexProvider regexProvider)
         {
             _options = options;
             _logger = logger;
-            _iRegexProvider = iRegexProvider;
+            _regexProvider = regexProvider;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace MediaBrowser.Naming.Video
             var flags = new FlagParser(_options).GetFlags(path);
             var format3DResult = new Format3DParser(_options, _logger).Parse(flags);
 
-            var extraResult = new ExtraTypeParser(_options, _logger).GetExtraInfo(path);
+            var extraResult = new ExtraResolver(_options, _logger, _regexProvider).GetExtraInfo(path);
 
             var name = type == FileInfoType.File
                 ? Path.GetFileNameWithoutExtension(path)
@@ -96,8 +96,11 @@ namespace MediaBrowser.Naming.Video
 
             var cleanDateTimeResult = CleanDateTime(name);
 
-            name = cleanDateTimeResult.Name;
-            name = CleanString(name).Name;
+            if (string.IsNullOrWhiteSpace(extraResult.ExtraType))
+            {
+                name = cleanDateTimeResult.Name;
+                name = CleanString(name).Name;
+            }
 
             return new VideoFileInfo
             {
@@ -109,7 +112,8 @@ namespace MediaBrowser.Naming.Video
                 StubType = stubType,
                 Is3D = format3DResult.Is3D,
                 Format3D = format3DResult.Format3D,
-                ExtraType = extraResult.ExtraType
+                ExtraType = extraResult.ExtraType,
+                FileInfoType = type
             };
         }
 
@@ -127,12 +131,12 @@ namespace MediaBrowser.Naming.Video
 
         public CleanStringResult CleanString(string name)
         {
-            return new CleanStringParser(_iRegexProvider).Clean(name, _options.CleanStrings);
+            return new CleanStringParser(_regexProvider).Clean(name, _options.CleanStrings);
         }
 
         public CleanDateTimeResult CleanDateTime(string name)
         {
-            return new CleanDateTimeParser(_options, _iRegexProvider).Clean(name);
+            return new CleanDateTimeParser(_options, _regexProvider).Clean(name);
         }
     }
 }

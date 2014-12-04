@@ -10,6 +10,10 @@ namespace MediaBrowser.Naming.Video
         /// <summary>
         /// The filename
         /// </summary>
-        Filename = 1
+        Filename = 1,
+        /// <summary>
+        /// The regex
+        /// </summary>
+        Regex = 2
     }
 }

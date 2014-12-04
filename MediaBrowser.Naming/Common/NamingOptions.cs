@@ -326,6 +326,27 @@ namespace MediaBrowser.Naming.Common
                 },
                 new ExtraRule
                 {
+                    ExtraType = "trailer",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = ".trailer",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "trailer",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = "_trailer",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "trailer",
+                    RuleType = ExtraRuleType.Regex,
+                    Token = @"(.*?)(_Trailer)(\.[^.]+)$",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
                     ExtraType = "themesong",
                     RuleType = ExtraRuleType.Filename,
                     Token = "theme",

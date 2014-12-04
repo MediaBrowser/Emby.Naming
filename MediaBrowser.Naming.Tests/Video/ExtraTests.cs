@@ -77,9 +77,9 @@ namespace MediaBrowser.Naming.Tests.Video
             }
         }
 
-        private ExtraTypeParser GetExtraTypeParser(NamingOptions videoOptions)
+        private ExtraResolver GetExtraTypeParser(NamingOptions videoOptions)
         {
-            return new ExtraTypeParser(videoOptions, new NullLogger());
+            return new ExtraResolver(videoOptions, new NullLogger(), new RegexProvider());
         }
     }
 }

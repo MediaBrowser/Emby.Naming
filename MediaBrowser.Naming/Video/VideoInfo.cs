@@ -1,5 +1,4 @@
-﻿using MediaBrowser.Naming.Subtitles;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MediaBrowser.Naming.Video
 {
@@ -24,11 +23,6 @@ namespace MediaBrowser.Naming.Video
         /// <value>The files.</value>
         public List<VideoFileInfo> Files { get; set; }
         /// <summary>
-        /// Gets or sets the subtitles.
-        /// </summary>
-        /// <value>The subtitles.</value>
-        public List<SubtitleInfo> Subtitles { get; set; }
-        /// <summary>
         /// Gets or sets the extras.
         /// </summary>
         /// <value>The extras.</value>
@@ -37,7 +31,6 @@ namespace MediaBrowser.Naming.Video
         public VideoInfo()
         {
             Files = new List<VideoFileInfo>();
-            Subtitles = new List<SubtitleInfo>();
             Extras = new List<VideoFileInfo>();
         }
     }

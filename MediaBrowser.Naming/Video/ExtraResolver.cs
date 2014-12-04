@@ -4,18 +4,21 @@ using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MediaBrowser.Naming.Video
 {
-    public class ExtraTypeParser
+    public class ExtraResolver
     {
         private readonly ILogger _logger;
         private readonly NamingOptions _options;
+        private readonly IRegexProvider _regexProvider;
 
-        public ExtraTypeParser(NamingOptions options, ILogger logger)
+        public ExtraResolver(NamingOptions options, ILogger logger, IRegexProvider regexProvider)
         {
             _options = options;
             _logger = logger;
+            _regexProvider = regexProvider;
         }
 
         public ExtraResult GetExtraInfo(string path)
@@ -48,10 +51,10 @@ namespace MediaBrowser.Naming.Video
                 return result;
             }
 
-            var filename = Path.GetFileNameWithoutExtension(path);
-
             if (rule.RuleType == ExtraRuleType.Filename)
             {
+                var filename = Path.GetFileNameWithoutExtension(path);
+
                 if (string.Equals(filename, rule.Token, StringComparison.OrdinalIgnoreCase))
                 {
                     result.ExtraType = rule.ExtraType;
@@ -61,7 +64,22 @@ namespace MediaBrowser.Naming.Video
 
             else if (rule.RuleType == ExtraRuleType.Suffix)
             {
+                var filename = Path.GetFileNameWithoutExtension(path);
+
                 if (filename.EndsWith(rule.Token, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.ExtraType = rule.ExtraType;
+                    result.Tokens.Add(rule.Token);
+                }
+            }
+
+            else if (rule.RuleType == ExtraRuleType.Regex)
+            {
+                var filename = Path.GetFileName(path);
+
+                var regex = _regexProvider.GetRegex(rule.Token, RegexOptions.IgnoreCase);
+
+                if (regex.IsMatch(filename))
                 {
                     result.ExtraType = rule.ExtraType;
                     result.Tokens.Add(rule.Token);
