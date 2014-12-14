@@ -66,7 +66,7 @@ namespace MediaBrowser.Naming.Video
             {
                 var filename = Path.GetFileNameWithoutExtension(path);
 
-                if (filename.EndsWith(rule.Token, StringComparison.OrdinalIgnoreCase))
+                if (filename.IndexOf(rule.Token, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     result.ExtraType = rule.ExtraType;
                     result.Tokens.Add(rule.Token);

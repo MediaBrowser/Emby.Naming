@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Common;
+﻿using System.IO;
+using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using System;
@@ -11,26 +12,33 @@ namespace MediaBrowser.Naming.Video
     {
         private readonly ILogger _logger;
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
+        private readonly IRegexProvider _regexProvider;
 
         public VideoListResolver(NamingOptions options, ILogger logger)
             : this(options, logger, new RegexProvider())
         {
         }
 
-        public VideoListResolver(NamingOptions options, ILogger logger, IRegexProvider iRegexProvider)
+        public VideoListResolver(NamingOptions options, ILogger logger, IRegexProvider regexProvider)
         {
             _options = options;
             _logger = logger;
-            _iRegexProvider = iRegexProvider;
+            _regexProvider = regexProvider;
         }
 
         public IEnumerable<VideoInfo> Resolve(List<PortableFileInfo> files)
         {
-            var videoResolver = new VideoResolver(_options, _logger, _iRegexProvider);
+            var videoResolver = new VideoResolver(_options, _logger, _regexProvider);
+            var extraResolver = new ExtraResolver(_options, _logger, _regexProvider);
 
-            var stackResult = new StackResolver(_options, _logger, _iRegexProvider)
-                .Resolve(files);
+            // Filter out all extras, otherwise they could cause stacks to not be resolved
+            // See the unit test TestStackedWithTrailer
+            var nonExtras = files
+                .Where(i => extraResolver.GetExtraInfo(i.FullName).ExtraType == null)
+                .ToList();
+
+            var stackResult = new StackResolver(_options, _logger, _regexProvider)
+                .Resolve(nonExtras);
 
             var remainingFiles = files
                 .Where(i => !stackResult.Stacks.Any(s => s.ContainsFile(i.FullName, i.Type)))
@@ -50,10 +58,13 @@ namespace MediaBrowser.Naming.Video
 
                 info.Year = info.Files.First().Year;
 
-                var extras = remainingFiles
-                    .Where(i => !string.IsNullOrWhiteSpace(i.ExtraType))
-                    .Where(i => i.FileNameWithoutExtension.StartsWith(stack.Name, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                var extraBaseNames = new List<string> 
+                {
+                    stack.Name, 
+                    Path.GetFileNameWithoutExtension(stack.Files[0])
+                };
+
+                var extras = GetExtras(remainingFiles, extraBaseNames);
 
                 if (extras.Count > 0)
                 {
@@ -81,10 +92,7 @@ namespace MediaBrowser.Naming.Video
 
                 info.Year = info.Files.First().Year;
 
-                var extras = remainingFiles
-                    .Where(i => !string.IsNullOrWhiteSpace(i.ExtraType))
-                    .Where(i => i.FileNameWithoutExtension.StartsWith(media.FileNameWithoutExtension, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                var extras = GetExtras(remainingFiles, new List<string> { media.FileNameWithoutExtension, media.Name });
 
                 remainingFiles = remainingFiles
                     .Except(extras.Concat(new[] { media }))
@@ -105,6 +113,20 @@ namespace MediaBrowser.Naming.Video
             }));
 
             return list.OrderBy(i => i.Name);
+        }
+
+        private List<VideoFileInfo> GetExtras(IEnumerable<VideoFileInfo> remainingFiles, List<string> baseNames)
+        {
+            foreach (var name in baseNames.ToList())
+            {
+                var trimmedName = name.TrimEnd().TrimEnd(_options.VideoFlagDelimiters).TrimEnd();
+                baseNames.Add(trimmedName);
+            }
+
+            return remainingFiles
+                .Where(i => !string.IsNullOrWhiteSpace(i.ExtraType))
+                .Where(i => baseNames.Any(b => i.FileNameWithoutExtension.StartsWith(b, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
         }
     }
 }

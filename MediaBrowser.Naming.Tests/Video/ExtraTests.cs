@@ -53,10 +53,11 @@ namespace MediaBrowser.Naming.Tests.Video
 
             Test("300-sample.mp4", "sample", videoOptions);
             Test("300-scene.mp4", "scene", videoOptions);
+            Test("300-scene2.mp4", "scene", videoOptions);
             Test("300-clip.mp4", "clip", videoOptions);
 
             Test("300-deleted.mp4", "deletedscene", videoOptions);
-            Test("300-deletedscene.mp4", null, videoOptions);
+            Test("300-deletedscene.mp4", "deletedscene", videoOptions);
             Test("300-interview.mp4", "interview", videoOptions);
             Test("300-behindthescenes.mp4", "behindthescenes", videoOptions);
         }

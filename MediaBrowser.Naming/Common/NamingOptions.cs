@@ -338,11 +338,11 @@ namespace MediaBrowser.Naming.Common
                     Token = "_trailer",
                     MediaType = MediaType.Video
                 },
-                new ExtraRule
+                 new ExtraRule
                 {
                     ExtraType = "trailer",
-                    RuleType = ExtraRuleType.Regex,
-                    Token = @"(.*?)(_Trailer)(\.[^.]+)$",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = " trailer",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
