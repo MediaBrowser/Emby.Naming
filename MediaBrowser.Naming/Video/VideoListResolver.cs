@@ -29,21 +29,27 @@ namespace MediaBrowser.Naming.Video
         public IEnumerable<VideoInfo> Resolve(List<PortableFileInfo> files)
         {
             var videoResolver = new VideoResolver(_options, _logger, _regexProvider);
-            var extraResolver = new ExtraResolver(_options, _logger, _regexProvider);
+
+            var videoInfos = files
+                .Select(i => videoResolver.Resolve(i.FullName, i.Type))
+                .Where(i => i != null)
+                .ToList();
 
             // Filter out all extras, otherwise they could cause stacks to not be resolved
             // See the unit test TestStackedWithTrailer
-            var nonExtras = files
-                .Where(i => extraResolver.GetExtraInfo(i.FullName).ExtraType == null)
-                .ToList();
+            var nonExtras = videoInfos
+                .Where(i => string.IsNullOrWhiteSpace(i.ExtraType))
+                .Select(i => new PortableFileInfo
+                {
+                    FullName = i.Path,
+                    Type = i.FileInfoType
+                });
 
             var stackResult = new StackResolver(_options, _logger, _regexProvider)
                 .Resolve(nonExtras);
 
-            var remainingFiles = files
-                .Where(i => !stackResult.Stacks.Any(s => s.ContainsFile(i.FullName, i.Type)))
-                .Select(i => videoResolver.Resolve(i.FullName, i.Type))
-                .Where(i => i != null)
+            var remainingFiles = videoInfos
+                .Where(i => !stackResult.Stacks.Any(s => s.ContainsFile(i.Path, i.FileInfoType)))
                 .ToList();
 
             var list = new List<VideoInfo>();
@@ -101,6 +107,40 @@ namespace MediaBrowser.Naming.Video
                 info.Extras = extras;
 
                 list.Add(info);
+            }
+
+            // If there's only one resolved video, use the folder name as well to find extras
+            if (list.Count == 1)
+            {
+                var info = list[0];
+                var videoPath = list[0].Files[0].Path;
+                var parentPath = Path.GetDirectoryName(videoPath);
+
+                if (!string.IsNullOrWhiteSpace(parentPath))
+                {
+                    var folderName = Path.GetFileName(Path.GetDirectoryName(videoPath));
+                    if (!string.IsNullOrWhiteSpace(folderName))
+                    {
+                        var extras = GetExtras(remainingFiles, new List<string> { folderName });
+
+                        remainingFiles = remainingFiles
+                            .Except(extras)
+                            .ToList();
+
+                        info.Extras.AddRange(extras);
+                    }
+                }
+
+                // Add the extras that are just based on file name as well
+                var extrasByFileName = remainingFiles
+                    .Where(i => i.ExtraRule != null && i.ExtraRule.RuleType == ExtraRuleType.Filename)
+                    .ToList();
+
+                remainingFiles = remainingFiles
+                    .Except(extrasByFileName)
+                    .ToList();
+
+                info.Extras.AddRange(extrasByFileName);
             }
 
             // Whatever files are left, just add them

@@ -33,6 +33,11 @@ namespace MediaBrowser.Naming.Video
         /// <value>The type of the extra.</value>
         public string ExtraType { get; set; }
         /// <summary>
+        /// Gets or sets the extra rule.
+        /// </summary>
+        /// <value>The extra rule.</value>
+        public ExtraRule ExtraRule { get; set; }
+        /// <summary>
         /// Gets or sets the format3 d.
         /// </summary>
         /// <value>The format3 d.</value>

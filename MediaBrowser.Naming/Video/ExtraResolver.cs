@@ -58,7 +58,7 @@ namespace MediaBrowser.Naming.Video
                 if (string.Equals(filename, rule.Token, StringComparison.OrdinalIgnoreCase))
                 {
                     result.ExtraType = rule.ExtraType;
-                    result.Tokens.Add(rule.Token);
+                    result.Rule = rule;
                 }
             }
 
@@ -69,7 +69,7 @@ namespace MediaBrowser.Naming.Video
                 if (filename.IndexOf(rule.Token, StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     result.ExtraType = rule.ExtraType;
-                    result.Tokens.Add(rule.Token);
+                    result.Rule = rule;
                 }
             }
 
@@ -82,7 +82,7 @@ namespace MediaBrowser.Naming.Video
                 if (regex.IsMatch(filename))
                 {
                     result.ExtraType = rule.ExtraType;
-                    result.Tokens.Add(rule.Token);
+                    result.Rule = rule;
                 }
             }
 

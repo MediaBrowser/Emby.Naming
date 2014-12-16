@@ -299,6 +299,29 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(1, result.Count);
         }
 
+        [TestMethod]
+        public void TestExtrasByFolderName()
+        {
+            var files = new[]
+            {
+                @"\\Movies\Top Gun (1984)\movie.mp4",
+                @"\\Movies\Top Gun (1984)\Top Gun (1984)-trailer.mp4",
+                @"\\Movies\Top Gun (1984)\Top Gun (1984)-trailer2.mp4",
+                @"trailer.mp4"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+        }
+
         private VideoListResolver GetResolver()
         {
             var options = new ExtendedNamingOptions();

@@ -10,14 +10,9 @@ namespace MediaBrowser.Naming.Video
         /// <value>The type of the extra.</value>
         public string ExtraType { get; set; }
         /// <summary>
-        /// Gets or sets the tokens.
+        /// Gets or sets the rule.
         /// </summary>
-        /// <value>The tokens.</value>
-        public List<string> Tokens { get; set; }
-
-        public ExtraResult()
-        {
-            Tokens = new List<string>();
-        }
+        /// <value>The rule.</value>
+        public ExtraRule Rule { get; set; }
     }
 }

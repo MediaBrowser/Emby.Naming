@@ -113,7 +113,8 @@ namespace MediaBrowser.Naming.Video
                 Is3D = format3DResult.Is3D,
                 Format3D = format3DResult.Format3D,
                 ExtraType = extraResult.ExtraType,
-                FileInfoType = type
+                FileInfoType = type,
+                ExtraRule = extraResult.Rule
             };
         }
 
