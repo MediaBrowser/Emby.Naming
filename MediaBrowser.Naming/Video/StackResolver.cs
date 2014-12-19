@@ -60,7 +60,6 @@ namespace MediaBrowser.Naming.Video
 
             for (var i = 0; i < list.Count; i++)
             {
-                var extraFiles = new List<string>();
                 var offset = 0;
 
                 var file1 = list[i];

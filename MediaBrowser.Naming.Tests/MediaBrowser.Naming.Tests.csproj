@@ -54,6 +54,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subtitles\SubtitleParserTests.cs" />
     <Compile Include="TV\DailyEpisodeTests.cs" />
+    <Compile Include="TV\EpisodeNumberTests.cs" />
+    <Compile Include="TV\EpisodeNumberWithoutSeasonTests.cs" />
+    <Compile Include="TV\MultiEpisodeTests.cs" />
+    <Compile Include="TV\SeasonFolderTests.cs" />
+    <Compile Include="TV\SeasonNumberTests.cs" />
     <Compile Include="TV\SimpleEpisodeTests.cs" />
     <Compile Include="TV\EpisodeWithoutSeasonTests.cs" />
     <Compile Include="Video\BaseVideoTest.cs" />
@@ -61,6 +66,7 @@
     <Compile Include="Video\CleanStringTests.cs" />
     <Compile Include="Video\ExtraTests.cs" />
     <Compile Include="Video\Format3DTests.cs" />
+    <Compile Include="Video\MultiVersionTests.cs" />
     <Compile Include="Video\StackTests.cs" />
     <Compile Include="Video\StubTests.cs" />
     <Compile Include="Video\VideoListResolverTests.cs" />

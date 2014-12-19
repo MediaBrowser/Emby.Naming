@@ -1,9 +1,9 @@
-﻿using System.IO;
-using MediaBrowser.Naming.Common;
+﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace MediaBrowser.Naming.Video
@@ -26,7 +26,7 @@ namespace MediaBrowser.Naming.Video
             _regexProvider = regexProvider;
         }
 
-        public IEnumerable<VideoInfo> Resolve(List<PortableFileInfo> files)
+        public IEnumerable<VideoInfo> Resolve(List<PortableFileInfo> files, bool supportMultiVersion = true)
         {
             var videoResolver = new VideoResolver(_options, _logger, _regexProvider);
 
@@ -152,7 +152,37 @@ namespace MediaBrowser.Naming.Video
                 Year = i.Year
             }));
 
-            return list.OrderBy(i => i.Name);
+            var orderedList = list.OrderBy(i => i.Name);
+
+            if (supportMultiVersion)
+            {
+                return GetVideosGroupedByVersion(orderedList);
+            }
+
+            return orderedList;
+        }
+
+        private IEnumerable<VideoInfo> GetVideosGroupedByVersion(IEnumerable<VideoInfo> videos)
+        {
+            var list = new List<VideoInfo>();
+
+            foreach (var video in videos)
+            {
+                var match = list
+                    .FirstOrDefault(i => string.Equals(i.Name, video.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (match != null && video.Files.Count == 1 && match.Files.Count == 1)
+                {
+                    match.AlternateVersions.Add(video.Files[0]);
+                    match.Extras.AddRange(video.Extras);
+                }
+                else
+                {
+                    list.Add(video);
+                }
+            }
+
+            return list;
         }
 
         private List<VideoFileInfo> GetExtras(IEnumerable<VideoFileInfo> remainingFiles, List<string> baseNames)

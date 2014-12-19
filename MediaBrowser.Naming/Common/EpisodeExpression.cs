@@ -5,6 +5,8 @@ namespace MediaBrowser.Naming.Common
     {
         public string Expression { get; set; }
         public bool IsByDate { get; set; }
+        public bool IsNamed { get; set; }
+        public bool IsOptimistic { get; set; }
 
         public string[] DateTimeFormats { get; set; }
 

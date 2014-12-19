@@ -57,6 +57,8 @@
     <Compile Include="TV\EpisodePathParser.cs" />
     <Compile Include="TV\EpisodePathParserResult.cs" />
     <Compile Include="TV\EpisodeResolver.cs" />
+    <Compile Include="TV\SeasonPathParser.cs" />
+    <Compile Include="TV\SeasonPathParserResult.cs" />
     <Compile Include="Video\CleanDateTimeParser.cs" />
     <Compile Include="Video\CleanDateTimeResult.cs" />
     <Compile Include="Video\CleanStringParser.cs" />

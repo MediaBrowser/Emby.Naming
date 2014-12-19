@@ -123,28 +123,6 @@ namespace MediaBrowser.Naming.Tests.Video
         }
 
         [TestMethod]
-        public void TestMultiEdition()
-        {
-            var files = new[]
-            {
-                "X-Men Days of Future Past - 1080p.mkv",
-                "X-Men Days of Future Past-trailer.mp4",
-                "X-Men Days of Future Past - [hsbs].mkv"
-            };
-
-            var resolver = GetResolver();
-
-            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
-            {
-                Type = FileInfoType.File,
-                FullName = i
-
-            }).ToList()).ToList();
-
-            Assert.AreEqual(2, result.Count);
-        }
-
-        [TestMethod]
         public void TestTrailer2()
         {
             var files = new[]
@@ -308,6 +286,26 @@ namespace MediaBrowser.Naming.Tests.Video
                 @"\\Movies\Top Gun (1984)\Top Gun (1984)-trailer.mp4",
                 @"\\Movies\Top Gun (1984)\Top Gun (1984)-trailer2.mp4",
                 @"trailer.mp4"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+        }
+
+        [TestMethod]
+        public void TestArgumentOutOfRangeException()
+        {
+            var files = new[]
+            {
+                @"\\nas-markrobbo78\Videos\INDEX HTPC\Movies\Watched\3 - ACTION\Argo (2012)\movie.mkv"
             };
 
             var resolver = GetResolver();

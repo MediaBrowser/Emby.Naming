@@ -27,11 +27,17 @@ namespace MediaBrowser.Naming.Video
         /// </summary>
         /// <value>The extras.</value>
         public List<VideoFileInfo> Extras { get; set; }
-
+        /// <summary>
+        /// Gets or sets the alternate versions.
+        /// </summary>
+        /// <value>The alternate versions.</value>
+        public List<VideoFileInfo> AlternateVersions { get; set; }
+        
         public VideoInfo()
         {
             Files = new List<VideoFileInfo>();
             Extras = new List<VideoFileInfo>();
+            AlternateVersions = new List<VideoFileInfo>();
         }
     }
 }

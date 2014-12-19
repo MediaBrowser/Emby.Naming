@@ -273,8 +273,11 @@ namespace MediaBrowser.Naming.Common
 
             EpisodeExpressions = new List<EpisodeExpression>
             {
-                new EpisodeExpression("s([0-9]+)[ ._-]*e([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
-                new EpisodeExpression("[\\._ -]()e(?:p[ ._-]?)?([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
+                // *** Begin Kodi Standard Naming
+                // <!-- foo.s01.e01, foo.s01_e01, S01E02 foo, S01 - E02 -->
+                new EpisodeExpression(@"[Ss]([0-9]+)[][ ._-]*[Ee]([0-9]+)([^\\/]*)$"), 
+                // <!-- foo.ep01, foo.EP_01 -->
+                new EpisodeExpression(@"[\._ -]()[Ee][Pp]_?([0-9]+)([^\\/]*)$"), 
                 new EpisodeExpression("([0-9]{4})[\\.-]([0-9]{2})[\\.-]([0-9]{2})", true)
                 {
                     DateTimeFormats = new []
@@ -295,7 +298,57 @@ namespace MediaBrowser.Naming.Common
                 }, 
                 new EpisodeExpression("[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
                 new EpisodeExpression("[\\\\/\\._ -]([0-9]+)([0-9][0-9](?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([\\._ -][^\\\\/]*)$"), 
-                new EpisodeExpression("[\\/._ -]p(?:ar)?t[_. -]()([ivx]+|[0-9]+)([._ -][^\\/]*)$")
+                new EpisodeExpression("[\\/._ -]p(?:ar)?t[_. -]()([ivx]+|[0-9]+)([._ -][^\\/]*)$"),
+
+                // *** End Kodi Standard Naming
+
+                new EpisodeExpression(@".*(\\|\/)[sS]?(?<seasonnumber>\d{1,4})[xX](?<epnumber>\d{1,3})[^\\\/]*$")
+                {
+                    IsNamed = true
+                },
+
+                new EpisodeExpression(@".*(\\|\/)[sS](?<seasonnumber>\d{1,4})[x,X]?[eE](?<epnumber>\d{1,3})[^\\\/]*$")
+                {
+                    IsNamed = true
+                },
+
+                new EpisodeExpression(@".*(\\|\/)(?<seriesname>((?![sS]?\d{1,4}[xX]\d{1,3})[^\\\/])*)?([sS]?(?<seasonnumber>\d{1,4})[xX](?<epnumber>\d{1,3}))[^\\\/]*$")
+                {
+                    IsNamed = true
+                },
+
+                new EpisodeExpression(@".*(\\|\/)(?<seriesname>[^\\\/]*)[sS](?<seasonnumber>\d{1,4})[xX\.]?[eE](?<epnumber>\d{1,3})[^\\\/]*$")
+                {
+                    IsNamed = true
+                },
+
+                // "01.avi"
+                new EpisodeExpression(@".*[\\\/](?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*\.\w+$")
+                {
+                    IsNamed = true,
+                    IsOptimistic = true
+                },
+
+                // "01 - blah.avi", "01-blah.avi"
+                new EpisodeExpression(@".*(\\|\/)(?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*\s?-\s?[^\\\/]*$")
+                {
+                    IsNamed = true,
+                    IsOptimistic = true
+                },
+
+                // "01.blah.avi"
+                new EpisodeExpression(@".*(\\|\/)(?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*\.[^\\\/]+$")
+                {
+                    IsNamed = true,
+                    IsOptimistic = true
+                },
+
+                // "blah - 01.avi", "blah 2 - 01.avi", "blah - 01 blah.avi", "blah 2 - 01 blah", "blah - 01 - blah.avi", "blah 2 - 01 - blah"
+                new EpisodeExpression(@".*[\\\/][^\\\/]* - (?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*[^\\\/]*$")
+                {
+                    IsNamed = true,
+                    IsOptimistic = true
+                }
             };
 
             EpisodeWithoutSeasonExpressions = new List<string>
