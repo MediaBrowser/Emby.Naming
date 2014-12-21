@@ -199,6 +199,11 @@ namespace MediaBrowser.Naming.Video
         {
             var regexInput = GetRegexInput(input);
 
+            if (offset < 0 || offset >= regexInput.Length)
+            {
+                return Match.Empty;
+            }
+
             var regex = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase);
             return regex.Match(regexInput, offset);
         }

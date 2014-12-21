@@ -301,6 +301,29 @@ namespace MediaBrowser.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void TestDoubleTags()
+        {
+            var files = new[]
+            {
+                @"\\MCFAMILY-PC\Private3$\Heterosexual\Breast In Class 2 Counterfeit Racks (2011)\Breast In Class 2 Counterfeit Racks (2011) Disc 1 cd1.avi",
+                @"\\MCFAMILY-PC\Private3$\Heterosexual\Breast In Class 2 Counterfeit Racks (2011)\Breast In Class 2 Counterfeit Racks (2011) Disc 1 cd2.avi",
+                @"\\MCFAMILY-PC\Private3$\Heterosexual\Breast In Class 2 Counterfeit Racks (2011)\Breast In Class 2 Disc 2 cd1.avi",
+                @"\\MCFAMILY-PC\Private3$\Heterosexual\Breast In Class 2 Counterfeit Racks (2011)\Breast In Class 2 Disc 2 cd2.avi"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(2, result.Count);
+        }
+
+        [TestMethod]
         public void TestArgumentOutOfRangeException()
         {
             var files = new[]
