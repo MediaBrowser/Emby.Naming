@@ -19,12 +19,11 @@ namespace MediaBrowser.Naming.TV
             _iRegexProvider = iRegexProvider;
         }
 
-        public EpisodePathParserResult Parse(string path, FileInfoType type, bool enableOptimisticExpressions, bool fillExtendedInfo = true)
+        public EpisodePathParserResult Parse(string path, FileInfoType type, bool fillExtendedInfo = true)
         {
             var name = path;
 
             var result = _options.EpisodeExpressions
-                .Where(i => enableOptimisticExpressions || !i.IsOptimistic)
                 .Select(i => Parse(name, i))
                 .FirstOrDefault(i => i.Success);
 

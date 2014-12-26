@@ -26,17 +26,17 @@ namespace MediaBrowser.Naming.TV
             _iRegexProvider = iRegexProvider;
         }
 
-        public EpisodeInfo ParseFile(string path, bool enableOptimisticExpressions = true)
+        public EpisodeInfo ParseFile(string path)
         {
-            return Resolve(path, FileInfoType.File, enableOptimisticExpressions);
+            return Resolve(path, FileInfoType.File);
         }
 
-        public EpisodeInfo ParseDirectory(string path, bool enableOptimisticExpressions = true)
+        public EpisodeInfo ParseDirectory(string path)
         {
-            return Resolve(path, FileInfoType.Directory, enableOptimisticExpressions);
+            return Resolve(path, FileInfoType.Directory);
         }
 
-        public EpisodeInfo Resolve(string path, FileInfoType type, bool enableOptimisticExpressions = true, bool fillExtendedInfo = true)
+        public EpisodeInfo Resolve(string path, FileInfoType type, bool fillExtendedInfo = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -73,7 +73,7 @@ namespace MediaBrowser.Naming.TV
             var format3DResult = new Format3DParser(_options, _logger).Parse(flags);
 
             var parsingResult = new EpisodePathParser(_options, _iRegexProvider)
-                .Parse(path, type, enableOptimisticExpressions, fillExtendedInfo);
+                .Parse(path, type, fillExtendedInfo);
             
             return new EpisodeInfo
             {

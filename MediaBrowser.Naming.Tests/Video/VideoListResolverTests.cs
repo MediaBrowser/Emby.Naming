@@ -343,6 +343,68 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(1, result.Count);
         }
 
+        [TestMethod]
+        public void TestColony()
+        {
+            var files = new[]
+            {
+                @"The Colony.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+        }
+
+        [TestMethod]
+        public void TestFourSisters()
+        {
+            var files = new[]
+            {
+                @"Four Sisters and a Wedding - A.avi",
+                @"Four Sisters and a Wedding - B.avi"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+        }
+
+        [TestMethod]
+        public void TestMovieTrailer()
+        {
+            var files = new[]
+            {
+                @"\\Server\Despicable Me\Despicable Me (2010).mkv",
+                @"\\Server\Despicable Me\movie-trailer.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+        }
+
         private VideoListResolver GetResolver()
         {
             var options = new ExtendedNamingOptions();
