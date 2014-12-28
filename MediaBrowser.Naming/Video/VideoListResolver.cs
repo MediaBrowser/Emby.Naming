@@ -143,6 +143,21 @@ namespace MediaBrowser.Naming.Video
                 info.Extras.AddRange(extrasByFileName);
             }
 
+            // If there's only one video, accept all trailers
+            // Be lenient because people use all kinds of mish mash conventions with trailers
+            if (list.Count == 1)
+            {
+                var trailers = remainingFiles
+                    .Where(i => string.Equals(i.ExtraType, "trailer", StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                list[0].Extras.AddRange(trailers);
+
+                remainingFiles = remainingFiles
+                    .Except(trailers)
+                    .ToList();
+            }
+
             // Whatever files are left, just add them
 
             list.AddRange(remainingFiles.Select(i => new VideoInfo
