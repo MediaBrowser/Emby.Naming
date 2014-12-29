@@ -109,6 +109,12 @@ namespace MediaBrowser.Naming.Video
                 list.Add(info);
             }
 
+            if (supportMultiVersion)
+            {
+                list = GetVideosGroupedByVersion(list)
+                    .ToList();
+            }
+
             // If there's only one resolved video, use the folder name as well to find extras
             if (list.Count == 1)
             {
@@ -159,7 +165,6 @@ namespace MediaBrowser.Naming.Video
             }
 
             // Whatever files are left, just add them
-
             list.AddRange(remainingFiles.Select(i => new VideoInfo
             {
                 Files = new List<VideoFileInfo> { i },
@@ -169,35 +174,54 @@ namespace MediaBrowser.Naming.Video
 
             var orderedList = list.OrderBy(i => i.Name);
 
-            if (supportMultiVersion)
-            {
-                return GetVideosGroupedByVersion(orderedList);
-            }
-
             return orderedList;
         }
 
-        private IEnumerable<VideoInfo> GetVideosGroupedByVersion(IEnumerable<VideoInfo> videos)
+        private IEnumerable<VideoInfo> GetVideosGroupedByVersion(List<VideoInfo> videos)
         {
+            if (videos.Count == 0)
+            {
+                return videos;
+            }
+
             var list = new List<VideoInfo>();
 
-            foreach (var video in videos)
-            {
-                var match = list
-                    .FirstOrDefault(i => string.Equals(i.Name, video.Name, StringComparison.OrdinalIgnoreCase));
+            var filenamePrefix = Path.GetFileName(Path.GetDirectoryName(videos[0].Files[0].Path));
 
-                if (match != null && video.Files.Count == 1 && match.Files.Count == 1)
+            if (!string.IsNullOrWhiteSpace(filenamePrefix))
+            {
+                if (videos.All(i => i.Files.Count == 1 && Path.GetFileNameWithoutExtension(i.Files[0].Path).StartsWith(filenamePrefix + " - ", StringComparison.OrdinalIgnoreCase)))
                 {
-                    match.AlternateVersions.Add(video.Files[0]);
-                    match.Extras.AddRange(video.Extras);
-                }
-                else
-                {
-                    list.Add(video);
+                    var ordered = videos.OrderBy(i => i.Name).ToList();
+
+                    list.Add(ordered[0]);
+
+                    list[0].AlternateVersions = ordered.Skip(1).Select(i => i.Files[0]).ToList();
+                    list[0].Name = filenamePrefix;
+                    list[0].Extras.AddRange(ordered.Skip(1).SelectMany(i => i.Extras));
+
+                    return list;
                 }
             }
 
-            return list;
+            return videos;
+            //foreach (var video in videos.OrderBy(i => i.Name))
+            //{
+            //    var match = list
+            //        .FirstOrDefault(i => string.Equals(i.Name, video.Name, StringComparison.OrdinalIgnoreCase));
+
+            //    if (match != null && video.Files.Count == 1 && match.Files.Count == 1)
+            //    {
+            //        match.AlternateVersions.Add(video.Files[0]);
+            //        match.Extras.AddRange(video.Extras);
+            //    }
+            //    else
+            //    {
+            //        list.Add(video);
+            //    }
+            //}
+
+            //return list;
         }
 
         private List<VideoFileInfo> GetExtras(IEnumerable<VideoFileInfo> remainingFiles, List<string> baseNames)

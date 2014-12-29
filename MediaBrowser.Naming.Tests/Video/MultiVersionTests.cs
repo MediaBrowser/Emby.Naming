@@ -11,13 +11,13 @@ namespace MediaBrowser.Naming.Tests.Video
     public class MultiVersionTests
     {
         [TestMethod]
-        public void TestMultiEdition()
+        public void TestMultiEdition1()
         {
             var files = new[]
             {
-                "X-Men Days of Future Past - 1080p.mkv",
-                "X-Men Days of Future Past-trailer.mp4",
-                "X-Men Days of Future Past - [hsbs].mkv"
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - 1080p.mkv",
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past-trailer.mp4",
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - [hsbs].mkv"
             };
 
             var resolver = GetResolver();
@@ -31,6 +31,30 @@ namespace MediaBrowser.Naming.Tests.Video
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(1, result[0].Extras.Count);
+        }
+
+        [TestMethod]
+        public void TestMultiEdition2()
+        {
+            var files = new[]
+            {
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - apple.mkv",
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past-trailer.mp4",
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - banana.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            {
+                Type = FileInfoType.File,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(1, result[0].Extras.Count);
+            Assert.AreEqual(1, result[0].AlternateVersions.Count);
         }
 
         private VideoListResolver GetResolver()
