@@ -3,6 +3,7 @@ using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.TV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
 
 namespace MediaBrowser.Naming.Tests.TV
 {
@@ -44,6 +45,12 @@ namespace MediaBrowser.Naming.Tests.TV
         {
             Test(@"\\server\anything_1x02.mp4", "anything", 1, 2);
         }
+
+        [TestMethod]
+        public void TestSimpleEpisodePath7()
+        {
+            Test(@"\\server\The Walking Dead 4x01.mp4", "The Walking Dead", 4, 1);
+        }
         
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
         {
@@ -54,7 +61,7 @@ namespace MediaBrowser.Naming.Tests.TV
 
             Assert.AreEqual(seasonNumber, result.SeasonNumber);
             Assert.AreEqual(episodeNumber, result.EpisodeNumber);
-            //Assert.AreEqual(seriesName, result.SeriesName, true, CultureInfo.InvariantCulture);
+            Assert.AreEqual(seriesName, result.SeriesName, true, CultureInfo.InvariantCulture);
         }
     }
 }

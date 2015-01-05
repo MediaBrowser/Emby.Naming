@@ -30,6 +30,14 @@ namespace MediaBrowser.Naming.TV
             if (result != null && fillExtendedInfo)
             {
                 FillAdditional(path, result);
+
+                if (!string.IsNullOrWhiteSpace(result.SeriesName))
+                {
+                    result.SeriesName = result.SeriesName
+                        .Trim()
+                        .Trim(new[] { '_', '.', '-' })
+                        .Trim();
+                }
             }
 
             return result ?? new EpisodePathParserResult();
@@ -127,6 +135,11 @@ namespace MediaBrowser.Naming.TV
                 Expression = i,
                 IsNamed = true
             }));
+
+            if (string.IsNullOrWhiteSpace(info.SeriesName))
+            {
+                expressions.InsertRange(0, _options.EpisodeExpressions.Where(i => i.IsNamed));
+            }
 
             FillAdditional(path, info, expressions);
         }
