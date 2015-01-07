@@ -1,4 +1,5 @@
-﻿using MediaBrowser.Naming.Common;
+﻿using System;
+using MediaBrowser.Naming.Common;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -24,10 +25,17 @@ namespace MediaBrowser.Naming.Video
         {
             var originalName = name;
 
-            // Dummy up a file extension because the expressions will fail without one
-            if (string.IsNullOrWhiteSpace(Path.GetExtension(name)))
+            try
             {
-                name += ".mkv";
+                // Dummy up a file extension because the expressions will fail without one
+                if (string.IsNullOrWhiteSpace(Path.GetExtension(name)))
+                {
+                    name += ".mkv";
+                }
+            }
+            catch (ArgumentException)
+            {
+                
             }
 
             var result = _options.CleanDateTimes.Select(i => Clean(name, i))

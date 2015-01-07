@@ -39,6 +39,8 @@ namespace MediaBrowser.Naming.Tests.Music
             Assert.IsTrue(IsMultiDiscAlbumFolder(@"Disc04 (Encores and Folk Songs)"));
             Assert.IsTrue(IsMultiDiscAlbumFolder(@"Disc 04(Encores and Folk Songs)"));
             Assert.IsTrue(IsMultiDiscAlbumFolder(@"Disc04(Encores and Folk Songs)"));
+
+            Assert.IsTrue(IsMultiDiscAlbumFolder(@"D:\Video\MBTestLibrary\VideoTest\music\.38 special\anth\Disc 2"));
         }
 
         private bool IsMultiDiscAlbumFolder(string path)
