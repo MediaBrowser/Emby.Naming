@@ -16,11 +16,11 @@ namespace MediaBrowser.Naming.TV
             _iRegexProvider = iRegexProvider;
         }
 
-        public SeasonPathParserResult Parse(string path, bool supportSpecialAliases)
+        public SeasonPathParserResult Parse(string path, bool supportSpecialAliases, bool supportNumericSeasonFolders)
         {
             var result = new SeasonPathParserResult();
 
-            result.SeasonNumber = GetSeasonNumberFromPath(path, true);
+            result.SeasonNumber = GetSeasonNumberFromPath(path, supportSpecialAliases, supportNumericSeasonFolders);
             result.Success = result.SeasonNumber.HasValue;
 
             return result;
@@ -45,8 +45,9 @@ namespace MediaBrowser.Naming.TV
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="supportSpecialAliases">if set to <c>true</c> [support special aliases].</param>
+        /// <param name="supportNumericSeasonFolders">if set to <c>true</c> [support numeric season folders].</param>
         /// <returns>System.Nullable{System.Int32}.</returns>
-        private int? GetSeasonNumberFromPath(string path, bool supportSpecialAliases)
+        private int? GetSeasonNumberFromPath(string path, bool supportSpecialAliases, bool supportNumericSeasonFolders)
         {
             var filename = Path.GetFileName(path);
 
@@ -58,16 +59,20 @@ namespace MediaBrowser.Naming.TV
                 }
             }
 
-            int val;
-            if (int.TryParse(filename, NumberStyles.Integer, CultureInfo.InvariantCulture, out val))
+            if (supportNumericSeasonFolders)
             {
-                return val;
+                int val;
+                if (int.TryParse(filename, NumberStyles.Integer, CultureInfo.InvariantCulture, out val))
+                {
+                    return val;
+                }
             }
 
             if (filename.StartsWith("s", StringComparison.OrdinalIgnoreCase))
             {
                 var testFilename = filename.Substring(1);
 
+                int val;
                 if (int.TryParse(testFilename, NumberStyles.Integer, CultureInfo.InvariantCulture, out val))
                 {
                     return val;

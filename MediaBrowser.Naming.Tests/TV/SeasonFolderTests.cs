@@ -60,7 +60,7 @@ namespace MediaBrowser.Naming.Tests.TV
             var options = new ExtendedNamingOptions();
 
             var result = new SeasonPathParser(options, new RegexProvider())
-                .Parse(path, true);
+                .Parse(path, true, true);
 
             return result.SeasonNumber;
         }
