@@ -59,13 +59,6 @@ namespace MediaBrowser.Naming.Common
             {
                 new ExtraRule
                 {
-                    ExtraType = "sample",
-                    RuleType = ExtraRuleType.Suffix,
-                    Token = "-sample",
-                    MediaType = MediaType.Video
-                },
-                new ExtraRule
-                {
                     ExtraType = "scene",
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-scene",
