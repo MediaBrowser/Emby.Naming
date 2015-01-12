@@ -325,28 +325,28 @@ namespace MediaBrowser.Naming.Common
                 // "01.avi"
                 new EpisodeExpression(@".*[\\\/](?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*\.\w+$")
                 {
-                    Optimistic = true,
+                    IsOptimistic = true,
                     IsNamed = true
                 },
 
                 // "01 - blah.avi", "01-blah.avi"
                 new EpisodeExpression(@".*(\\|\/)(?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*\s?-\s?[^\\\/]*$")
                 {
-                    Optimistic = true,
+                    IsOptimistic = true,
                     IsNamed = true
                 },
 
                 // "01.blah.avi"
                 new EpisodeExpression(@".*(\\|\/)(?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*\.[^\\\/]+$")
                 {
-                    Optimistic = true,
+                    IsOptimistic = true,
                     IsNamed = true
                 },
 
                 // "blah - 01.avi", "blah 2 - 01.avi", "blah - 01 blah.avi", "blah 2 - 01 blah", "blah - 01 - blah.avi", "blah 2 - 01 - blah"
                 new EpisodeExpression(@".*[\\\/][^\\\/]* - (?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*[^\\\/]*$")
                 {
-                    Optimistic = true,
+                    IsOptimistic = true,
                     IsNamed = true
                 }
             };
