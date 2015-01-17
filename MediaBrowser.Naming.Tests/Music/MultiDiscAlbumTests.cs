@@ -1,7 +1,7 @@
 ﻿using MediaBrowser.Naming.Audio;
 using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Music
 {

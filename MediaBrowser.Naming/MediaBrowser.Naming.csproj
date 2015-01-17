@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Audio\AlbumParser.cs" />
     <Compile Include="Audio\AudioFileParser.cs" />
     <Compile Include="Common\EpisodeExpression.cs" />
@@ -48,8 +45,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IO\FileInfoType.cs" />
     <Compile Include="IO\PortableFileInfo.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\NullLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subtitles\SubtitleInfo.cs" />
     <Compile Include="Subtitles\SubtitleParser.cs" />
@@ -82,6 +77,14 @@
     <Compile Include="Video\VideoInfo.cs" />
     <Compile Include="Video\VideoListResolver.cs" />
     <Compile Include="Video\VideoResolver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Patterns.Logging">
+      <HintPath>..\packages\Patterns.Logging.1.0.0.1\lib\portable-net45+sl4+wp71+win8+wpa81\Patterns.Logging.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

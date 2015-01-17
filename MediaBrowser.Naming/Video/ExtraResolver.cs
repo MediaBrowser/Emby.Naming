@@ -1,10 +1,10 @@
 ﻿using MediaBrowser.Naming.Audio;
 using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.Logging;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Video
 {

@@ -1,10 +1,10 @@
 ﻿using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.IO;
-using MediaBrowser.Naming.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Video
 {

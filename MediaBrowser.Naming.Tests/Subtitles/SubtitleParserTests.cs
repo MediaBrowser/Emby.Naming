@@ -1,8 +1,8 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.Logging;
 using MediaBrowser.Naming.Subtitles;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
+using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Subtitles
 {

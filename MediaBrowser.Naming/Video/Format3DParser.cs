@@ -1,7 +1,7 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.Logging;
 using System;
 using System.Linq;
+using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Video
 {
