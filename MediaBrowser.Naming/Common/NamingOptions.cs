@@ -400,6 +400,41 @@ namespace MediaBrowser.Naming.Common
                 },
                 new ExtraRule
                 {
+                    ExtraType = "sample",
+                    RuleType = ExtraRuleType.Filename,
+                    Token = "sample",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "sample",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = "-sample",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "sample",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = ".sample",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "sample",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = "_sample",
+                    MediaType = MediaType.Video
+                },
+                 new ExtraRule
+                {
+                    ExtraType = "sample",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = " sample",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
                     ExtraType = "themesong",
                     RuleType = ExtraRuleType.Filename,
                     Token = "theme",

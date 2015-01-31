@@ -27,9 +27,14 @@ namespace MediaBrowser.Naming.Video
 
             try
             {
-                // Dummy up a file extension because the expressions will fail without one
-                if (string.IsNullOrWhiteSpace(Path.GetExtension(name)))
+                var extension = Path.GetExtension(name) ?? string.Empty;
+                // Check supported extensions
+                if (!_options.VideoFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase) &&
+                    !_options.AudioFileExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
                 {
+                    // Dummy up a file extension because the expressions will fail without one
+                    // This is tricky because we can't just check Path.GetExtension for empty
+                    // If the input is "St. Vincent (2014)", it will produce ". Vincent (2014)" as the extension
                     name += ".mkv";
                 }
             }
@@ -60,7 +65,7 @@ namespace MediaBrowser.Naming.Video
                 result;
         }
 
-        public CleanDateTimeResult Clean(string name, string expression)
+        private CleanDateTimeResult Clean(string name, string expression)
         {
             var result = new CleanDateTimeResult();
 
