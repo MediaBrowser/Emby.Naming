@@ -27,6 +27,12 @@ namespace MediaBrowser.Naming.Tests.TV
             Test(@"\\server\anything_14.11.1996.mp4", "anything", 1996, 11, 14);
         }
 
+        [TestMethod]
+        public void TestDailyEpisode4()
+        {
+            Test(@"\\server\A Daily Show - (2015-01-15) - Episode Name - [720p].mkv", "A Daily Show", 2015, 01, 15);
+        }
+
         private void Test(string path, string seriesName, int? year, int? month, int? day)
         {
             var options = new NamingOptions();
