@@ -43,8 +43,6 @@
     <Compile Include="Common\NamingOptions.cs" />
     <Compile Include="Common\RegexProvider.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="IO\FileInfoType.cs" />
-    <Compile Include="IO\PortableFileInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subtitles\SubtitleInfo.cs" />
     <Compile Include="Subtitles\SubtitleParser.cs" />
@@ -79,8 +77,11 @@
     <Compile Include="Video\VideoResolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Patterns.IO">
+      <HintPath>..\packages\Patterns.IO.1.0.0.3\lib\portable-net45+sl4+wp71+win8+wpa81\Patterns.IO.dll</HintPath>
+    </Reference>
     <Reference Include="Patterns.Logging">
-      <HintPath>..\packages\Patterns.Logging.1.0.0.1\lib\portable-net45+sl4+wp71+win8+wpa81\Patterns.Logging.dll</HintPath>
+      <HintPath>..\packages\Patterns.Logging.1.0.0.2\lib\portable-net45+sl4+wp71+win8+wpa81\Patterns.Logging.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

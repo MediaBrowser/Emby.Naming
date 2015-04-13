@@ -1,5 +1,4 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,7 +18,7 @@ namespace MediaBrowser.Naming.TV
             _iRegexProvider = iRegexProvider;
         }
 
-        public EpisodePathParserResult Parse(string path, FileInfoType type, bool fillExtendedInfo = true)
+        public EpisodePathParserResult Parse(string path, bool isFolder, bool fillExtendedInfo = true)
         {
             var name = path;
 

@@ -1,8 +1,8 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using Patterns.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Video
@@ -22,10 +22,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            var result = resolver.Resolve(files.Select(i => new FileMetadata
             {
-                Type = FileInfoType.File,
-                FullName = i
+                IsFolder = false,
+                Id = i
 
             }).ToList()).ToList();
 
@@ -45,10 +45,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new PortableFileInfo
+            var result = resolver.Resolve(files.Select(i => new FileMetadata
             {
-                Type = FileInfoType.File,
-                FullName = i
+                IsFolder = false,
+                Id = i
 
             }).ToList()).ToList();
 

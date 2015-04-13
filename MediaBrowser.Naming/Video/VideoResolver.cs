@@ -1,5 +1,4 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using System;
 using System.IO;
 using System.Linq;
@@ -32,7 +31,7 @@ namespace MediaBrowser.Naming.Video
         /// <returns>VideoFileInfo.</returns>
         public VideoFileInfo ResolveDirectory(string path)
         {
-            return Resolve(path, FileInfoType.Directory);
+            return Resolve(path, true);
         }
 
         /// <summary>
@@ -42,17 +41,17 @@ namespace MediaBrowser.Naming.Video
         /// <returns>VideoFileInfo.</returns>
         public VideoFileInfo ResolveFile(string path)
         {
-            return Resolve(path, FileInfoType.File);
+            return Resolve(path, false);
         }
 
         /// <summary>
         /// Resolves the specified path.
         /// </summary>
         /// <param name="path">The path.</param>
-        /// <param name="type">The type.</param>
+        /// <param name="isFolder">if set to <c>true</c> [is folder].</param>
         /// <returns>VideoFileInfo.</returns>
         /// <exception cref="System.ArgumentNullException">path</exception>
-        public VideoFileInfo Resolve(string path, FileInfoType type)
+        public VideoFileInfo Resolve(string path, bool isFolder)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -63,7 +62,7 @@ namespace MediaBrowser.Naming.Video
             string container = null;
             string stubType = null;
 
-            if (type == FileInfoType.File)
+            if (!isFolder)
             {
                 var extension = Path.GetExtension(path) ?? string.Empty;
                 // Check supported extensions
@@ -90,7 +89,7 @@ namespace MediaBrowser.Naming.Video
 
             var extraResult = new ExtraResolver(_options, _logger, _regexProvider).GetExtraInfo(path);
 
-            var name = type == FileInfoType.File
+            var name = !isFolder
                 ? Path.GetFileNameWithoutExtension(path)
                 : Path.GetFileName(path);
 
@@ -113,7 +112,7 @@ namespace MediaBrowser.Naming.Video
                 Is3D = format3DResult.Is3D,
                 Format3D = format3DResult.Format3D,
                 ExtraType = extraResult.ExtraType,
-                FileInfoType = type,
+                IsFolder = isFolder,
                 ExtraRule = extraResult.Rule
             };
         }

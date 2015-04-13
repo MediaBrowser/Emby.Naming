@@ -1,5 +1,4 @@
-﻿using MediaBrowser.Naming.IO;
-
+﻿
 namespace MediaBrowser.Naming.Video
 {
     /// <summary>
@@ -61,14 +60,14 @@ namespace MediaBrowser.Naming.Video
         /// Gets or sets the type.
         /// </summary>
         /// <value>The type.</value>
-        public FileInfoType FileInfoType { get; set; }
+        public bool IsFolder { get; set; }
         /// <summary>
         /// Gets the file name without extension.
         /// </summary>
         /// <value>The file name without extension.</value>
         public string FileNameWithoutExtension
         {
-            get { return FileInfoType == FileInfoType.File ? System.IO.Path.GetFileNameWithoutExtension(Path) : System.IO.Path.GetFileName(Path); }
+            get { return !IsFolder ? System.IO.Path.GetFileNameWithoutExtension(Path) : System.IO.Path.GetFileName(Path); }
         }
 
         public override string ToString()

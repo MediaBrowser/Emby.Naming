@@ -1,7 +1,7 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Patterns.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Video
@@ -335,11 +335,11 @@ namespace MediaBrowser.Naming.Tests.Video
         {
             var files = new[]
             {
-                new PortableFileInfo{FullName = "Bad Boys (2006) part1.mkv", Type = FileInfoType.File},
-                new PortableFileInfo{FullName = "Bad Boys (2006) part2.mkv", Type = FileInfoType.File},
-                new PortableFileInfo{FullName = "300 (2006) part2", Type = FileInfoType.Directory},
-                new PortableFileInfo{FullName = "300 (2006) part3", Type = FileInfoType.Directory},
-                new PortableFileInfo{FullName = "300 (2006) part1", Type = FileInfoType.Directory}
+                new FileMetadata{Id = "Bad Boys (2006) part1.mkv", IsFolder = false},
+                new FileMetadata{Id = "Bad Boys (2006) part2.mkv", IsFolder = false},
+                new FileMetadata{Id = "300 (2006) part2", IsFolder = true},
+                new FileMetadata{Id = "300 (2006) part3", IsFolder = true},
+                new FileMetadata{Id = "300 (2006) part1", IsFolder = true}
             };
 
             var resolver = GetResolver();

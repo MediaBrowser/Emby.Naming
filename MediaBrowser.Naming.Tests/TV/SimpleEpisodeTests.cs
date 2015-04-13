@@ -1,5 +1,4 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.TV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
@@ -57,7 +56,7 @@ namespace MediaBrowser.Naming.Tests.TV
             var options = new NamingOptions();
 
             var result = new EpisodeResolver(options, new NullLogger(), new RegexProvider())
-                .Resolve(path, FileInfoType.File);
+                .Resolve(path, false);
 
             Assert.AreEqual(seasonNumber, result.SeasonNumber);
             Assert.AreEqual(episodeNumber, result.EpisodeNumber);

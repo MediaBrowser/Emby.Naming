@@ -1,5 +1,4 @@
-﻿using MediaBrowser.Naming.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +8,7 @@ namespace MediaBrowser.Naming.Video
     {
         public string Name { get; set; }
         public List<string> Files { get; set; }
-        public FileInfoType Type { get; set; }
+        public bool IsFolderStack { get; set; }
         public string Expression { get; set; }
 
         public FileStack()
@@ -17,9 +16,9 @@ namespace MediaBrowser.Naming.Video
             Files = new List<string>();
         }
 
-        public bool ContainsFile(string file, FileInfoType type)
+        public bool ContainsFile(string file, bool isFolder)
         {
-            if (type == Type)
+            if (IsFolderStack == isFolder)
             {
                 return Files.Contains(file, StringComparer.OrdinalIgnoreCase);
             }

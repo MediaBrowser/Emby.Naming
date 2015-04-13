@@ -1,10 +1,9 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.Video;
+using Patterns.Logging;
 using System;
 using System.IO;
 using System.Linq;
-using Patterns.Logging;
 
 namespace MediaBrowser.Naming.TV
 {
@@ -28,15 +27,15 @@ namespace MediaBrowser.Naming.TV
 
         public EpisodeInfo ParseFile(string path)
         {
-            return Resolve(path, FileInfoType.File);
+            return Resolve(path, false);
         }
 
         public EpisodeInfo ParseDirectory(string path)
         {
-            return Resolve(path, FileInfoType.Directory);
+            return Resolve(path, true);
         }
 
-        public EpisodeInfo Resolve(string path, FileInfoType type, bool fillExtendedInfo = true)
+        public EpisodeInfo Resolve(string path, bool isFolder, bool fillExtendedInfo = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -47,7 +46,7 @@ namespace MediaBrowser.Naming.TV
             string container = null;
             string stubType = null;
 
-            if (type == FileInfoType.File)
+            if (!isFolder)
             {
                 var extension = Path.GetExtension(path) ?? string.Empty;
                 // Check supported extensions
@@ -73,7 +72,7 @@ namespace MediaBrowser.Naming.TV
             var format3DResult = new Format3DParser(_options, _logger).Parse(flags);
 
             var parsingResult = new EpisodePathParser(_options, _iRegexProvider)
-                .Parse(path, type, fillExtendedInfo);
+                .Parse(path, isFolder, fillExtendedInfo);
             
             return new EpisodeInfo
             {

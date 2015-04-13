@@ -1,5 +1,4 @@
 ﻿using MediaBrowser.Naming.Common;
-using MediaBrowser.Naming.IO;
 using MediaBrowser.Naming.TV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Patterns.Logging;
@@ -74,7 +73,7 @@ namespace MediaBrowser.Naming.Tests.TV
             var options = new ExtendedNamingOptions();
 
             var result = new EpisodeResolver(options, new NullLogger(), new RegexProvider())
-                .Resolve(path, FileInfoType.File);
+                .Resolve(path, false);
 
             return result.EpisodeNumber;
         }
