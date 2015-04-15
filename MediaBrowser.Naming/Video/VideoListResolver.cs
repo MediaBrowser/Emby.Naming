@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Patterns.IO;
+using Interfaces.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Video

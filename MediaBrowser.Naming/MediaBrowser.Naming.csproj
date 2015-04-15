@@ -77,6 +77,9 @@
     <Compile Include="Video\VideoResolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Interfaces.IO">
+      <HintPath>..\packages\Interfaces.IO.1.0.0.5\lib\portable-net45+sl4+wp71+win8+wpa81\Interfaces.IO.dll</HintPath>
+    </Reference>
     <Reference Include="Patterns.IO">
       <HintPath>..\packages\Patterns.IO.1.0.0.3\lib\portable-net45+sl4+wp71+win8+wpa81\Patterns.IO.dll</HintPath>
     </Reference>

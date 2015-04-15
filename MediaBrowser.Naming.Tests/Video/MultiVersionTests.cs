@@ -2,7 +2,7 @@
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using Patterns.IO;
+using Interfaces.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Video
