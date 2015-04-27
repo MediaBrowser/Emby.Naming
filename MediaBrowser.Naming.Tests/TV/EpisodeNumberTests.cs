@@ -289,6 +289,12 @@ namespace MediaBrowser.Naming.Tests.TV
             Assert.AreEqual(02, GetEpisodeNumberFromFile(@"Season 2\02.avi"));
         }
 
+        [TestMethod]
+        public void TestEpisodeNumber48()
+        {
+            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"Season 2\2. Infestation.avi"));
+        }
+
         private int? GetEpisodeNumberFromFile(string path)
         {
             var options = new ExtendedNamingOptions();
