@@ -50,6 +50,12 @@ namespace MediaBrowser.Naming.Tests.TV
         {
             Test(@"\\server\The Walking Dead 4x01.mp4", "The Walking Dead", 4, 1);
         }
+
+        [TestMethod]
+        public void TestSimpleEpisodePath8()
+        {
+            Test(@"\\server\the_simpsons-s02e01_18536.mp4", "the_simpsons", 2, 1);
+        }
         
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
         {
