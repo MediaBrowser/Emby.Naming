@@ -50,7 +50,19 @@ namespace MediaBrowser.Naming.Tests.TV
         {
             Test(@"\\server\The Walking Dead 4x01.mp4", "The Walking Dead", 4, 1);
         }
-        
+
+        [TestMethod]
+        public void TestSimpleEpisodePath8()
+        {
+            Test(@"\\LIVINGROOM-PC\Temp\the_simpsons-s02e08_18543.mp4", "the_simpsons", 2, 8);
+        }
+
+        [TestMethod]
+        public void TestSimpleEpisodePath9()
+        {
+            Test(@"\\LIVINGROOM-PC\Temp\S01E02 foo.mp4", string.Empty, 1, 2);
+        }
+
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
         {
             var options = new NamingOptions();
