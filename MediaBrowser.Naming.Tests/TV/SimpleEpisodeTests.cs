@@ -57,6 +57,13 @@ namespace MediaBrowser.Naming.Tests.TV
             Test(@"\\server\the_simpsons-s02e01_18536.mp4", "the_simpsons", 2, 1);
         }
         
+
+        [TestMethod]
+        public void TestSimpleEpisodePath9()
+        {
+            Test(@"\\server\Temp\S01E02 foo.mp4", string.Empty, 1, 2);
+        }
+
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
         {
             var options = new NamingOptions();

@@ -275,7 +275,10 @@ namespace MediaBrowser.Naming.Common
             {
                 // *** Begin Kodi Standard Naming
                 // <!-- foo.s01.e01, foo.s01_e01, S01E02 foo, S01 - E02 -->
-                new EpisodeExpression(@"[Ss]([0-9]+)[][ ._-]*[Ee]([0-9]+)([^\\/]*)$"), 
+                new EpisodeExpression(@".*(\\|\/)(?<seriesname>((?![Ss]([0-9]+)[][ ._-]*[Ee]([0-9]+))[^\\\/])*)?[Ss](?<seasonnumber>[0-9]+)[][ ._-]*[Ee](?<epnumber>[0-9]+)([^\\/]*)$")
+                {
+                    IsNamed = true
+                }, 
                 // <!-- foo.ep01, foo.EP_01 -->
                 new EpisodeExpression(@"[\._ -]()[Ee][Pp]_?([0-9]+)([^\\/]*)$"), 
                 new EpisodeExpression("([0-9]{4})[\\.-]([0-9]{2})[\\.-]([0-9]{2})", true)
@@ -302,7 +305,6 @@ namespace MediaBrowser.Naming.Common
                     IsOptimistic = true,
                     IsNamed = true
                 },
-                new EpisodeExpression("[\\\\/\\._ -]([0-9]+)([0-9][0-9](?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([\\._ -][^\\\\/]*)$"), 
                 new EpisodeExpression("[\\/._ -]p(?:ar)?t[_. -]()([ivx]+|[0-9]+)([._ -][^\\/]*)$"),
 
                 // *** End Kodi Standard Naming
