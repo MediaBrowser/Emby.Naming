@@ -61,7 +61,7 @@ namespace MediaBrowser.Naming.Tests.TV
         [TestMethod]
         public void TestSimpleEpisodePath9()
         {
-            Test(@"\\LIVINGROOM-PC\Temp\S01E02 foo.mp4", string.Empty, 1, 2);
+            Test(@"\\server\Temp\S01E02 foo.mp4", string.Empty, 1, 2);
         }
 
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
