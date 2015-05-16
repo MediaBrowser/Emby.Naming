@@ -54,8 +54,9 @@ namespace MediaBrowser.Naming.Tests.TV
         [TestMethod]
         public void TestSimpleEpisodePath8()
         {
-            Test(@"\\LIVINGROOM-PC\Temp\the_simpsons-s02e08_18543.mp4", "the_simpsons", 2, 8);
+            Test(@"\\server\the_simpsons-s02e01_18536.mp4", "the_simpsons", 2, 1);
         }
+        
 
         [TestMethod]
         public void TestSimpleEpisodePath9()
