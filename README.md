@@ -1,4 +1,4 @@
-MediaBrowser.Naming
+Emby.Naming
 ===================
 
 A dependency-free, configurable file naming engine. This library is available on Nuget:
