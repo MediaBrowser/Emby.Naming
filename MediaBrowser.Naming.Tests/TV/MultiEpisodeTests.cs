@@ -70,6 +70,10 @@ namespace MediaBrowser.Naming.Tests.TV
             Assert.AreEqual(4, GetEndingEpisodeNumberFromFile(@"Season 2\02-04.avi"));
             Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 2\[HorribleSubs] Hunter X Hunter - 136 [720p].mkv"));
 
+            // With format specification that must not be detected as ending episode number
+            Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 1\series-s09e14-1080p.mkv"));
+            Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 1\series-s09e14-720p.mkv"));
+            Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 1\series-s09e14-720i.mkv"));
         }
 
         private int? GetEndingEpisodeNumberFromFile(string path)
