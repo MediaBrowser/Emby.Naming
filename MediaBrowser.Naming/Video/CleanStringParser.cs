@@ -24,8 +24,11 @@ namespace MediaBrowser.Naming.Video
             {
                 var result = Clean(name, exp);
 
-                name = result.Name;
-                hasChanged = hasChanged || result.HasChanged;
+                if (!string.IsNullOrWhiteSpace(result.Name))
+                {
+                    name = result.Name;
+                    hasChanged = hasChanged || result.HasChanged;
+                }
             }
 
             return new CleanStringResult

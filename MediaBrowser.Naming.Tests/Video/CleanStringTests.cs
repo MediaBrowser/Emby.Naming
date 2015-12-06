@@ -22,6 +22,12 @@ namespace MediaBrowser.Naming.Tests.Video
             Test(@"American Psycho.mkv", "American Psycho.mkv");
         }
 
+        [TestMethod]
+        public void TestNameWithBrackets()
+        {
+            Test(@"[rec].mkv", "[rec].mkv");
+        }
+
         private void Test(string input, string expectedName)
         {
             var result = GetParser().CleanString(input);

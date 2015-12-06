@@ -51,6 +51,12 @@ namespace MediaBrowser.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void TestCleanDateTimeWithBracketedName()
+        {
+            Test(@"[rec].mkv", "[rec].mkv", null);
+        }
+
+        [TestMethod]
         public void TestCleanDateTimeWithoutExtension()
         {
             Test(@"St. Vincent (2014)", "St. Vincent", 2014);
