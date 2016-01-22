@@ -190,7 +190,7 @@ namespace MediaBrowser.Naming.Video
 
             if (!string.IsNullOrWhiteSpace(filenamePrefix))
             {
-                if (videos.All(i => i.Files.Count == 1 && Path.GetFileNameWithoutExtension(i.Files[0].Path).StartsWith(filenamePrefix + " -", StringComparison.OrdinalIgnoreCase)))
+                if (videos.All(i => i.Files.Count == 1 && (Path.GetFileNameWithoutExtension(i.Files[0].Path).StartsWith(filenamePrefix + " -", StringComparison.OrdinalIgnoreCase) || Path.GetFileNameWithoutExtension(i.Files[0].Path).StartsWith(filenamePrefix + "-", StringComparison.OrdinalIgnoreCase))))
                 {
                     var ordered = videos.OrderBy(i => i.Name).ToList();
 
