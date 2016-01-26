@@ -64,6 +64,18 @@ namespace MediaBrowser.Naming.Tests.TV
             Test(@"\\server\Temp\S01E02 foo.mp4", string.Empty, 1, 2);
         }
 
+        [TestMethod]
+        public void TestSimpleEpisodePath10()
+        {
+            Test(@"Series\4-12 - The Woman.mp4", string.Empty, 4, 12);
+        }
+
+        [TestMethod]
+        public void TestSimpleEpisodePath11()
+        {
+            Test(@"Series\4x12 - The Woman.mp4", string.Empty, 4, 12);
+        }
+
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
         {
             var options = new NamingOptions();

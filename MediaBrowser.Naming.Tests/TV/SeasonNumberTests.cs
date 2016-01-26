@@ -281,5 +281,11 @@ namespace MediaBrowser.Naming.Tests.TV
         {
             Assert.AreEqual(2009, GetSeasonNumberFromEpisodeFile(@"Season 2009\S2009E23-E24-E26 - The Woman.mp4"));
         }
+
+        [TestMethod]
+        public void TestNoSeriesFolder()
+        {
+            Assert.AreEqual(1, GetSeasonNumberFromEpisodeFile(@"Series\1-12 - The Woman.mp4"));
+        }
     }
 }

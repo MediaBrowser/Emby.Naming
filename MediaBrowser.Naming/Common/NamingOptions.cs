@@ -300,6 +300,7 @@ namespace MediaBrowser.Naming.Common
                         "dd_MM_yyyy"
                     }
                 },
+
                 new EpisodeExpression("[\\\\/\\._ \\[\\(-]([0-9]+)x([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([^\\\\/]*)$"), 
                 new EpisodeExpression(@"[\\\\/\\._ -](?<seriesname>(?![0-9]+[0-9][0-9])([^\\\/])*)[\\\\/\\._ -](?<seasonnumber>[0-9]+)(?<epnumber>[0-9][0-9](?:(?:[a-i]|\\.[1-9])(?![0-9]))?)([\\._ -][^\\\\/]*)$")
                 {
@@ -335,6 +336,11 @@ namespace MediaBrowser.Naming.Common
                 {
                     IsOptimistic = true,
                     IsNamed = true
+                },
+
+                // "1-12 episode title"
+                new EpisodeExpression(@"([0-9]+)-([0-9]+)")
+                {
                 },
 
                 // "01 - blah.avi", "01-blah.avi"
