@@ -188,19 +188,23 @@ namespace MediaBrowser.Naming.Video
 
             var filenamePrefix = Path.GetFileName(Path.GetDirectoryName(videos[0].Files[0].Path));
 
-            if (!string.IsNullOrWhiteSpace(filenamePrefix))
+            if (!string.IsNullOrWhiteSpace(filenamePrefix) && filenamePrefix.Length > 1)
             {
                 if (videos.All(i => i.Files.Count == 1 && (Path.GetFileNameWithoutExtension(i.Files[0].Path).StartsWith(filenamePrefix, StringComparison.OrdinalIgnoreCase))))
                 {
-                    var ordered = videos.OrderBy(i => i.Name).ToList();
+                    // Enforce the multi-version limit
+                    if (videos.Count <= 8)
+                    {
+                        var ordered = videos.OrderBy(i => i.Name).ToList();
 
-                    list.Add(ordered[0]);
+                        list.Add(ordered[0]);
 
-                    list[0].AlternateVersions = ordered.Skip(1).Select(i => i.Files[0]).ToList();
-                    list[0].Name = filenamePrefix;
-                    list[0].Extras.AddRange(ordered.Skip(1).SelectMany(i => i.Extras));
+                        list[0].AlternateVersions = ordered.Skip(1).Select(i => i.Files[0]).ToList();
+                        list[0].Name = filenamePrefix;
+                        list[0].Extras.AddRange(ordered.Skip(1).SelectMany(i => i.Extras));
 
-                    return list;
+                        return list;
+                    }
                 }
             }
 

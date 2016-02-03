@@ -74,6 +74,23 @@ namespace MediaBrowser.Naming.Tests.TV
             Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 1\series-s09e14-1080p.mkv"));
             Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 1\series-s09e14-720p.mkv"));
             Assert.AreEqual(null, GetEndingEpisodeNumberFromFile(@"Season 1\series-s09e14-720i.mkv"));
+            Assert.AreEqual(4, GetEndingEpisodeNumberFromFile(@"Season 1\MOONLIGHTING_s01e01-e04.mkv"));
+        }
+
+        [TestMethod]
+        public void TestGetEndingEpisodeNumberFromFolder()
+        {
+            Assert.AreEqual(4, GetEndingEpisodeNumberFromFolder(@"Season 1\MOONLIGHTING_s01e01-e04"));
+        }
+        
+        private int? GetEndingEpisodeNumberFromFolder(string path)
+        {
+            var options = new ExtendedNamingOptions();
+
+            var result = new EpisodePathParser(options, new RegexProvider())
+                .Parse(path, true, true);
+
+            return result.EndingEpsiodeNumber;
         }
 
         private int? GetEndingEpisodeNumberFromFile(string path)

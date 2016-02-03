@@ -20,6 +20,11 @@ namespace MediaBrowser.Naming.TV
 
         public EpisodePathParserResult Parse(string path, bool isFolder, bool fillExtendedInfo = true)
         {
+            if (isFolder)
+            {
+                path += ".mp4";
+            }
+
             var name = path;
 
             var result = _options.EpisodeExpressions
