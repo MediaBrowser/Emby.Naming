@@ -186,11 +186,11 @@ namespace MediaBrowser.Naming.Video
 
             var list = new List<VideoInfo>();
 
-            var filenamePrefix = Path.GetFileName(Path.GetDirectoryName(videos[0].Files[0].Path));
+            var folderName = Path.GetFileName(Path.GetDirectoryName(videos[0].Files[0].Path));
 
-            if (!string.IsNullOrWhiteSpace(filenamePrefix) && filenamePrefix.Length > 1)
+            if (!string.IsNullOrWhiteSpace(folderName) && folderName.Length > 1)
             {
-                if (videos.All(i => i.Files.Count == 1 && (Path.GetFileNameWithoutExtension(i.Files[0].Path).StartsWith(filenamePrefix, StringComparison.OrdinalIgnoreCase))))
+                if (videos.All(i => i.Files.Count == 1 && IsEligibleForMultiVersion(folderName, i.Files[0].Path)))
                 {
                     // Enforce the multi-version limit
                     if (videos.Count <= 8)
@@ -200,7 +200,7 @@ namespace MediaBrowser.Naming.Video
                         list.Add(ordered[0]);
 
                         list[0].AlternateVersions = ordered.Skip(1).Select(i => i.Files[0]).ToList();
-                        list[0].Name = filenamePrefix;
+                        list[0].Name = folderName;
                         list[0].Extras.AddRange(ordered.Skip(1).SelectMany(i => i.Extras));
 
                         return list;
@@ -226,6 +226,25 @@ namespace MediaBrowser.Naming.Video
             //}
 
             //return list;
+        }
+
+        private bool IsEligibleForMultiVersion(string folderName, string testFilename)
+        {
+            testFilename = Path.GetFileNameWithoutExtension(testFilename);
+
+            if (string.Equals(folderName, testFilename, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            if (testFilename.StartsWith(folderName, StringComparison.OrdinalIgnoreCase))
+            {
+                testFilename = testFilename.Substring(folderName.Length);
+
+                return testFilename.TrimStart().StartsWith("-", StringComparison.OrdinalIgnoreCase);
+            }
+
+            return false;
         }
 
         private List<VideoFileInfo> GetExtras(IEnumerable<VideoFileInfo> remainingFiles, List<string> baseNames)
