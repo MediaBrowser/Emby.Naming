@@ -124,6 +124,10 @@ namespace MediaBrowser.Naming.Common
                 new Format3DRule
                 {
                     Token = "sbs3d"
+                },
+                new Format3DRule
+                {
+                    Token = "mvc"
                 }
             });
         }

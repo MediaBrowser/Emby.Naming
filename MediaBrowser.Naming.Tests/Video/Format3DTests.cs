@@ -45,7 +45,8 @@ namespace MediaBrowser.Naming.Tests.Video
             Test("Super movie.htab.mp4", true, "htab", options);
             Test("Super movie.tab.mp4", true, "tab", options);
             Test("Super movie.sbs3d.mp4", true, "sbs3d", options);
-            
+            Test("Super movie.3d.mvc.mp4", true, "mvc", options);
+
             Test("Super movie [3d].mp4", false, null, options);
             Test("Super movie [hsbs].mp4", true, "hsbs", options);
             Test("Super movie [fsbs].mp4", true, "fsbs", options);
