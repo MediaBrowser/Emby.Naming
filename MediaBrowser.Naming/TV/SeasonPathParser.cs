@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace MediaBrowser.Naming.TV
 {
@@ -88,6 +89,26 @@ namespace MediaBrowser.Naming.TV
                 {
                     return GetSeasonNumberFromPathSubstring(filename.Substring(index + name.Length));
                 }
+            }
+
+            var parts = filename.Split(new[] { '.', '_', ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return parts.Select(GetSeasonNumberFromPart).FirstOrDefault(i => i.HasValue);
+        }
+
+        private int? GetSeasonNumberFromPart(string part)
+        {
+            if (part.Length < 2 || !part.StartsWith("s", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
+            part = part.Substring(1);
+
+            int value;
+            if (int.TryParse(part, NumberStyles.Any, CultureInfo.InvariantCulture, out value))
+            {
+                return value;
             }
 
             return null;

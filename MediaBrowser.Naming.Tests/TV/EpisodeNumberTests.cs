@@ -295,6 +295,12 @@ namespace MediaBrowser.Naming.Tests.TV
             Assert.AreEqual(02, GetEpisodeNumberFromFile(@"Season 2\2. Infestation.avi"));
         }
 
+        [TestMethod]
+        public void TestEpisodeNumber49()
+        {
+            Assert.AreEqual(7, GetEpisodeNumberFromFile(@"The Wonder Years\The.Wonder.Years.S04.PDTV.x264-JCH\The Wonder Years s04e07 Christmas Party NTSC PDTV.avi"));
+        }
+
         private int? GetEpisodeNumberFromFile(string path)
         {
             var options = new ExtendedNamingOptions();

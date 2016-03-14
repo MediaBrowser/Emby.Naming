@@ -68,6 +68,13 @@ namespace MediaBrowser.Naming.Tests.TV
             Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 5 - 02 Ep Name.avi"));
         }
 
+        [TestMethod]
+        public void TestEpisodeNumberWithoutSeason11()
+        {
+            Assert.AreEqual(07, GetEpisodeNumberFromFile(@"Seinfeld\Seinfeld 0807 The Checks.avi"));
+            Assert.AreEqual(08, GetSeasonNumberFromFile(@"Seinfeld\Seinfeld 0807 The Checks.avi"));
+        }
+
         private int? GetEpisodeNumberFromFile(string path)
         {
             var options = new ExtendedNamingOptions();
@@ -76,6 +83,16 @@ namespace MediaBrowser.Naming.Tests.TV
                 .Resolve(path, false);
 
             return result.EpisodeNumber;
+        }
+
+        private int? GetSeasonNumberFromFile(string path)
+        {
+            var options = new ExtendedNamingOptions();
+
+            var result = new EpisodeResolver(options, new NullLogger(), new RegexProvider())
+                .Resolve(path, false);
+
+            return result.SeasonNumber;
         }
 
     }
