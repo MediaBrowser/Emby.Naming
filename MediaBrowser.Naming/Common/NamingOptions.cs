@@ -269,7 +269,8 @@ namespace MediaBrowser.Naming.Common
                 ".xsp",
                 ".acc",
                 ".m4b",
-                ".oga"
+                ".oga",
+                ".dsf"
             };
 
             EpisodeExpressions = new List<EpisodeExpression>
