@@ -58,6 +58,10 @@ namespace MediaBrowser.Naming.TV
                 {
                     return 0;
                 }
+                if (string.Equals(filename, "extras", StringComparison.OrdinalIgnoreCase))
+                {
+                    return 0;
+                }
             }
 
             if (supportNumericSeasonFolders)

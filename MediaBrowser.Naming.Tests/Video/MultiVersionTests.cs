@@ -205,7 +205,9 @@ namespace MediaBrowser.Naming.Tests.Video
                 @"\\movies\Iron Man\Iron Man-720p.mkv",
                 @"\\movies\Iron Man\Iron Man-test.mkv",
                 @"\\movies\Iron Man\Iron Man-bluray.mkv",
-                @"\\movies\Iron Man\Iron Man-3d.mkv"
+                @"\\movies\Iron Man\Iron Man-3d.mkv",
+                @"\\movies\Iron Man\Iron Man-3d-hsbs.mkv",
+                @"\\movies\Iron Man\Iron Man-3d.hsbs.mkv"
             };
 
             var resolver = GetResolver();
@@ -219,7 +221,41 @@ namespace MediaBrowser.Naming.Tests.Video
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(0, result[0].Extras.Count);
-            Assert.AreEqual(4, result[0].AlternateVersions.Count);
+            Assert.AreEqual(6, result[0].AlternateVersions.Count);
+            Assert.AreEqual(false, result[0].AlternateVersions[2].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[3].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
+        }
+
+        [TestMethod]
+        public void TestMultiVersion6()
+        {
+            var files = new[]
+            {
+                @"\\movies\Iron Man\Iron Man.mkv",
+                @"\\movies\Iron Man\Iron Man - 720p.mkv",
+                @"\\movies\Iron Man\Iron Man - test.mkv",
+                @"\\movies\Iron Man\Iron Man - bluray.mkv",
+                @"\\movies\Iron Man\Iron Man - 3d.mkv",
+                @"\\movies\Iron Man\Iron Man - 3d-hsbs.mkv",
+                @"\\movies\Iron Man\Iron Man - 3d.hsbs.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            {
+                IsFolder = false,
+                Id = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(0, result[0].Extras.Count);
+            Assert.AreEqual(6, result[0].AlternateVersions.Count);
+            Assert.AreEqual(false, result[0].AlternateVersions[2].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[3].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
         }
 
         private VideoListResolver GetResolver()
