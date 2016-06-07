@@ -20,6 +20,12 @@ namespace MediaBrowser.Naming.TV
 
         public EpisodePathParserResult Parse(string path, bool isFolder, bool fillExtendedInfo = true)
         {
+            // Added to be able to use regex patterns which require a file extension.
+            // There were no failed tests without this block, but to be safe, we can keep it until
+            // the regex which require file extensions are modified so that they don't need them.
+            if (isFolder)
+                path += ".mp4";
+
             var query = from expression in _options.EpisodeExpressions
                         select Parse(path, expression);
             EpisodePathParserResult result = query.FirstOrDefault(r => r.Success);
@@ -115,13 +121,25 @@ namespace MediaBrowser.Naming.TV
                     {
                         result.SeasonNumber = num;
                     }
-
                     if (int.TryParse(match.Groups[2].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
                     {
                         result.EpisodeNumber = num;
                     }
+
                     result.Success = result.EpisodeNumber.HasValue;
                 }
+
+                // Invalidate match when the season is 200 through 1927 or above 2500
+                // because it is an error unless the TV show is intentionally using false season numbers.
+                // It avoids erroneous parsing of something like "Series Special (1920x1080).mkv" as being season 1920 episode 1080.
+                if (result.SeasonNumber >= 200 && result.SeasonNumber < 1928 || result.SeasonNumber > 2500)
+                    result.Success = false;
+
+                // Invalidate match when the season is greater than 1 and the episode is greater than 365
+                // because it is an error unless the TV show is intentionally using false episode numbers.
+                // It avoids erroneous parsing of something like "Series (2001-2002)\Episode 31.mp4" as being season 2001 episode 2002.
+                if (result.SeasonNumber > 1 && result.EpisodeNumber > 365)
+                    result.Success = false;
 
                 result.IsByDate = expression.IsByDate;
             }
