@@ -51,7 +51,7 @@ namespace MediaBrowser.Naming.Video
         /// <param name="isFolder">if set to <c>true</c> [is folder].</param>
         /// <returns>VideoFileInfo.</returns>
         /// <exception cref="System.ArgumentNullException">path</exception>
-        public VideoFileInfo Resolve(string path, bool isFolder)
+        public VideoFileInfo Resolve(string path, bool isFolder, bool parseName = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -93,12 +93,19 @@ namespace MediaBrowser.Naming.Video
                 ? Path.GetFileNameWithoutExtension(path)
                 : Path.GetFileName(path);
 
-            var cleanDateTimeResult = CleanDateTime(name);
+            int? year = null;
 
-            if (string.IsNullOrWhiteSpace(extraResult.ExtraType))
+            if (parseName)
             {
-                name = cleanDateTimeResult.Name;
-                name = CleanString(name).Name;
+                var cleanDateTimeResult = CleanDateTime(name);
+
+                if (string.IsNullOrWhiteSpace(extraResult.ExtraType))
+                {
+                    name = cleanDateTimeResult.Name;
+                    name = CleanString(name).Name;
+                }
+
+                year = cleanDateTimeResult.Year;
             }
 
             return new VideoFileInfo
@@ -107,7 +114,7 @@ namespace MediaBrowser.Naming.Video
                 Container = container,
                 IsStub = isStub,
                 Name = name,
-                Year = cleanDateTimeResult.Year,
+                Year = year,
                 StubType = stubType,
                 Is3D = format3DResult.Is3D,
                 Format3D = format3DResult.Format3D,
