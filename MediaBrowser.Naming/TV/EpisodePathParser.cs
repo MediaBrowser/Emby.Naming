@@ -20,16 +20,15 @@ namespace MediaBrowser.Naming.TV
 
         public EpisodePathParserResult Parse(string path, bool isFolder, bool fillExtendedInfo = true)
         {
+            // Added to be able to use regex patterns which require a file extension.
+            // There were no failed tests without this block, but to be safe, we can keep it until
+            // the regex which require file extensions are modified so that they don't need them.
             if (isFolder)
-            {
                 path += ".mp4";
-            }
 
-            var name = path;
-
-            var result = _options.EpisodeExpressions
-                .Select(i => Parse(name, i))
-                .FirstOrDefault(i => i.Success);
+            var query = from expression in _options.EpisodeExpressions
+                        select Parse(path, expression);
+            EpisodePathParserResult result = query.FirstOrDefault(r => r.Success);
 
             if (result != null && fillExtendedInfo)
             {
@@ -96,38 +95,23 @@ namespace MediaBrowser.Naming.TV
                         result.EpisodeNumber = num;
                     }
 
-                    var endingNumberGroup = match.Groups["endingepnumber"];
-                    if (endingNumberGroup != null)
+                    Group endingNumberGroup = match.Groups["endingepnumber"];
+                    if (endingNumberGroup.Success)
                     {
-                        bool bEndingNumberValid = true;
+                        // Will only set EndingEpsiodeNumber if the captured number is not followed by additional numbers
+                        // or a 'p' or 'i' as what you would get with a pixel resolution specification.
+                        // It avoids erroneous parsing of something like "series-s09e14-1080p.mkv" as a multi-episode from E14 to E108
                         int nextIndex = endingNumberGroup.Index + endingNumberGroup.Length;
-                        string nextChar = name.Substring(nextIndex, 1).ToLower();
-                        if (("0123456789".Contains(nextChar)))
+                        if (nextIndex >= name.Length || "0123456789iIpP".IndexOf(name[nextIndex]) == -1)
                         {
-                            // The regex expressions look for a number with a length of 2 or 3 charachters
-                            // if the following character is another digit, the parsed ending number would be incorrect anyway
-                            // This will fix erroneous parsing of something like "series-s09e14-1080p.mkv"
-                            // as a multi-episode from E14 to E108
-                            bEndingNumberValid = false;
-                        }
-
-                        if (nextChar == "p" || nextChar == "i")
-                        {
-                            // This will fix erroneous parsing of something like "series-s09e14-720p.mkv"
-                            // as a multi-episode from E14 to E720
-                            // It should be safe to assume that a _real_ ending episode number will never be followed by those letters
-                            bEndingNumberValid = false;
-                        }
-
-                        if (bEndingNumberValid && int.TryParse(endingNumberGroup.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
-                        {
-                            
-                            result.EndingEpsiodeNumber = num;
+                            if (int.TryParse(endingNumberGroup.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
+                            {
+                                result.EndingEpsiodeNumber = num;
+                            }
                         }
                     }
 
-                    var seriesGroup = match.Groups["seriesname"];
-                    result.SeriesName = seriesGroup == null ? null : seriesGroup.Value;
+                    result.SeriesName = match.Groups["seriesname"].Value;
                     result.Success = result.EpisodeNumber.HasValue;
                 }
                 else
@@ -137,13 +121,25 @@ namespace MediaBrowser.Naming.TV
                     {
                         result.SeasonNumber = num;
                     }
-
                     if (int.TryParse(match.Groups[2].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
                     {
                         result.EpisodeNumber = num;
                     }
+
                     result.Success = result.EpisodeNumber.HasValue;
                 }
+
+                // Invalidate match when the season is 200 through 1927 or above 2500
+                // because it is an error unless the TV show is intentionally using false season numbers.
+                // It avoids erroneous parsing of something like "Series Special (1920x1080).mkv" as being season 1920 episode 1080.
+                if (result.SeasonNumber >= 200 && result.SeasonNumber < 1928 || result.SeasonNumber > 2500)
+                    result.Success = false;
+
+                // Invalidate match when the season is greater than 1 and the episode is greater than 365
+                // because it is an error unless the TV show is intentionally using false episode numbers.
+                // It avoids erroneous parsing of something like "Series (2001-2002)\Episode 31.mp4" as being season 2001 episode 2002.
+                if (result.SeasonNumber > 1 && result.EpisodeNumber > 365)
+                    result.Success = false;
 
                 result.IsByDate = expression.IsByDate;
             }

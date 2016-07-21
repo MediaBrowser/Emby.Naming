@@ -17,62 +17,80 @@ namespace MediaBrowser.Naming.Tests.TV
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason2()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons - 02 - Ep Name.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons - 02 - Ep Name.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason3()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\02.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\02.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason4()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\02 - Ep Name.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\02 - Ep Name.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason5()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\02-Ep Name.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\02-Ep Name.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason6()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\02.EpName.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\02.EpName.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason7()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons - 02.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons - 02.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason8()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons - 02 Ep Name.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons - 02 Ep Name.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason9()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 5 - 02 - Ep Name.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 5 - 02 - Ep Name.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason10()
         {
-            Assert.AreEqual(02, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 5 - 02 Ep Name.avi"));
+            Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 5 - 02 Ep Name.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason11()
         {
-            Assert.AreEqual(07, GetEpisodeNumberFromFile(@"Seinfeld\Seinfeld 0807 The Checks.avi"));
-            Assert.AreEqual(08, GetSeasonNumberFromFile(@"Seinfeld\Seinfeld 0807 The Checks.avi"));
+            Assert.AreEqual(7, GetEpisodeNumberFromFile(@"Seinfeld\Seinfeld 0807 The Checks.avi"));
+            Assert.AreEqual(8, GetSeasonNumberFromFile(@"Seinfeld\Seinfeld 0807 The Checks.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumberWithoutSeason12()
+        {
+            Assert.AreEqual(7, GetEpisodeNumberFromFile(@"GJ Club (2013)\GJ Club - 07.mkv"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumberWithoutSeason13()
+        {
+            Assert.AreEqual(13, GetEpisodeNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 13.mkv"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumberWithoutSeason14()
+        {
+            Assert.AreEqual(317, GetEpisodeNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 317.mkv"));
         }
 
         private int? GetEpisodeNumberFromFile(string path)
