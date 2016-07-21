@@ -60,7 +60,13 @@ namespace MediaBrowser.Naming.Tests.TV
         {
             Assert.AreEqual(4, GetSeasonNumberFromPath(@"The Wonder Years\The.Wonder.Years.S04.PDTV.x264-JCH"));
         }
-        
+
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath10()
+        {
+            Assert.AreEqual(7, GetSeasonNumberFromPath(@"\Drive\Season 7 (2016)"));
+        }
+
         private int? GetSeasonNumberFromPath(string path)
         {
             var options = new ExtendedNamingOptions();

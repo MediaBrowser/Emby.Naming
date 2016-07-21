@@ -90,7 +90,8 @@ namespace MediaBrowser.Naming.Tests.TV
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason14()
         {
-            Assert.AreEqual(317, GetEpisodeNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 317.mkv"));
+            Assert.AreEqual(3, GetSeasonNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 317.mkv"));
+            Assert.AreEqual(17, GetEpisodeNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 317.mkv"));
         }
 
         private int? GetEpisodeNumberFromFile(string path)
