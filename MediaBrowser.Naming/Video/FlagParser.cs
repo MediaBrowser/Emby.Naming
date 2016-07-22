@@ -15,6 +15,11 @@ namespace MediaBrowser.Naming.Video
 
         public string[] GetFlags(string path)
         {
+            return GetFlags(path, _options.VideoFlagDelimiters);
+        }
+
+        public string[] GetFlags(string path, char[] delimeters)
+        {
             if (string.IsNullOrWhiteSpace(path))
             {
                 throw new ArgumentNullException("path");
@@ -24,7 +29,7 @@ namespace MediaBrowser.Naming.Video
 
             var file = Path.GetFileName(path);
 
-            return file.Split(_options.VideoFlagDelimiters, StringSplitOptions.RemoveEmptyEntries);
+            return file.Split(delimeters, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

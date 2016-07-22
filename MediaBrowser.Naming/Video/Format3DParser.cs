@@ -18,7 +18,10 @@ namespace MediaBrowser.Naming.Video
 
         public Format3DResult Parse(string path)
         {
-            return Parse(new FlagParser(_options).GetFlags(path));
+            var delimeters = _options.VideoFlagDelimiters.ToList();
+            delimeters.Add(' ');
+
+            return Parse(new FlagParser(_options).GetFlags(path, delimeters.ToArray()));
         }
 
         internal Format3DResult Parse(string[] videoFlags)
