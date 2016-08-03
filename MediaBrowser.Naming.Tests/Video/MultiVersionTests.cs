@@ -258,6 +258,27 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
         }
 
+        [TestMethod]
+        public void TestMultiVersion7()
+        {
+            var files = new[]
+            {
+                @"\\movies\Iron Man\Iron Man - B (2006).mkv",
+                @"\\movies\Iron Man\Iron Man - C (2007).mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            {
+                IsFolder = false,
+                Id = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(2, result.Count);
+        }
+
         private VideoListResolver GetResolver()
         {
             var options = new ExtendedNamingOptions();

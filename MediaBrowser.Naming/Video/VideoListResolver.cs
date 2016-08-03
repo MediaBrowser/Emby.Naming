@@ -193,7 +193,7 @@ namespace MediaBrowser.Naming.Video
                 if (videos.All(i => i.Files.Count == 1 && IsEligibleForMultiVersion(folderName, i.Files[0].Path)))
                 {
                     // Enforce the multi-version limit
-                    if (videos.Count <= 8)
+                    if (videos.Count <= 8 && HaveSameYear(videos))
                     {
                         var ordered = videos.OrderBy(i => i.Name).ToList();
 
@@ -226,6 +226,11 @@ namespace MediaBrowser.Naming.Video
             //}
 
             //return list;
+        }
+
+        private bool HaveSameYear(List<VideoInfo> videos)
+        {
+            return videos.Select(i => i.Year ?? -1).Distinct().Count() < 2;
         }
 
         private bool IsEligibleForMultiVersion(string folderName, string testFilename)
