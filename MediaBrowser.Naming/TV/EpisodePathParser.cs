@@ -18,12 +18,12 @@ namespace MediaBrowser.Naming.TV
             _iRegexProvider = iRegexProvider;
         }
 
-        public EpisodePathParserResult Parse(string path, bool isFolder, bool fillExtendedInfo = true)
+        public EpisodePathParserResult Parse(string path, bool IsDirectory, bool fillExtendedInfo = true)
         {
             // Added to be able to use regex patterns which require a file extension.
             // There were no failed tests without this block, but to be safe, we can keep it until
             // the regex which require file extensions are modified so that they don't need them.
-            if (isFolder)
+            if (IsDirectory)
                 path += ".mp4";
 
             var query = from expression in _options.EpisodeExpressions

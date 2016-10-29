@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Interfaces.IO;
+using MediaBrowser.Model.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Video
@@ -29,31 +29,31 @@ namespace MediaBrowser.Naming.Video
 
         public StackResult ResolveDirectories(IEnumerable<string> files)
         {
-            return Resolve(files.Select(i => new FileMetadata
+            return Resolve(files.Select(i => new FileSystemMetadata
             {
-                Id = i,
-                IsFolder = true
+                FullName = i,
+                IsDirectory = true
             }));
         }
 
         public StackResult ResolveFiles(IEnumerable<string> files)
         {
-            return Resolve(files.Select(i => new FileMetadata
+            return Resolve(files.Select(i => new FileSystemMetadata
             {
-                Id = i,
-                IsFolder = false
+                FullName = i,
+                IsDirectory = false
             }));
         }
 
-        public StackResult Resolve(IEnumerable<FileMetadata> files)
+        public StackResult Resolve(IEnumerable<FileSystemMetadata> files)
         {
             var result = new StackResult();
 
             var resolver = new VideoResolver(_options, _logger);
 
             var list = files
-                .Where(i => i.IsFolder || (resolver.IsVideoFile(i.Id) || resolver.IsStubFile(i.Id)))
-                .OrderBy(i => i.Id)
+                .Where(i => i.IsDirectory || (resolver.IsVideoFile(i.FullName) || resolver.IsStubFile(i.FullName)))
+                .OrderBy(i => i.FullName)
                 .ToList();
 
             var expressions = _options.VideoFileStackingExpressions;
@@ -88,7 +88,7 @@ namespace MediaBrowser.Naming.Video
                         {
                             var file2 = list[j];
 
-                            if (file1.IsFolder != file2.IsFolder)
+                            if (file1.IsDirectory != file2.IsDirectory)
                             {
                                 j++;
                                 continue;
@@ -114,11 +114,11 @@ namespace MediaBrowser.Naming.Video
                                             if (stack.Files.Count == 0)
                                             {
                                                 stack.Name = title1 + ignore1;
-                                                stack.IsFolderStack = file1.IsFolder;
+                                                stack.IsDirectoryStack = file1.IsDirectory;
                                                 //stack.Name = title1 + ignore1 + extension1;
-                                                stack.Files.Add(file1.Id);
+                                                stack.Files.Add(file1.FullName);
                                             }
-                                            stack.Files.Add(file2.Id);
+                                            stack.Files.Add(file2.FullName);
                                         }
                                         else 
                                         {
@@ -185,17 +185,17 @@ namespace MediaBrowser.Naming.Video
             return result;
         }
 
-        private string GetRegexInput(FileMetadata file)
+        private string GetRegexInput(FileSystemMetadata file)
         {
             // For directories, dummy up an extension otherwise the expressions will fail
-            var input = !file.IsFolder
-                ? file.Id
-                : file.Id + ".mkv";
+            var input = !file.IsDirectory
+                ? file.FullName
+                : file.FullName + ".mkv";
 
             return Path.GetFileName(input);
         }
 
-        private Match FindMatch(FileMetadata input, string expression, int offset)
+        private Match FindMatch(FileSystemMetadata input, string expression, int offset)
         {
             var regexInput = GetRegexInput(input);
 

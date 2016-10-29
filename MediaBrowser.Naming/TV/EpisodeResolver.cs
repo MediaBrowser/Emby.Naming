@@ -35,7 +35,7 @@ namespace MediaBrowser.Naming.TV
             return Resolve(path, true);
         }
 
-        public EpisodeInfo Resolve(string path, bool isFolder, bool fillExtendedInfo = true)
+        public EpisodeInfo Resolve(string path, bool IsDirectory, bool fillExtendedInfo = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -46,7 +46,7 @@ namespace MediaBrowser.Naming.TV
             string container = null;
             string stubType = null;
 
-            if (!isFolder)
+            if (!IsDirectory)
             {
                 var extension = Path.GetExtension(path) ?? string.Empty;
                 // Check supported extensions
@@ -72,7 +72,7 @@ namespace MediaBrowser.Naming.TV
             var format3DResult = new Format3DParser(_options, _logger).Parse(flags);
 
             var parsingResult = new EpisodePathParser(_options, _iRegexProvider)
-                .Parse(path, isFolder, fillExtendedInfo);
+                .Parse(path, IsDirectory, fillExtendedInfo);
             
             return new EpisodeInfo
             {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Interfaces.IO;
+using MediaBrowser.Model.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Video
@@ -26,12 +26,12 @@ namespace MediaBrowser.Naming.Video
             _regexProvider = regexProvider;
         }
 
-        public IEnumerable<VideoInfo> Resolve(List<FileMetadata> files, bool supportMultiVersion = true)
+        public IEnumerable<VideoInfo> Resolve(List<FileSystemMetadata> files, bool supportMultiVersion = true)
         {
             var videoResolver = new VideoResolver(_options, _logger, _regexProvider);
 
             var videoInfos = files
-                .Select(i => videoResolver.Resolve(i.Id, i.IsFolder))
+                .Select(i => videoResolver.Resolve(i.FullName, i.IsDirectory))
                 .Where(i => i != null)
                 .ToList();
 
@@ -39,17 +39,17 @@ namespace MediaBrowser.Naming.Video
             // See the unit test TestStackedWithTrailer
             var nonExtras = videoInfos
                 .Where(i => string.IsNullOrWhiteSpace(i.ExtraType))
-                .Select(i => new FileMetadata
+                .Select(i => new FileSystemMetadata
                 {
-                    Id = i.Path,
-                    IsFolder = i.IsFolder
+                    FullName = i.Path,
+                    IsDirectory = i.IsDirectory
                 });
 
             var stackResult = new StackResolver(_options, _logger, _regexProvider)
                 .Resolve(nonExtras);
 
             var remainingFiles = videoInfos
-                .Where(i => !stackResult.Stacks.Any(s => s.ContainsFile(i.Path, i.IsFolder)))
+                .Where(i => !stackResult.Stacks.Any(s => s.ContainsFile(i.Path, i.IsDirectory)))
                 .ToList();
 
             var list = new List<VideoInfo>();
@@ -58,7 +58,7 @@ namespace MediaBrowser.Naming.Video
             {
                 var info = new VideoInfo
                 {
-                    Files = stack.Files.Select(i => videoResolver.Resolve(i, stack.IsFolderStack)).ToList(),
+                    Files = stack.Files.Select(i => videoResolver.Resolve(i, stack.IsDirectoryStack)).ToList(),
                     Name = stack.Name
                 };
 

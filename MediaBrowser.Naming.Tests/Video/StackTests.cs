@@ -1,7 +1,7 @@
-﻿using MediaBrowser.Naming.Common;
+﻿using MediaBrowser.Model.IO;
+using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Interfaces.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Video
@@ -84,6 +84,22 @@ namespace MediaBrowser.Naming.Tests.Video
             {
                 "300 2006.mkv",
                 "300 2007.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.ResolveFiles(files);
+
+            Assert.AreEqual(0, result.Stacks.Count);
+        }
+
+        [TestMethod]
+        public void TestFalsePositives5()
+        {
+            var files = new[]
+            {
+                "Star Trek 1 - The motion picture.mkv",
+                "Star Trek 2- The wrath of khan.mkv"
             };
 
             var resolver = GetResolver();
@@ -335,11 +351,11 @@ namespace MediaBrowser.Naming.Tests.Video
         {
             var files = new[]
             {
-                new FileMetadata{Id = "Bad Boys (2006) part1.mkv", IsFolder = false},
-                new FileMetadata{Id = "Bad Boys (2006) part2.mkv", IsFolder = false},
-                new FileMetadata{Id = "300 (2006) part2", IsFolder = true},
-                new FileMetadata{Id = "300 (2006) part3", IsFolder = true},
-                new FileMetadata{Id = "300 (2006) part1", IsFolder = true}
+                new FileSystemMetadata{FullName = "Bad Boys (2006) part1.mkv", IsDirectory = false},
+                new FileSystemMetadata{FullName = "Bad Boys (2006) part2.mkv", IsDirectory = false},
+                new FileSystemMetadata{FullName = "300 (2006) part2", IsDirectory = true},
+                new FileSystemMetadata{FullName = "300 (2006) part3", IsDirectory = true},
+                new FileSystemMetadata{FullName = "300 (2006) part1", IsDirectory = true}
             };
 
             var resolver = GetResolver();

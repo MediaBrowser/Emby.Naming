@@ -8,7 +8,7 @@ namespace MediaBrowser.Naming.Video
     {
         public string Name { get; set; }
         public List<string> Files { get; set; }
-        public bool IsFolderStack { get; set; }
+        public bool IsDirectoryStack { get; set; }
         public string Expression { get; set; }
 
         public FileStack()
@@ -16,9 +16,9 @@ namespace MediaBrowser.Naming.Video
             Files = new List<string>();
         }
 
-        public bool ContainsFile(string file, bool isFolder)
+        public bool ContainsFile(string file, bool IsDirectory)
         {
-            if (IsFolderStack == isFolder)
+            if (IsDirectoryStack == IsDirectory)
             {
                 return Files.Contains(file, StringComparer.OrdinalIgnoreCase);
             }

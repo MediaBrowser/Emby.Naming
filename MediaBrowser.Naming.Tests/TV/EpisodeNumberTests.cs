@@ -62,6 +62,20 @@ namespace MediaBrowser.Naming.Tests.TV
         }
 
         [TestMethod]
+        public void TestEpisodeNumber50()
+        {
+            // This convention is not currently supported, just adding in case we want to look at it in the future
+            Assert.AreEqual(1, GetEpisodeNumberFromFile(@"2016\Season s2016e1.mp4"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber51()
+        {
+            // This convention is not currently supported, just adding in case we want to look at it in the future
+            Assert.AreEqual(1, GetEpisodeNumberFromFile(@"2016\Season 2016x1.mp4"));
+        }
+
+        [TestMethod]
         public void TestEpisodeNumber30()
         {
             Assert.AreEqual(03, GetEpisodeNumberFromFile(@"Season 2\02x03 - 02x04 - 02x15 - Ep Name.mp4"));

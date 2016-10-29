@@ -2,7 +2,7 @@
 using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using Interfaces.IO;
+using MediaBrowser.Model.IO;
 using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.Video
@@ -22,10 +22,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -45,10 +45,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -73,10 +73,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -102,10 +102,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -132,10 +132,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -158,10 +158,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -184,10 +184,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -212,10 +212,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -243,10 +243,10 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
@@ -269,14 +269,45 @@ namespace MediaBrowser.Naming.Tests.Video
 
             var resolver = GetResolver();
 
-            var result = resolver.Resolve(files.Select(i => new FileMetadata
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
             {
-                IsFolder = false,
-                Id = i
+                IsDirectory = false,
+                FullName = i
 
             }).ToList()).ToList();
 
             Assert.AreEqual(2, result.Count);
+        }
+
+        [TestMethod]
+        public void TestMultiVersion8()
+        {
+            var files = new[]
+            {
+                @"\\movies\Iron Man\Iron Man.mkv",
+                @"\\movies\Iron Man\Iron Man_720p.mkv",
+                @"\\movies\Iron Man\Iron Man_test.mkv",
+                @"\\movies\Iron Man\Iron Man_bluray.mkv",
+                @"\\movies\Iron Man\Iron Man_3d.mkv",
+                @"\\movies\Iron Man\Iron Man_3d-hsbs.mkv",
+                @"\\movies\Iron Man\Iron Man_3d.hsbs.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(0, result[0].Extras.Count);
+            Assert.AreEqual(6, result[0].AlternateVersions.Count);
+            Assert.AreEqual(false, result[0].AlternateVersions[2].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[3].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
         }
 
         private VideoListResolver GetResolver()

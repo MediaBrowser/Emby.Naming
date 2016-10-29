@@ -48,10 +48,10 @@ namespace MediaBrowser.Naming.Video
         /// Resolves the specified path.
         /// </summary>
         /// <param name="path">The path.</param>
-        /// <param name="isFolder">if set to <c>true</c> [is folder].</param>
+        /// <param name="IsDirectory">if set to <c>true</c> [is folder].</param>
         /// <returns>VideoFileInfo.</returns>
         /// <exception cref="System.ArgumentNullException">path</exception>
-        public VideoFileInfo Resolve(string path, bool isFolder, bool parseName = true)
+        public VideoFileInfo Resolve(string path, bool IsDirectory, bool parseName = true)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -62,7 +62,7 @@ namespace MediaBrowser.Naming.Video
             string container = null;
             string stubType = null;
 
-            if (!isFolder)
+            if (!IsDirectory)
             {
                 var extension = Path.GetExtension(path) ?? string.Empty;
                 // Check supported extensions
@@ -89,7 +89,7 @@ namespace MediaBrowser.Naming.Video
 
             var extraResult = new ExtraResolver(_options, _logger, _regexProvider).GetExtraInfo(path);
 
-            var name = !isFolder
+            var name = !IsDirectory
                 ? Path.GetFileNameWithoutExtension(path)
                 : Path.GetFileName(path);
 
@@ -119,7 +119,7 @@ namespace MediaBrowser.Naming.Video
                 Is3D = format3DResult.Is3D,
                 Format3D = format3DResult.Format3D,
                 ExtraType = extraResult.ExtraType,
-                IsFolder = isFolder,
+                IsDirectory = IsDirectory,
                 ExtraRule = extraResult.Rule
             };
         }
