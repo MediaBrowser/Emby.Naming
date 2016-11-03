@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>MediaBrowser.Naming</id>
-        <version>1.0.0.58</version>
+        <version>1.0.0.59</version>
         <title>Emby.Naming</title>
         <authors>Emby Team</authors>
         <owners>ebr,Luke,scottisafool</owners>
@@ -12,10 +12,10 @@
         <description>A dependency-free, configurable file naming engine.</description>
         <copyright>Copyright © Emby 2013</copyright>
         <dependencies>
-            <dependency id="Patterns.Logging" version="1.0.0.5" />
+            <dependency id="Patterns.Logging" version="1.0.0.6" />
         </dependencies>
     </metadata>
     <files>
-        <file src="dlls\MediaBrowser.Naming.dll" target="lib\netstandard1.0\MediaBrowser.Naming.dll" />
+        <file src="dlls\MediaBrowser.Naming.dll" target="lib\portable-net45+win8\MediaBrowser.Naming.dll" />
     </files>
 </package>
