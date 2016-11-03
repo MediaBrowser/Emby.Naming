@@ -7,6 +7,6 @@
     "Patterns.Logging": "1.0.0.5"
   },
   "frameworks": {
-    "netstandard1.1": {}
+    "netstandard1.0": {}
   }
 }
