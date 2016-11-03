@@ -1,0 +1,12 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "mediabrowser.common": "3.0.682",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.0",
+    "Patterns.Logging": "1.0.0.5"
+  },
+  "frameworks": {
+    "netstandard1.1": {}
+  }
+}
