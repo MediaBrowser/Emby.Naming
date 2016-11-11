@@ -2,7 +2,7 @@
 using MediaBrowser.Naming.TV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
-using Patterns.Logging;
+using MediaBrowser.Model.Logging;
 
 namespace MediaBrowser.Naming.Tests.TV
 {

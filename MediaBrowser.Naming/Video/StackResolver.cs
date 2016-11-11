@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MediaBrowser.Model.IO;
-using Patterns.Logging;
+using MediaBrowser.Model.Logging;
 
 namespace MediaBrowser.Naming.Video
 {

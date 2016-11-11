@@ -1,7 +1,7 @@
-﻿using MediaBrowser.Naming.Common;
+﻿using MediaBrowser.Model.Logging;
+using MediaBrowser.Naming.Common;
 using MediaBrowser.Naming.TV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Patterns.Logging;
 
 namespace MediaBrowser.Naming.Tests.TV
 {

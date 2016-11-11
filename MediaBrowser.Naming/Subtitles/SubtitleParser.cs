@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Patterns.Logging;
+using MediaBrowser.Model.Logging;
 
 namespace MediaBrowser.Naming.Subtitles
 {

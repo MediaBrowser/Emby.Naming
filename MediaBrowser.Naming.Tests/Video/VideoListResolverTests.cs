@@ -3,7 +3,7 @@ using MediaBrowser.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using MediaBrowser.Model.IO;
-using Patterns.Logging;
+using MediaBrowser.Model.Logging;
 
 namespace MediaBrowser.Naming.Tests.Video
 {
