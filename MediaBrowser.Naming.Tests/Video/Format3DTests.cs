@@ -29,6 +29,16 @@ namespace MediaBrowser.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void Test3DName()
+        {
+            var result =
+                GetParser().ResolveFile(@"C:\\Users\\media\\Desktop\\Video Test\\Movies\\Oblivion\\Oblivion.3d.hsbs.mkv");
+
+            Assert.AreEqual("hsbs", result.Format3D);
+            Assert.AreEqual("Oblivion", result.Name);
+        }
+
+        [TestMethod]
         public void TestExpandedFormat3D()
         {
             // These were introduced for Media Browser 3 

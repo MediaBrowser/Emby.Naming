@@ -26,6 +26,15 @@ namespace MediaBrowser.Naming.Tests.Video
             Test("video.dsr.disc", true, "tv");
         }
 
+        [TestMethod]
+        public void TestStubName()
+        {
+            var result =
+                GetParser().ResolveFile(@"C:\\Users\\media\\Desktop\\Video Test\\Movies\\Oblivion\\Oblivion.dvd.disc");
+
+            Assert.AreEqual("Oblivion", result.Name);
+        }
+
         private void Test(string path, bool isStub, string stubType)
         {
             var options = new NamingOptions();
