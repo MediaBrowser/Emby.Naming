@@ -38,7 +38,8 @@ namespace MediaBrowser.Naming.TV
             "saison",
             "staffel",
             "series",
-            "сезон"
+            "сезон",
+            "stagione"
         };
 
         /// <summary>

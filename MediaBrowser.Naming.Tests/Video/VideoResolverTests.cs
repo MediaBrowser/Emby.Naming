@@ -239,5 +239,21 @@ namespace MediaBrowser.Naming.Tests.Video
             Assert.AreEqual("3.Days.to.Kill", result.Name);
             Assert.IsNull(result.ExtraType);
         }
+
+        [TestMethod]
+        public void TestFolderNameWithExtension()
+        {
+            var parser = GetParser();
+
+            var result =
+                parser.ResolveFile(@"\\server\\Movies\\7 Psychos.mkv\\7 Psychos.mkv");
+
+            Assert.AreEqual("mkv", result.Container);
+            Assert.IsNull(result.Year);
+            Assert.AreEqual(false, result.IsStub);
+            Assert.AreEqual(false, result.Is3D);
+            Assert.AreEqual("7 Psychos", result.Name);
+            Assert.IsNull(result.ExtraType);
+        }
     }
 }

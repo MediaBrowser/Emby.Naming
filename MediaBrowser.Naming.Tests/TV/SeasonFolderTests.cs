@@ -67,6 +67,18 @@ namespace MediaBrowser.Naming.Tests.TV
             Assert.AreEqual(7, GetSeasonNumberFromPath(@"\Drive\Season 7 (2016)"));
         }
 
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath11()
+        {
+            Assert.AreEqual(7, GetSeasonNumberFromPath(@"\Drive\Staffel 7 (2016)"));
+        }
+
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath12()
+        {
+            Assert.AreEqual(7, GetSeasonNumberFromPath(@"\Drive\Stagione 7 (2016)"));
+        }
+
         private int? GetSeasonNumberFromPath(string path)
         {
             var options = new ExtendedNamingOptions();
