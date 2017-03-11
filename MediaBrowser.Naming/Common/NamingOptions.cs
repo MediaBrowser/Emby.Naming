@@ -364,6 +364,19 @@ namespace MediaBrowser.Naming.Common
                 {
                     IsOptimistic = true,
                     IsNamed = true
+                },
+
+                // "01 episode title.avi"
+                new EpisodeExpression(@"[Ss]eason[\._ ](?<seasonnumber>[0-9]+)[\\\/](?<epnumber>\d{1,3})([^\\\/]*)$")
+                {
+                    IsOptimistic = true,
+                    IsNamed = true
+                },
+                // "Episode 16", "Episode 16 - Title"
+                new EpisodeExpression(@".*[\\\/][^\\\/]* (?<epnumber>\d{1,3})(-(?<endingepnumber>\d{2,3}))*[^\\\/]*$")
+                {
+                    IsOptimistic = true,
+                    IsNamed = true
                 }
             };
 

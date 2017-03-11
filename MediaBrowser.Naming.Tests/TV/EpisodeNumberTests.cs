@@ -76,6 +76,72 @@ namespace MediaBrowser.Naming.Tests.TV
         }
 
         [TestMethod]
+        public void TestEpisodeNumber52()
+        {
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\Episode - 16.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber53()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\Episode 16.avi"));
+        }
+        [TestMethod]
+        public void TestEpisodeNumber54()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\Episode 16 - Some Title.avi"));
+        }
+        [TestMethod]
+        public void TestEpisodeNumber55()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\Season 3 Episode 16.avi"));
+        }
+        [TestMethod]
+        public void TestEpisodeNumber56()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\Season 3 Episode 16 - Some Title.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber57()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\16 Some Title.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber58()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\16 - 12 Some Title.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber59()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(7, GetEpisodeNumberFromFile(@"Season 2\7 - 12 Angry Men.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber60()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\16 12 Some Title.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber61()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(7, GetEpisodeNumberFromFile(@"Season 2\7 12 Angry Men.avi"));
+        }
+
+        [TestMethod]
         public void TestEpisodeNumber30()
         {
             Assert.AreEqual(03, GetEpisodeNumberFromFile(@"Season 2\02x03 - 02x04 - 02x15 - Ep Name.mp4"));
