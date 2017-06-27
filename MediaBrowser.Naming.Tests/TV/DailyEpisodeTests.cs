@@ -32,6 +32,12 @@ namespace MediaBrowser.Naming.Tests.TV
             Test(@"\\server\A Daily Show - (2015-01-15) - Episode Name - [720p].mkv", "A Daily Show", 2015, 01, 15);
         }
 
+        [TestMethod]
+        public void TestDailyEpisode5()
+        {
+            Test(@"\\server\james.corden.2017.04.20.anne.hathaway.720p.hdtv.x264-crooks.mkv", "james.corden", 2017, 04, 20);
+        }
+
         private void Test(string path, string seriesName, int? year, int? month, int? day)
         {
             var options = new NamingOptions();

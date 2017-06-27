@@ -23,19 +23,19 @@ namespace MediaBrowser.Naming.Tests.TV
         [TestMethod]
         public void TestWithoutSeason3()
         {
-            Test(@"\\server\anything_part.II.mp4", "anything", null, 2);
+            Test(@"\\server\anything_part.II.mp4", "anything", null, null);
         }
 
         [TestMethod]
         public void TestWithoutSeason4()
         {
-            Test(@"\\server\anything_pt.II.mp4", "anything", null, 2);
+            Test(@"\\server\anything_pt.II.mp4", "anything", null, null);
         }
 
         [TestMethod]
         public void TestWithoutSeason5()
         {
-            Test(@"\\server\anything_pt_II.mp4", "anything", null, 2);
+            Test(@"\\server\anything_pt_II.mp4", "anything", null, null);
         }
 
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)

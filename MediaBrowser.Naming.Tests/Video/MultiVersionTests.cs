@@ -282,6 +282,8 @@ namespace MediaBrowser.Naming.Tests.Video
         [TestMethod]
         public void TestMultiVersion8()
         {
+            // This is not actually supported yet
+
             var files = new[]
             {
                 @"\\movies\Iron Man\Iron Man.mkv",
