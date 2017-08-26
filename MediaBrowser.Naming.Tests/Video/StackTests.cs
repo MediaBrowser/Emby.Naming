@@ -110,6 +110,23 @@ namespace MediaBrowser.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void TestFalsePositives6()
+        {
+            var files = new[]
+            {
+                "Red Riding in the Year of Our Lord 1983 (2009).mkv",
+                "Red Riding in the Year of Our Lord 1980 (2009).mkv",
+                "Red Riding in the Year of Our Lord 1974 (2009).mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.ResolveFiles(files);
+
+            Assert.AreEqual(0, result.Stacks.Count);
+        }
+
+        [TestMethod]
         public void TestStackName()
         {
             var files = new[]
