@@ -43,7 +43,8 @@ namespace MediaBrowser.Naming.Common
                 ".webm",
                 ".mts",
                 ".m2v",
-                ".rec"
+                ".rec",
+                ".mxf"
             });
 
             // Problematic. Can always become configurable if needed.
