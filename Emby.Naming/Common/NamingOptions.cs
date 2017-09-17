@@ -271,7 +271,8 @@ namespace Emby.Naming.Common
                 ".acc",
                 ".m4b",
                 ".oga",
-                ".dsf"
+                ".dsf",
+                ".mka"
             };
 
             EpisodeExpressions = new List<EpisodeExpression>
