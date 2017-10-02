@@ -100,6 +100,28 @@ namespace Emby.Naming.Tests.AudioBook
             Assert.AreEqual(4, result.ChapterNumber);
             Assert.AreEqual(24, result.PartNumber);
         }
+        [TestMethod]
+        public void TestFileName10()
+        {
+            var path = @"\\audiobooks\A Clash of Kings\Disc_5 A Clash of Kings.mp3";
+            var resolver = GetResolver();
+            var result = resolver.Resolve(path);
+
+            Assert.AreEqual(5, result.ChapterNumber);
+            Assert.AreEqual(null, result.PartNumber);
+        }
+        [TestMethod]
+        public void TestFileName11()
+        {
+            var path = @"\\audiobooks\A Clash of Kings\A Clash of Kings Disk7.mp3";
+            var resolver = GetResolver();
+            var result = resolver.Resolve(path);
+
+            // We would expect Chapter to be 7, and part to be null, but in fact, Disk7 hits a regular expression for both Chapter and Part
+            // As long as we're just using chapter and part for sorting purposes (not showing in GUI), it will not have any negative effect.
+            Assert.AreEqual(7, result.ChapterNumber);
+            Assert.AreEqual(null, result.PartNumber);
+        }
 
         private AudioBookResolver GetResolver()
         {
