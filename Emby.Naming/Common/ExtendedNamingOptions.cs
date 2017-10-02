@@ -56,7 +56,7 @@ namespace Emby.Naming.Common
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
-            VideoExtraRules.AddRange(new List<ExtraRule>
+            ExtraRules.AddRange(new List<ExtraRule>
             {
                 new ExtraRule
                 {

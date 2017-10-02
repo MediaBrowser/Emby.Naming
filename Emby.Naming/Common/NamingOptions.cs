@@ -21,6 +21,8 @@ namespace Emby.Naming.Common
         public List<string> VideoFileExtensions { get; set; }
         public List<string> StubFileExtensions { get; set; }
 
+        public List<string> AudioBookPartsExpressions { get; set; }
+
         public List<StubTypeRule> StubTypes { get; set; }
 
         public char[] VideoFlagDelimiters { get; set; }
@@ -30,7 +32,7 @@ namespace Emby.Naming.Common
         public List<string> CleanDateTimes { get; set; }
         public List<string> CleanStrings { get; set; }
 
-        public List<ExtraRule> VideoExtraRules { get; set; }
+        public List<ExtraRule> ExtraRules { get; set; }
         
         public NamingOptions()
         {
@@ -391,7 +393,7 @@ namespace Emby.Naming.Common
                 @"^[-_ex]+([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)"
             };
 
-            VideoExtraRules = new List<ExtraRule>
+            ExtraRules = new List<ExtraRule>
             {
                 new ExtraRule
                 {
@@ -494,6 +496,21 @@ namespace Emby.Naming.Common
                     PreceedingToken = "3d",
                     Token = "tab"
                 }
+            };
+            AudioBookPartsExpressions = new List<string>
+            {
+                // Detect specified chapters, like CH 01
+                @"ch(?:apter)?[\s_-]?(?<chapter>\d+)",
+                // Detect specified parts, like Part 02
+                @"p(?:ar)?t[\s_-]?(?<part>\d+)",
+                // Chapter is often beginning of filename
+                @"^(?<chapter>\d+)",
+                // Part if often ending of filename
+                @"(?<part>\d+)$",
+                // Sometimes named as 0001_005 (chapter_part)
+                @"(?<chapter>\d+)_(?<part>\d+)",
+                // Some audiobooks are ripped from cd's, and will be named by disk number.
+                @"dis(?:c|k)[\s_-]?(?<chapter>\d+)"
             };
 
         }
