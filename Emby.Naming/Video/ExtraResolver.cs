@@ -20,7 +20,7 @@ namespace Emby.Naming.Video
 
         public ExtraResult GetExtraInfo(string path)
         {
-            return _options.ExtraRules
+            return _options.VideoExtraRules
                 .Select(i => GetExtraInfo(path, i))
                 .FirstOrDefault(i => !string.IsNullOrWhiteSpace(i.ExtraType)) ?? new ExtraResult();
         }

@@ -32,7 +32,7 @@ namespace Emby.Naming.Common
         public List<string> CleanDateTimes { get; set; }
         public List<string> CleanStrings { get; set; }
 
-        public List<ExtraRule> ExtraRules { get; set; }
+        public List<ExtraRule> VideoExtraRules { get; set; }
         
         public NamingOptions()
         {
@@ -393,7 +393,7 @@ namespace Emby.Naming.Common
                 @"^[-_ex]+([0-9]+(?:(?:[a-i]|\\.[1-9])(?![0-9]))?)"
             };
 
-            ExtraRules = new List<ExtraRule>
+            VideoExtraRules = new List<ExtraRule>
             {
                 new ExtraRule
                 {
