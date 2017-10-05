@@ -92,6 +92,20 @@ namespace Emby.Naming.Common
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-deleted",
                     MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "featurette",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = "-featurette",
+                    MediaType = MediaType.Video
+                },
+                new ExtraRule
+                {
+                    ExtraType = "short",
+                    RuleType = ExtraRuleType.Suffix,
+                    Token = "-short",
+                    MediaType = MediaType.Video
                 }
             });
             
