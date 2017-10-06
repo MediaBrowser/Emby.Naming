@@ -42,6 +42,25 @@ namespace Emby.Naming.Video
             }));
         }
 
+        public StackResult ResolveAudioBooks(IEnumerable<FileSystemMetadata> files)
+        {
+            var result = new StackResult();
+            foreach (var directory in files.GroupBy(file => file.IsDirectory ? file.FullName : Path.GetDirectoryName(file.FullName)))
+            {
+                var stack = new FileStack();
+                stack.Name = Path.GetFileName(directory.Key);
+                stack.IsDirectoryStack = false;
+                foreach (var file in directory)
+                {
+                    if (file.IsDirectory)
+                        continue;
+                    stack.Files.Add(file.FullName);
+                }
+                result.Stacks.Add(stack);
+            }
+            return result;
+        }
+
         public StackResult Resolve(IEnumerable<FileSystemMetadata> files)
         {
             var result = new StackResult();
