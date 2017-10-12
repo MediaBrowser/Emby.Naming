@@ -79,6 +79,18 @@ namespace Emby.Naming.Tests.TV
             Assert.AreEqual(7, GetSeasonNumberFromPath(@"\Drive\Stagione 7 (2016)"));
         }
 
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath14()
+        {
+            Assert.IsNull(GetSeasonNumberFromPath(@"\Drive\Season (8)"));
+        }
+
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath13()
+        {
+            Assert.AreEqual(3, GetSeasonNumberFromPath(@"\Drive\3.Staffel"));
+        }
+
         private int? GetSeasonNumberFromPath(string path)
         {
             var options = new ExtendedNamingOptions();

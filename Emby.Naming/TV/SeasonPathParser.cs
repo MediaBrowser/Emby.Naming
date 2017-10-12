@@ -92,7 +92,13 @@ namespace Emby.Naming.TV
 
                 if (index != -1)
                 {
-                    return GetSeasonNumberFromPathSubstring(filename.Substring(index + name.Length));
+                    var result = GetSeasonNumberFromPathSubstring(filename.Replace(name, " ", StringComparison.OrdinalIgnoreCase));
+                    if (result.HasValue)
+                    {
+                        return result;
+                    }
+
+                    break;
                 }
             }
 
@@ -129,20 +135,34 @@ namespace Emby.Naming.TV
             var numericStart = -1;
             var length = 0;
 
+            var hasOpenParenth = false;
+
             // Find out where the numbers start, and then keep going until they end
             for (var i = 0; i < path.Length; i++)
             {
                 if (char.IsNumber(path, i))
                 {
-                    if (numericStart == -1)
+                    if (!hasOpenParenth)
                     {
-                        numericStart = i;
+                        if (numericStart == -1)
+                        {
+                            numericStart = i;
+                        }
+                        length++;
                     }
-                    length++;
                 }
                 else if (numericStart != -1)
                 {
                     break;
+                }
+
+                if (path[i].Equals('('))
+                {
+                    hasOpenParenth = true;
+                }
+                else if (path[i].Equals(')'))
+                {
+                    hasOpenParenth = false;
                 }
             }
 
