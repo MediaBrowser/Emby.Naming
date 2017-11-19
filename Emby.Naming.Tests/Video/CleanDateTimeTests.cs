@@ -22,8 +22,15 @@ namespace Emby.Naming.Tests.Video
             Test(@"300 2001 (2006).mkv", "300 2001", 2006);
 
             Test(@"curse.of.chucky.2013.stv.unrated.multi.1080p.bluray.x264-rough", "curse.of.chucky", 2013);
+            Test(@"curse.of.chucky.2013.stv.unrated.multi.2160p.bluray.x264-rough", "curse.of.chucky", 2013);
 
             Test(@"\\server\\Movies\\300 (2007)\\300 (2006).bluray.disc", "300", 2006);
+        }
+
+        [TestMethod]
+        public void TestCleanDateTime1()
+        {
+            Test(@"Arrival.2016.2160p.Blu-Ray.HEVC.mkv", "Arrival", 2016);
         }
 
         [TestMethod]
@@ -41,6 +48,7 @@ namespace Emby.Naming.Tests.Video
             Test(@"300 2001 (2006)", "300 2001", 2006);
 
             Test(@"\\server\\Movies\\300 (2007)\\300 (2006)", "300", 2006);
+            Test(@"\\server\\Movies\\300 (2007)\\300 (2006).mkv", "300", 2006);
         }
 
         [TestMethod]
@@ -61,7 +69,13 @@ namespace Emby.Naming.Tests.Video
         {
             Test(@"St. Vincent (2014)", "St. Vincent", 2014);
         }
-        
+
+        [TestMethod]
+        public void TestCleanDateTimeWithoutDate1()
+        {
+            Test("Super movie(2009).mp4", "Super movie", 2009);
+        }
+
         private void Test(string input, string expectedName, int? expectedYear)
         {
             input = Path.GetFileName(input);

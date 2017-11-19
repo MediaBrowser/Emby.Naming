@@ -241,6 +241,24 @@ namespace Emby.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void TestCleanDateAndStringsSequence1()
+        {
+            var parser = GetParser();
+
+            // In this test case, running CleanDateTime first produces no date, so it will attempt to run CleanString first and then CleanDateTime again
+            var result =
+                parser.ResolveFile(@"\\server\\Movies\\3 days to kill (2005)\\3 days to kill (2005).mkv");
+
+            Assert.AreEqual("mkv", result.Container);
+            Assert.AreEqual(2005, result.Year);
+            Assert.AreEqual(false, result.IsStub);
+            Assert.AreEqual(false, result.Is3D);
+            Assert.AreEqual(null, result.Format3D);
+            Assert.AreEqual("3 days to kill", result.Name);
+            Assert.IsNull(result.ExtraType);
+        }
+
+        [TestMethod]
         public void TestFolderNameWithExtension()
         {
             var parser = GetParser();

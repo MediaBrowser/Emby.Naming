@@ -16,6 +16,18 @@ namespace Emby.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void TestCleanString1()
+        {
+            Test("Super movie(2009).mp4", "Super movie(2009).mp4");
+        }
+
+        [TestMethod]
+        public void TestCleanString2()
+        {
+            Test("Run lola run (lola rennt) (2009).mp4", "Run lola run (lola rennt) (2009).mp4");
+        }
+
+        [TestMethod]
         public void TestStringWithoutDate()
         {
             Test(@"American.Psycho.mkv", "American.Psycho.mkv");

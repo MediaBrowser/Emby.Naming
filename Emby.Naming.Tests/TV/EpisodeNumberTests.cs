@@ -142,6 +142,13 @@ namespace Emby.Naming.Tests.TV
         }
 
         [TestMethod]
+        public void TestEpisodeNumber62()
+        {
+            // This is not supported. Expected to fail, although it would be a good one to add support for.
+            Assert.AreEqual(1, GetEpisodeNumberFromFile(@"Season 2\Uchuu.Senkan.Yamato.2199.E01.avi"));
+        }
+
+        [TestMethod]
         public void TestEpisodeNumber30()
         {
             Assert.AreEqual(03, GetEpisodeNumberFromFile(@"Season 2\02x03 - 02x04 - 02x15 - Ep Name.mp4"));
