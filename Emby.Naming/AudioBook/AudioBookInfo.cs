@@ -13,6 +13,7 @@ namespace Emby.Naming.AudioBook
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; set; }
+        public int? Year { get; set; }
         /// <summary>
         /// Gets or sets the files.
         /// </summary>
