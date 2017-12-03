@@ -109,35 +109,30 @@ namespace Emby.Naming.Tests.TV
         [TestMethod]
         public void TestEpisodeNumber57()
         {
-            // This is not supported. Expected to fail, although it would be a good one to add support for.
             Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\16 Some Title.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumber58()
         {
-            // This is not supported. Expected to fail, although it would be a good one to add support for.
             Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\16 - 12 Some Title.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumber59()
         {
-            // This is not supported. Expected to fail, although it would be a good one to add support for.
             Assert.AreEqual(7, GetEpisodeNumberFromFile(@"Season 2\7 - 12 Angry Men.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumber60()
         {
-            // This is not supported. Expected to fail, although it would be a good one to add support for.
             Assert.AreEqual(16, GetEpisodeNumberFromFile(@"Season 2\16 12 Some Title.avi"));
         }
 
         [TestMethod]
         public void TestEpisodeNumber61()
         {
-            // This is not supported. Expected to fail, although it would be a good one to add support for.
             Assert.AreEqual(7, GetEpisodeNumberFromFile(@"Season 2\7 12 Angry Men.avi"));
         }
 
@@ -145,7 +140,13 @@ namespace Emby.Naming.Tests.TV
         public void TestEpisodeNumber62()
         {
             // This is not supported. Expected to fail, although it would be a good one to add support for.
-            Assert.AreEqual(1, GetEpisodeNumberFromFile(@"Season 2\Uchuu.Senkan.Yamato.2199.E01.avi"));
+            Assert.AreEqual(3, GetEpisodeNumberFromFile(@"Season 4\Uchuu.Senkan.Yamato.2199.E03.avi"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumber63()
+        {
+            Assert.AreEqual(3, GetEpisodeNumberFromFile(@"Season 4\Uchuu.Senkan.Yamato.2199.S04E03.avi"));
         }
 
         [TestMethod]
