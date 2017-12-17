@@ -40,17 +40,29 @@ namespace Emby.Naming.AudioBook
                     {
                         var value = match.Groups["chapter"];
                         if (value.Success)
-                            result.ChapterNumber = int.Parse(value.Value);
+                        {
+                            int intValue;
+                            if (int.TryParse(value.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out intValue))
+                            {
+                                result.ChapterNumber = intValue;
+                            }
+                        }
                     }
                     if (!result.PartNumber.HasValue)
                     {
                         var value = match.Groups["part"];
                         if (value.Success)
-                            result.PartNumber = int.Parse(value.Value);
+                        {
+                            int intValue;
+                            if (int.TryParse(value.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out intValue))
+                            {
+                                result.ChapterNumber = intValue;
+                            }
+                        }
                     }
                 }
             }
-            
+
             /*var matches = _iRegexProvider.GetRegex("\\d+", RegexOptions.IgnoreCase).Matches(fileName);
             if (matches.Count > 0)
             {
