@@ -17,7 +17,8 @@ namespace Emby.Naming.Tests.Video
             {
                 @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - 1080p.mkv",
                 @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past-trailer.mp4",
-                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - [hsbs].mkv"
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - [hsbs].mkv",
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past [hsbs].mkv"
             };
 
             var resolver = GetResolver();
@@ -40,7 +41,8 @@ namespace Emby.Naming.Tests.Video
             {
                 @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - apple.mkv",
                 @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past-trailer.mp4",
-                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - banana.mkv"
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past - banana.mkv",
+                @"\\movies\X-Men Days of Future Past\X-Men Days of Future Past [banana].mp4"
             };
 
             var resolver = GetResolver();
@@ -54,7 +56,7 @@ namespace Emby.Naming.Tests.Video
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(1, result[0].Extras.Count);
-            Assert.AreEqual(1, result[0].AlternateVersions.Count);
+            Assert.AreEqual(2, result[0].AlternateVersions.Count);
         }
 
         [TestMethod]
@@ -207,7 +209,8 @@ namespace Emby.Naming.Tests.Video
                 @"\\movies\Iron Man\Iron Man-bluray.mkv",
                 @"\\movies\Iron Man\Iron Man-3d.mkv",
                 @"\\movies\Iron Man\Iron Man-3d-hsbs.mkv",
-                @"\\movies\Iron Man\Iron Man-3d.hsbs.mkv"
+                @"\\movies\Iron Man\Iron Man-3d.hsbs.mkv",
+                @"\\movies\Iron Man\Iron Man[test].mkv",
             };
 
             var resolver = GetResolver();
@@ -221,7 +224,7 @@ namespace Emby.Naming.Tests.Video
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(0, result[0].Extras.Count);
-            Assert.AreEqual(6, result[0].AlternateVersions.Count);
+            Assert.AreEqual(7, result[0].AlternateVersions.Count);
             Assert.AreEqual(false, result[0].AlternateVersions[2].Is3D);
             Assert.AreEqual(true, result[0].AlternateVersions[3].Is3D);
             Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
@@ -238,7 +241,8 @@ namespace Emby.Naming.Tests.Video
                 @"\\movies\Iron Man\Iron Man - bluray.mkv",
                 @"\\movies\Iron Man\Iron Man - 3d.mkv",
                 @"\\movies\Iron Man\Iron Man - 3d-hsbs.mkv",
-                @"\\movies\Iron Man\Iron Man - 3d.hsbs.mkv"
+                @"\\movies\Iron Man\Iron Man - 3d.hsbs.mkv",
+                @"\\movies\Iron Man\Iron Man [test].mkv"
             };
 
             var resolver = GetResolver();
@@ -252,10 +256,10 @@ namespace Emby.Naming.Tests.Video
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(0, result[0].Extras.Count);
-            Assert.AreEqual(6, result[0].AlternateVersions.Count);
-            Assert.AreEqual(false, result[0].AlternateVersions[2].Is3D);
-            Assert.AreEqual(true, result[0].AlternateVersions[3].Is3D);
+            Assert.AreEqual(7, result[0].AlternateVersions.Count);
+            Assert.AreEqual(false, result[0].AlternateVersions[3].Is3D);
             Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
+            Assert.AreEqual(true, result[0].AlternateVersions[5].Is3D);
         }
 
         [TestMethod]
