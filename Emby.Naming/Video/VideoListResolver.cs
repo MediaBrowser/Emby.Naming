@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MediaBrowser.Model.IO;
+using System.Text.RegularExpressions;
 
 namespace Emby.Naming.Video
 {
@@ -241,9 +242,8 @@ namespace Emby.Naming.Video
 
             if (testFilename.StartsWith(folderName, StringComparison.OrdinalIgnoreCase))
             {
-                testFilename = testFilename.Substring(folderName.Length);
-
-                return testFilename.TrimStart().StartsWith("-", StringComparison.OrdinalIgnoreCase);
+                testFilename = testFilename.Substring(folderName.Length).Trim();
+                return testFilename.StartsWith("-", StringComparison.OrdinalIgnoreCase)||Regex.Replace(testFilename, @"\[([^]]*)\]", "") == String.Empty;
             }
 
             return false;
