@@ -175,6 +175,8 @@ namespace Emby.Naming.Tests.Video
         [TestMethod]
         public void TestMultiVersion4()
         {
+            // Test for false positive
+
             var files = new[]
             {
                 @"\\movies\Iron Man\Iron Man.mkv",
@@ -314,6 +316,34 @@ namespace Emby.Naming.Tests.Video
             Assert.AreEqual(false, result[0].AlternateVersions[2].Is3D);
             Assert.AreEqual(true, result[0].AlternateVersions[3].Is3D);
             Assert.AreEqual(true, result[0].AlternateVersions[4].Is3D);
+        }
+
+        [TestMethod]
+        public void TestMultiVersion9()
+        {
+            // Test for false positive
+
+            var files = new[]
+            {
+                @"\\movies\Iron Man\Iron Man (2007).mkv",
+                @"\\movies\Iron Man\Iron Man (2008).mkv",
+                @"\\movies\Iron Man\Iron Man (2009).mkv",
+                @"\\movies\Iron Man\Iron Man (2010).mkv",
+                @"\\movies\Iron Man\Iron Man (2011).mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(5, result.Count);
+            Assert.AreEqual(0, result[0].Extras.Count);
+            Assert.AreEqual(0, result[0].AlternateVersions.Count);
         }
 
         private VideoListResolver GetResolver()
