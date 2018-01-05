@@ -349,7 +349,7 @@ namespace Emby.Naming.Tests.Video
         [TestMethod]
         public void TestMultiVersion10()
         {
-            // Test for false positive
+            // Currently not supported but we should probably handle this.
 
             var files = new[]
             {
