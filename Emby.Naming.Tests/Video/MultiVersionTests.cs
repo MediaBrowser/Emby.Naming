@@ -346,6 +346,31 @@ namespace Emby.Naming.Tests.Video
             Assert.AreEqual(0, result[0].AlternateVersions.Count);
         }
 
+        [TestMethod]
+        public void TestMultiVersion10()
+        {
+            // Test for false positive
+
+            var files = new[]
+            {
+                @"\\movies\Blade Runner (1982)\Blade Runner (1982) [Final Cut] [1080p HEVC AAC].mkv",
+                @"\\movies\Blade Runner (1982)\Blade Runner (1982) [EE by ADM] [480p HEVC AAC,AAC,AAC].mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(0, result[0].Extras.Count);
+            Assert.AreEqual(0, result[0].AlternateVersions.Count);
+        }
+
         private VideoListResolver GetResolver()
         {
             var options = new ExtendedNamingOptions();
