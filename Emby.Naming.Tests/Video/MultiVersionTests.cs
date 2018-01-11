@@ -368,7 +368,7 @@ namespace Emby.Naming.Tests.Video
 
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(0, result[0].Extras.Count);
-            Assert.AreEqual(0, result[0].AlternateVersions.Count);
+            Assert.AreEqual(1, result[0].AlternateVersions.Count);
         }
 
         private VideoListResolver GetResolver()

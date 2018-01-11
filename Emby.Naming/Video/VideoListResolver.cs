@@ -243,7 +243,7 @@ namespace Emby.Naming.Video
             if (testFilename.StartsWith(folderName, StringComparison.OrdinalIgnoreCase))
             {
                 testFilename = testFilename.Substring(folderName.Length).Trim();
-                return testFilename.StartsWith("-", StringComparison.OrdinalIgnoreCase)||Regex.Replace(testFilename, @"\[([^]]*)\]", "") == String.Empty;
+                return testFilename.StartsWith("-", StringComparison.OrdinalIgnoreCase)||Regex.Replace(testFilename, @"\[([^]]*)\]", "").Trim() == String.Empty;
             }
 
             return false;
