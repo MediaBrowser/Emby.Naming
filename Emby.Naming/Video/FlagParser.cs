@@ -20,7 +20,7 @@ namespace Emby.Naming.Video
 
         public string[] GetFlags(string path, char[] delimeters)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }

@@ -40,10 +40,10 @@ namespace Emby.Naming.Video
         {
             var result = new Format3DResult();
 
-            if (string.IsNullOrWhiteSpace(rule.PreceedingToken))
+            if (string.IsNullOrEmpty(rule.PreceedingToken))
             {
                 result.Format3D = new[] { rule.Token }.FirstOrDefault(i => videoFlags.Contains(i, StringComparer.OrdinalIgnoreCase));
-                result.Is3D = !string.IsNullOrWhiteSpace(result.Format3D);
+                result.Is3D = !string.IsNullOrEmpty(result.Format3D);
 
                 if (result.Is3D)
                 {
@@ -71,7 +71,7 @@ namespace Emby.Naming.Video
                     foundPrefix = string.Equals(flag, rule.PreceedingToken, StringComparison.OrdinalIgnoreCase);
                 }
 
-                result.Is3D = foundPrefix && !string.IsNullOrWhiteSpace(format);
+                result.Is3D = foundPrefix && !string.IsNullOrEmpty(format);
                 result.Format3D = format;
             }
 

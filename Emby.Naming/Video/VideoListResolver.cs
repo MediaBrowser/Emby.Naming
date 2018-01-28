@@ -36,7 +36,7 @@ namespace Emby.Naming.Video
             // Filter out all extras, otherwise they could cause stacks to not be resolved
             // See the unit test TestStackedWithTrailer
             var nonExtras = videoInfos
-                .Where(i => string.IsNullOrWhiteSpace(i.ExtraType))
+                .Where(i => string.IsNullOrEmpty(i.ExtraType))
                 .Select(i => new FileSystemMetadata
                 {
                     FullName = i.Path,
@@ -83,7 +83,7 @@ namespace Emby.Naming.Video
             }
 
             var standaloneMedia = remainingFiles
-                .Where(i => string.IsNullOrWhiteSpace(i.ExtraType))
+                .Where(i => string.IsNullOrEmpty(i.ExtraType))
                 .ToList();
 
             foreach (var media in standaloneMedia)
@@ -120,10 +120,10 @@ namespace Emby.Naming.Video
                 var videoPath = list[0].Files[0].Path;
                 var parentPath = Path.GetDirectoryName(videoPath);
 
-                if (!string.IsNullOrWhiteSpace(parentPath))
+                if (!string.IsNullOrEmpty(parentPath))
                 {
                     var folderName = Path.GetFileName(Path.GetDirectoryName(videoPath));
-                    if (!string.IsNullOrWhiteSpace(folderName))
+                    if (!string.IsNullOrEmpty(folderName))
                     {
                         var extras = GetExtras(remainingFiles, new List<string> { folderName });
 
@@ -186,7 +186,7 @@ namespace Emby.Naming.Video
 
             var folderName = Path.GetFileName(Path.GetDirectoryName(videos[0].Files[0].Path));
 
-            if (!string.IsNullOrWhiteSpace(folderName) && folderName.Length > 1)
+            if (!string.IsNullOrEmpty(folderName) && folderName.Length > 1)
             {
                 if (videos.All(i => i.Files.Count == 1 && IsEligibleForMultiVersion(folderName, i.Files[0].Path)))
                 {
@@ -258,7 +258,7 @@ namespace Emby.Naming.Video
             }
 
             return remainingFiles
-                .Where(i => !string.IsNullOrWhiteSpace(i.ExtraType))
+                .Where(i => !string.IsNullOrEmpty(i.ExtraType))
                 .Where(i => baseNames.Any(b => i.FileNameWithoutExtension.StartsWith(b, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }

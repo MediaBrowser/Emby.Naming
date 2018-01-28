@@ -34,7 +34,7 @@ namespace Emby.Naming.TV
 
         public EpisodeInfo Resolve(string path, bool IsDirectory, bool fillExtendedInfo = true)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }

@@ -35,7 +35,7 @@ namespace Emby.Naming.AudioBook
 
         public AudioBookFileInfo Resolve(string path, bool IsDirectory = false)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }

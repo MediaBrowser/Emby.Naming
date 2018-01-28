@@ -34,7 +34,7 @@ namespace Emby.Naming.TV
             {
                 FillAdditional(path, result);
 
-                if (!string.IsNullOrWhiteSpace(result.SeriesName))
+                if (!string.IsNullOrEmpty(result.SeriesName))
                 {
                     result.SeriesName = result.SeriesName
                         .Trim()
@@ -157,7 +157,7 @@ namespace Emby.Naming.TV
                 IsNamed = true
             }));
 
-            if (string.IsNullOrWhiteSpace(info.SeriesName))
+            if (string.IsNullOrEmpty(info.SeriesName))
             {
                 expressions.InsertRange(0, _options.EpisodeExpressions.Where(i => i.IsNamed));
             }
@@ -174,7 +174,7 @@ namespace Emby.Naming.TV
 
             foreach (var result in results)
             {
-                if (string.IsNullOrWhiteSpace(info.SeriesName))
+                if (string.IsNullOrEmpty(info.SeriesName))
                 {
                     info.SeriesName = result.SeriesName;
                 }
@@ -184,7 +184,7 @@ namespace Emby.Naming.TV
                     info.EndingEpsiodeNumber = result.EndingEpsiodeNumber;
                 }
 
-                if (!string.IsNullOrWhiteSpace(info.SeriesName))
+                if (!string.IsNullOrEmpty(info.SeriesName))
                 {
                     if (!info.EpisodeNumber.HasValue || info.EndingEpsiodeNumber.HasValue)
                     {

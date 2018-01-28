@@ -23,7 +23,7 @@ namespace Emby.Naming.Audio
 
             var filename = Path.GetFileName(path);
 
-            if (string.IsNullOrWhiteSpace(filename))
+            if (string.IsNullOrEmpty(filename))
             {
                 return result;
             }

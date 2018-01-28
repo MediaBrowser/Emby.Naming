@@ -24,7 +24,7 @@ namespace Emby.Naming.Video
             {
                 var result = Clean(name, exp);
 
-                if (!string.IsNullOrWhiteSpace(result.Name))
+                if (!string.IsNullOrEmpty(result.Name))
                 {
                     name = result.Name;
                     hasChanged = hasChanged || result.HasChanged;

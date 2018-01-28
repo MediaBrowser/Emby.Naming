@@ -16,7 +16,7 @@ namespace Emby.Naming.Subtitles
 
         public SubtitleInfo ParseFile(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }
@@ -50,7 +50,7 @@ namespace Emby.Naming.Subtitles
 
         private string[] GetFlags(string path)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }

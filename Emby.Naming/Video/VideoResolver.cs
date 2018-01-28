@@ -50,7 +50,7 @@ namespace Emby.Naming.Video
         /// <exception cref="System.ArgumentNullException">path</exception>
         public VideoFileInfo Resolve(string path, bool IsDirectory, bool parseName = true)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }
@@ -96,7 +96,7 @@ namespace Emby.Naming.Video
             {
                 var cleanDateTimeResult = CleanDateTime(name);
 
-                if (string.IsNullOrWhiteSpace(extraResult.ExtraType))
+                if (string.IsNullOrEmpty(extraResult.ExtraType))
                 {
                     name = cleanDateTimeResult.Name;
                     name = CleanString(name).Name;
