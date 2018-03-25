@@ -405,6 +405,29 @@ namespace Emby.Naming.Tests.Video
             Assert.AreEqual(1, result.Count);
         }
 
+        [TestMethod]
+        public void TestTrailerFalsePositives()
+        {
+            var files = new[]
+            {
+                @"\\Server\Despicable Me\Skyscraper (2018) - Big Game Spot.mkv",
+                @"\\Server\Despicable Me\Skyscraper (2018) - Trailer.mkv",
+                @"\\Server\Despicable Me\Baywatch (2017) - Big Game Spot.mkv",
+                @"\\Server\Despicable Me\Baywatch (2017) - Trailer.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(4, result.Count);
+        }
+
         private VideoListResolver GetResolver()
         {
             var options = new ExtendedNamingOptions();

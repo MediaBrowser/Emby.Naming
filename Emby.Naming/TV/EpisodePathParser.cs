@@ -50,6 +50,12 @@ namespace Emby.Naming.TV
         {
             var result = new EpisodePathParserResult();
 
+            // This is a hack to handle wmc naming
+            if (expression.IsByDate)
+            {
+                name = name.Replace('_', '-');
+            }
+
             var match = _iRegexProvider.GetRegex(expression.Expression, RegexOptions.IgnoreCase).Match(name);
 
             // (Full)(Season)(Episode)(Extension)
@@ -69,6 +75,7 @@ namespace Emby.Naming.TV
                             result.Year = date.Year;
                             result.Month = date.Month;
                             result.Day = date.Day;
+                            result.Success = true;
                         }
                     }
                     else
@@ -78,8 +85,11 @@ namespace Emby.Naming.TV
                             result.Year = date.Year;
                             result.Month = date.Month;
                             result.Day = date.Day;
+                            result.Success = true;
                         }
                     }
+
+                    // TODO: Only consider success if date successfully parsed?
                     result.Success = true;
                 }
                 else if (expression.IsNamed)

@@ -43,6 +43,18 @@ namespace Emby.Naming.Tests.Music
             Assert.IsTrue(IsMultiDiscAlbumFolder(@"D:\Video\MBTestLibrary\VideoTest\music\.38 special\anth\Disc 2"));
         }
 
+        [TestMethod]
+        public void TestMultiDiscAlbums1()
+        {
+            Assert.IsFalse(IsMultiDiscAlbumFolder(@"[1985] Oppurtunities (Let's make lots of money) (1985)"));
+        }
+
+        [TestMethod]
+        public void TestMultiDiscAlbums2()
+        {
+            Assert.IsFalse(IsMultiDiscAlbumFolder(@"Blah 04(Encores and Folk Songs)"));
+        }
+
         private bool IsMultiDiscAlbumFolder(string path)
         {
             var parser = new AlbumParser(new NamingOptions());

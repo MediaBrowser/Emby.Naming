@@ -96,7 +96,7 @@ namespace Emby.Naming.Video
 
                 info.Year = info.Files.First().Year;
 
-                var extras = GetExtras(remainingFiles, new List<string> { media.FileNameWithoutExtension, media.Name });
+                var extras = GetExtras(remainingFiles, new List<string> { media.FileNameWithoutExtension });
 
                 remainingFiles = remainingFiles
                     .Except(extras.Concat(new[] { media }))

@@ -38,6 +38,12 @@ namespace Emby.Naming.Tests.TV
             Test(@"\\server\james.corden.2017.04.20.anne.hathaway.720p.hdtv.x264-crooks.mkv", "james.corden", 2017, 04, 20);
         }
 
+        [TestMethod]
+        public void TestDailyEpisode6()
+        {
+            Test(@"\\server\ABC News 2018_03_24_19_00_00.mkv", "james.corden", 2018, 03, 24);
+        }
+
         private void Test(string path, string seriesName, int? year, int? month, int? day)
         {
             var options = new NamingOptions();
