@@ -125,7 +125,7 @@ namespace Emby.Naming.Tests.AudioBook
 
         private AudioBookResolver GetResolver()
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
             return new AudioBookResolver(options);
         }
     }

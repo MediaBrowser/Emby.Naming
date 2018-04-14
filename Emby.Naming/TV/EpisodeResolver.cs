@@ -9,27 +9,10 @@ namespace Emby.Naming.TV
     public class EpisodeResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
         public EpisodeResolver(NamingOptions options)
-            : this(options, new RegexProvider())
-        {
-        }
-
-        public EpisodeResolver(NamingOptions options, IRegexProvider iRegexProvider)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
-        }
-
-        public EpisodeInfo ParseFile(string path)
-        {
-            return Resolve(path, false);
-        }
-
-        public EpisodeInfo ParseDirectory(string path)
-        {
-            return Resolve(path, true);
         }
 
         public EpisodeInfo Resolve(string path, bool IsDirectory, bool fillExtendedInfo = true)
@@ -68,7 +51,7 @@ namespace Emby.Naming.TV
             var flags = new FlagParser(_options).GetFlags(path);
             var format3DResult = new Format3DParser(_options).Parse(flags);
 
-            var parsingResult = new EpisodePathParser(_options, _iRegexProvider)
+            var parsingResult = new EpisodePathParser(_options)
                 .Parse(path, IsDirectory, fillExtendedInfo);
             
             return new EpisodeInfo

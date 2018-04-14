@@ -10,17 +10,10 @@ namespace Emby.Naming.AudioBook
     public class AudioBookResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
         public AudioBookResolver(NamingOptions options)
-            : this(options, new RegexProvider())
-        {
-        }
-
-        public AudioBookResolver(NamingOptions options, IRegexProvider iRegexProvider)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
         }
 
         public AudioBookFileInfo ParseFile(string path)
@@ -51,7 +44,7 @@ namespace Emby.Naming.AudioBook
 
             var container = extension.TrimStart('.');
 
-            var parsingResult = new AudioBookFilePathParser(_options, _iRegexProvider)
+            var parsingResult = new AudioBookFilePathParser(_options)
                 .Parse(path, IsDirectory);
             
             return new AudioBookFileInfo

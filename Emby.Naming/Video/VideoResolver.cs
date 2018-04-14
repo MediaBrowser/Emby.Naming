@@ -8,17 +8,10 @@ namespace Emby.Naming.Video
     public class VideoResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _regexProvider;
 
         public VideoResolver(NamingOptions options)
-            : this(options, new RegexProvider())
-        {
-        }
-
-        public VideoResolver(NamingOptions options, IRegexProvider regexProvider)
         {
             _options = options;
-            _regexProvider = regexProvider;
         }
 
         /// <summary>
@@ -84,7 +77,7 @@ namespace Emby.Naming.Video
             var flags = new FlagParser(_options).GetFlags(path);
             var format3DResult = new Format3DParser(_options).Parse(flags);
 
-            var extraResult = new ExtraResolver(_options, _regexProvider).GetExtraInfo(path);
+            var extraResult = new ExtraResolver(_options).GetExtraInfo(path);
 
             var name = !IsDirectory
                 ? Path.GetFileNameWithoutExtension(path)
@@ -135,12 +128,12 @@ namespace Emby.Naming.Video
 
         public CleanStringResult CleanString(string name)
         {
-            return new CleanStringParser(_regexProvider).Clean(name, _options.CleanStrings);
+            return new CleanStringParser().Clean(name, _options.CleanStringRegexes);
         }
 
         public CleanDateTimeResult CleanDateTime(string name)
         {
-            return new CleanDateTimeParser(_options, _regexProvider).Clean(name);
+            return new CleanDateTimeParser(_options).Clean(name);
         }
     }
 }

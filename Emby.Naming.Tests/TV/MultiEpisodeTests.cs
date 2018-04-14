@@ -85,9 +85,9 @@ namespace Emby.Naming.Tests.TV
         
         private int? GetEndingEpisodeNumberFromFolder(string path)
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
-            var result = new EpisodePathParser(options, new RegexProvider())
+            var result = new EpisodePathParser(options)
                 .Parse(path, true, true);
 
             return result.EndingEpsiodeNumber;
@@ -95,9 +95,9 @@ namespace Emby.Naming.Tests.TV
 
         private int? GetEndingEpisodeNumberFromFile(string path)
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
-            var result = new EpisodePathParser(options, new RegexProvider())
+            var result = new EpisodePathParser(options)
                 .Parse(path, false, true);
 
             return result.EndingEpsiodeNumber;

@@ -391,9 +391,9 @@ namespace Emby.Naming.Tests.TV
 
         private int? GetEpisodeNumberFromFile(string path)
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
-            var result = new EpisodePathParser(options, new RegexProvider())
+            var result = new EpisodePathParser(options)
                 .Parse(path, false, true);
 
             return result.EpisodeNumber;

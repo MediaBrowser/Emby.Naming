@@ -11,22 +11,15 @@ namespace Emby.Naming.Video
     public class VideoListResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _regexProvider;
 
         public VideoListResolver(NamingOptions options)
-            : this(options, new RegexProvider())
-        {
-        }
-
-        public VideoListResolver(NamingOptions options, IRegexProvider regexProvider)
         {
             _options = options;
-            _regexProvider = regexProvider;
         }
 
         public IEnumerable<VideoInfo> Resolve(List<FileSystemMetadata> files, bool supportMultiVersion = true)
         {
-            var videoResolver = new VideoResolver(_options, _regexProvider);
+            var videoResolver = new VideoResolver(_options);
 
             var videoInfos = files
                 .Select(i => videoResolver.Resolve(i.FullName, i.IsDirectory))
@@ -43,7 +36,7 @@ namespace Emby.Naming.Video
                     IsDirectory = i.IsDirectory
                 });
 
-            var stackResult = new StackResolver(_options, _regexProvider)
+            var stackResult = new StackResolver(_options)
                 .Resolve(nonExtras);
 
             var remainingFiles = videoInfos

@@ -11,17 +11,10 @@ namespace Emby.Naming.Video
     public class StackResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
         public StackResolver(NamingOptions options)
-            : this(options, new RegexProvider())
-        {
-        }
-
-        public StackResolver(NamingOptions options, IRegexProvider iRegexProvider)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
         }
 
         public StackResult ResolveDirectories(IEnumerable<string> files)
@@ -72,7 +65,7 @@ namespace Emby.Naming.Video
                 .OrderBy(i => i.FullName)
                 .ToList();
 
-            var expressions = _options.VideoFileStackingExpressions;
+            var expressions = _options.VideoFileStackingRegexes;
 
             for (var i = 0; i < list.Count; i++)
             {
@@ -81,13 +74,10 @@ namespace Emby.Naming.Video
                 var file1 = list[i];
 
                 var expressionIndex = 0;
-                while (expressionIndex < expressions.Count)
+                while (expressionIndex < expressions.Length)
                 {
                     var exp = expressions[expressionIndex];
-                    var stack = new FileStack
-                    {
-                        Expression = exp
-                    };
+                    var stack = new FileStack();
 
                     // (Title)(Volume)(Ignore)(Extension)
                     var match1 = FindMatch(file1, exp, offset);
@@ -179,7 +169,7 @@ namespace Emby.Naming.Video
 
                         if (j == list.Count)
                         {
-                            expressionIndex = expressions.Count;
+                            expressionIndex = expressions.Length;
                         }
                     }
                     else
@@ -211,7 +201,7 @@ namespace Emby.Naming.Video
             return Path.GetFileName(input);
         }
 
-        private Match FindMatch(FileSystemMetadata input, string expression, int offset)
+        private Match FindMatch(FileSystemMetadata input, Regex regex, int offset)
         {
             var regexInput = GetRegexInput(input);
 
@@ -220,7 +210,6 @@ namespace Emby.Naming.Video
                 return Match.Empty;
             }
 
-            var regex = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase);
             return regex.Match(regexInput, offset);
         }
     }

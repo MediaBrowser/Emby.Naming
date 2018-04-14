@@ -373,7 +373,7 @@ namespace Emby.Naming.Tests.Video
 
         private VideoListResolver GetResolver()
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
             return new VideoListResolver(options);
         }
     }

@@ -80,7 +80,7 @@ namespace Emby.Naming.Tests.TV
         {
             var options = new NamingOptions();
 
-            var result = new EpisodeResolver(options, new RegexProvider())
+            var result = new EpisodeResolver(options)
                 .Resolve(path, false);
 
             Assert.AreEqual(seasonNumber, result.SeasonNumber);

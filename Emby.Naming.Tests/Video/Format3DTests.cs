@@ -20,12 +20,6 @@ namespace Emby.Naming.Tests.Video
             Test("Super movie.3d.htab.mp4", true, "htab", options);
             Test("Super movie.3d.tab.mp4", true, "tab", options);
             Test("Super movie 3d hsbs.mp4", true, "hsbs", options);
-
-            Test("Super movie.hsbs.mp4", false, null, options);
-            Test("Super movie.sbs.mp4", false, null, options);
-            Test("Super movie.htab.mp4", false, null, options);
-            Test("Super movie.tab.mp4", false, null, options);
-            Test("Super movie.sbs3d.mp4", false, null, options);
         }
 
         [TestMethod]
@@ -43,7 +37,7 @@ namespace Emby.Naming.Tests.Video
         {
             // These were introduced for Media Browser 3 
             // Kodi conventions are preferred but these still need to be supported
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
             Test("Super movie.3d.mp4", false, null, options);
             Test("Super movie.3d.hsbs.mp4", true, "hsbs", options);

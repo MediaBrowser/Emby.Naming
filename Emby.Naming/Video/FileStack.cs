@@ -9,7 +9,6 @@ namespace Emby.Naming.Video
         public string Name { get; set; }
         public List<string> Files { get; set; }
         public bool IsDirectoryStack { get; set; }
-        public string Expression { get; set; }
 
         public FileStack()
         {

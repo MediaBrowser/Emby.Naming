@@ -1,5 +1,4 @@
-﻿using Emby.Naming.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Emby.Naming.Video
@@ -9,14 +8,7 @@ namespace Emby.Naming.Video
     /// </summary>
     public class CleanStringParser
     {
-        private readonly IRegexProvider _iRegexProvider;
-
-        public CleanStringParser(IRegexProvider iRegexProvider)
-        {
-            _iRegexProvider = iRegexProvider;
-        }
-
-        public CleanStringResult Clean(string name, IEnumerable<string> expressions)
+        public CleanStringResult Clean(string name, IEnumerable<Regex> expressions)
         {
             var hasChanged = false;
 
@@ -38,11 +30,11 @@ namespace Emby.Naming.Video
             };
         }
 
-        private CleanStringResult Clean(string name, string expression)
+        private CleanStringResult Clean(string name, Regex expression)
         {
             var result = new CleanStringResult();
 
-            var match = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase).Match(name);
+            var match = expression.Match(name);
 
             if (match.Success)
             {

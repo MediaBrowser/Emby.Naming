@@ -23,25 +23,15 @@ namespace Emby.Naming.Tests.Video
             var videoOptions = new NamingOptions();
 
             Test("trailer.mp4", "trailer", videoOptions);
-            Test("trailer.mp3", null, videoOptions);
             Test("300-trailer.mp4", "trailer", videoOptions);
 
             Test("theme.mp3", "themesong", videoOptions);
-            Test("theme.mkv", null, videoOptions);
-
-            Test("300-scene.mp4", null, videoOptions);
-            Test("300-clip.mp4", null, videoOptions);
-
-            Test("300-deleted.mp4", null, videoOptions);
-            Test("300-deletedscene.mp4", null, videoOptions);
-            Test("300-interview.mp4", null, videoOptions);
-            Test("300-behindthescenes.mp4", null, videoOptions);
         }
 
         [TestMethod]
         public void TestExpandedExtras()
         {
-            var videoOptions = new ExtendedNamingOptions();
+            var videoOptions = new NamingOptions();
 
             Test("trailer.mp4", "trailer", videoOptions);
             Test("trailer.mp3", null, videoOptions);
@@ -63,7 +53,7 @@ namespace Emby.Naming.Tests.Video
         [TestMethod]
         public void TestSample()
         {
-            var videoOptions = new ExtendedNamingOptions();
+            var videoOptions = new NamingOptions();
 
             Test("300-sample.mp4", "sample", videoOptions);
         }
@@ -86,7 +76,7 @@ namespace Emby.Naming.Tests.Video
 
         private ExtraResolver GetExtraTypeParser(NamingOptions videoOptions)
         {
-            return new ExtraResolver(videoOptions, new RegexProvider());
+            return new ExtraResolver(videoOptions);
         }
     }
 }

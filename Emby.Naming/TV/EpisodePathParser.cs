@@ -10,12 +10,10 @@ namespace Emby.Naming.TV
     public class EpisodePathParser
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
-        public EpisodePathParser(NamingOptions options, IRegexProvider iRegexProvider)
+        public EpisodePathParser(NamingOptions options)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
         }
 
         public EpisodePathParserResult Parse(string path, bool IsDirectory, bool fillExtendedInfo = true)
@@ -26,9 +24,17 @@ namespace Emby.Naming.TV
             if (IsDirectory)
                 path += ".mp4";
 
-            var query = from expression in _options.EpisodeExpressions
-                        select Parse(path, expression);
-            EpisodePathParserResult result = query.FirstOrDefault(r => r.Success);
+            EpisodePathParserResult result = null;
+
+            foreach (var expression in _options.EpisodeExpressions)
+            {
+                var currentResult = Parse(path, expression);
+                if (currentResult.Success)
+                {
+                    result = currentResult;
+                    break;
+                }
+            }
 
             if (result != null && fillExtendedInfo)
             {
@@ -56,7 +62,7 @@ namespace Emby.Naming.TV
                 name = name.Replace('_', '-');
             }
 
-            var match = _iRegexProvider.GetRegex(expression.Expression, RegexOptions.IgnoreCase).Match(name);
+            var match = expression.Regex.Match(name);
 
             // (Full)(Season)(Episode)(Extension)
             if (match.Success && match.Groups.Count >= 3)
@@ -161,9 +167,8 @@ namespace Emby.Naming.TV
         {
             var expressions = new List<EpisodeExpression>();
 
-            expressions.InsertRange(0, _multipleEpisodeExpressions.Select(i => new EpisodeExpression
+            expressions.InsertRange(0, _multipleEpisodeExpressions.Select(i => new EpisodeExpression(i)
             {
-                Expression = i,
                 IsNamed = true
             }));
 

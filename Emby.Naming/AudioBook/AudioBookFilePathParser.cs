@@ -13,12 +13,10 @@ namespace Emby.Naming.AudioBook
     public class AudioBookFilePathParser
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
-        public AudioBookFilePathParser(NamingOptions options, IRegexProvider iRegexProvider)
+        public AudioBookFilePathParser(NamingOptions options)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
         }
 
         public AudioBookFilePathParserResult Parse(string path, bool IsDirectory)
@@ -33,7 +31,7 @@ namespace Emby.Naming.AudioBook
             var fileName = Path.GetFileNameWithoutExtension(path);
             foreach (var expression in _options.AudioBookPartsExpressions)
             {
-                var match = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase).Match(fileName);
+                var match = new Regex(expression, RegexOptions.IgnoreCase).Match(fileName);
                 if (match.Success)
                 {
                     if (!result.ChapterNumber.HasValue)

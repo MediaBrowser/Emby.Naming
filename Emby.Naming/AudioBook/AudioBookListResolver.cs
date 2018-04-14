@@ -11,22 +11,15 @@ namespace Emby.Naming.AudioBook
     public class AudioBookListResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _regexProvider;
 
         public AudioBookListResolver(NamingOptions options)
-            : this(options, new RegexProvider())
-        {
-        }
-
-        public AudioBookListResolver(NamingOptions options, IRegexProvider regexProvider)
         {
             _options = options;
-            _regexProvider = regexProvider;
         }
 
         public IEnumerable<AudioBookInfo> Resolve(List<FileSystemMetadata> files)
         {
-            var audioBookResolver = new AudioBookResolver(_options, _regexProvider);
+            var audioBookResolver = new AudioBookResolver(_options);
 
             var audiobookFileInfos = files
                 .Select(i => audioBookResolver.Resolve(i.FullName, i.IsDirectory))
@@ -42,7 +35,7 @@ namespace Emby.Naming.AudioBook
                     IsDirectory = i.IsDirectory
                 });
 
-            var stackResult = new StackResolver(_options, _regexProvider)
+            var stackResult = new StackResolver(_options)
                 .ResolveAudioBooks(metadata);
 
             var list = new List<AudioBookInfo>();

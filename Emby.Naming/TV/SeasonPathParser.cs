@@ -9,12 +9,10 @@ namespace Emby.Naming.TV
     public class SeasonPathParser
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
-        public SeasonPathParser(NamingOptions options, IRegexProvider iRegexProvider)
+        public SeasonPathParser(NamingOptions options)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
         }
 
         public SeasonPathParserResult Parse(string path, bool supportSpecialAliases, bool supportNumericSeasonFolders)

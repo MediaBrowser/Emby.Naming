@@ -96,9 +96,9 @@ namespace Emby.Naming.Tests.TV
 
         private int? GetEpisodeNumberFromFile(string path)
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
-            var result = new EpisodeResolver(options, new RegexProvider())
+            var result = new EpisodeResolver(options)
                 .Resolve(path, false);
 
             return result.EpisodeNumber;
@@ -106,9 +106,9 @@ namespace Emby.Naming.Tests.TV
 
         private int? GetSeasonNumberFromFile(string path)
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
-            var result = new EpisodeResolver(options, new RegexProvider())
+            var result = new EpisodeResolver(options)
                 .Resolve(path, false);
 
             return result.SeasonNumber;

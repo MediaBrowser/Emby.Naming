@@ -13,12 +13,10 @@ namespace Emby.Naming.Video
     public class CleanDateTimeParser
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _iRegexProvider;
 
-        public CleanDateTimeParser(NamingOptions options, IRegexProvider iRegexProvider)
+        public CleanDateTimeParser(NamingOptions options)
         {
             _options = options;
-            _iRegexProvider = iRegexProvider;
         }
 
         public CleanDateTimeResult Clean(string name)
@@ -43,7 +41,7 @@ namespace Emby.Naming.Video
                 
             }
 
-            var result = _options.CleanDateTimes.Select(i => Clean(name, i))
+            var result = _options.CleanDateTimeRegexes.Select(i => Clean(name, i))
                 .FirstOrDefault(i => i.HasChanged) ??
                 new CleanDateTimeResult { Name = originalName };
 
@@ -53,23 +51,23 @@ namespace Emby.Naming.Video
             }
 
             // Make a second pass, running clean string first
-            var cleanStringResult = new CleanStringParser(_iRegexProvider).Clean(name, _options.CleanStrings);
+            var cleanStringResult = new CleanStringParser().Clean(name, _options.CleanStringRegexes);
 
             if (!cleanStringResult.HasChanged)
             {
                 return result;
             }
 
-            return _options.CleanDateTimes.Select(i => Clean(cleanStringResult.Name, i))
+            return _options.CleanDateTimeRegexes.Select(i => Clean(cleanStringResult.Name, i))
                 .FirstOrDefault(i => i.HasChanged) ??
                 result;
         }
 
-        private CleanDateTimeResult Clean(string name, string expression)
+        private CleanDateTimeResult Clean(string name, Regex expression)
         {
             var result = new CleanDateTimeResult();
 
-            var match = _iRegexProvider.GetRegex(expression, RegexOptions.IgnoreCase).Match(name);
+            var match = expression.Match(name);
 
             if (match.Success && match.Groups.Count == 4)
             {

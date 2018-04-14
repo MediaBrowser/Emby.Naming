@@ -15,7 +15,7 @@ namespace Emby.Naming.Tests.Video
 
         protected VideoResolver GetParser()
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
             return new VideoResolver(options);
         }

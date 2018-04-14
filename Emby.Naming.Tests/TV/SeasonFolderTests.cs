@@ -93,9 +93,9 @@ namespace Emby.Naming.Tests.TV
 
         private int? GetSeasonNumberFromPath(string path)
         {
-            var options = new ExtendedNamingOptions();
+            var options = new NamingOptions();
 
-            var result = new SeasonPathParser(options, new RegexProvider())
+            var result = new SeasonPathParser(options)
                 .Parse(path, true, true);
 
             return result.SeasonNumber;

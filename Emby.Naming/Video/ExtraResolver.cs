@@ -10,12 +10,10 @@ namespace Emby.Naming.Video
     public class ExtraResolver
     {
         private readonly NamingOptions _options;
-        private readonly IRegexProvider _regexProvider;
 
-        public ExtraResolver(NamingOptions options, IRegexProvider regexProvider)
+        public ExtraResolver(NamingOptions options)
         {
             _options = options;
-            _regexProvider = regexProvider;
         }
 
         public ExtraResult GetExtraInfo(string path)
@@ -74,7 +72,7 @@ namespace Emby.Naming.Video
             {
                 var filename = Path.GetFileName(path);
 
-                var regex = _regexProvider.GetRegex(rule.Token, RegexOptions.IgnoreCase);
+                var regex = new Regex(rule.Token, RegexOptions.IgnoreCase);
 
                 if (regex.IsMatch(filename))
                 {
