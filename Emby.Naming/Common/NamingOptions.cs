@@ -80,9 +80,8 @@ namespace Emby.Naming.Common
                 ".dv",
                 ".fli",
                 ".flv",
-                ".rar",
                 ".001",
-                ".zip"
+                ".tp"
             };
 
             VideoFlagDelimiters = new[]
@@ -223,7 +222,6 @@ namespace Emby.Naming.Common
                 ".opus",
                 ".mp3",
                 ".mp2",
-                ".m3u",
                 ".mod",
                 ".amf",
                 ".669",
@@ -248,15 +246,12 @@ namespace Emby.Naming.Common
                 ".cue",
                 ".aif",
                 ".aiff",
-                ".wpl",
                 ".ape",
                 ".mac",
                 ".mpc",
                 ".mp+",
                 ".mpp",
                 ".shn",
-                ".zip",
-                ".rar",
                 ".wv",
                 ".nsf",
                 ".spc",
