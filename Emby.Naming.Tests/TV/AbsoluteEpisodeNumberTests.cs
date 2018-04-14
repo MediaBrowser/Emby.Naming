@@ -37,12 +37,8 @@ namespace Emby.Naming.Tests.TV
         {
             var options = new NamingOptions();
 
-            options.EpisodeExpressions = options.EpisodeExpressions
-                .Where(i => i.SupportsAbsoluteEpisodeNumbers)
-                .ToArray();
-
             var result = new EpisodeResolver(options)
-                .Resolve(path, false);
+                .Resolve(path, false, null, null, true);
 
             return result.EpisodeNumber;
         }

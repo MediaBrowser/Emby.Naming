@@ -16,7 +16,7 @@ namespace Emby.Naming.TV
             _options = options;
         }
 
-        public EpisodePathParserResult Parse(string path, bool IsDirectory, bool fillExtendedInfo = true)
+        public EpisodePathParserResult Parse(string path, bool IsDirectory, bool? isNamed = null, bool? isOptimistic = null, bool? supportsAbsoluteNumbers = null, bool fillExtendedInfo = true)
         {
             // Added to be able to use regex patterns which require a file extension.
             // There were no failed tests without this block, but to be safe, we can keep it until
@@ -28,6 +28,28 @@ namespace Emby.Naming.TV
 
             foreach (var expression in _options.EpisodeExpressions)
             {
+                if (supportsAbsoluteNumbers.HasValue)
+                {
+                    if (expression.SupportsAbsoluteEpisodeNumbers != supportsAbsoluteNumbers.Value)
+                    {
+                        continue;
+                    }
+                }
+                if (isNamed.HasValue)
+                {
+                    if (expression.IsNamed != isNamed.Value)
+                    {
+                        continue;
+                    }
+                }
+                if (isOptimistic.HasValue)
+                {
+                    if (expression.IsOptimistic != isOptimistic.Value)
+                    {
+                        continue;
+                    }
+                }
+
                 var currentResult = Parse(path, expression);
                 if (currentResult.Success)
                 {

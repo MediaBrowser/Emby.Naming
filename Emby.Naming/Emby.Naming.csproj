@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
-    <FileVersion>1.0.8.0</FileVersion>
-    <Version>1.1.1</Version>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
+    <Version>1.1.2</Version>
     <PackageId>MediaBrowser.Naming</PackageId>
     <Description>A file naming engine used by Emby Server.</Description>
     <PackageIconUrl>http://www.mb3admin.com/images/mb3icons1-1.png</PackageIconUrl>

@@ -394,7 +394,7 @@ namespace Emby.Naming.Tests.TV
             var options = new NamingOptions();
 
             var result = new EpisodePathParser(options)
-                .Parse(path, false, true);
+                .Parse(path, false);
 
             return result.EpisodeNumber;
         }

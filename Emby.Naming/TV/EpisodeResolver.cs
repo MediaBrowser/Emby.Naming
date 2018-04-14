@@ -15,7 +15,7 @@ namespace Emby.Naming.TV
             _options = options;
         }
 
-        public EpisodeInfo Resolve(string path, bool IsDirectory, bool fillExtendedInfo = true)
+        public EpisodeInfo Resolve(string path, bool IsDirectory, bool? isNamed = null, bool? isOptimistic = null, bool? supportsAbsoluteNumbers = null, bool fillExtendedInfo = true)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -52,7 +52,7 @@ namespace Emby.Naming.TV
             var format3DResult = new Format3DParser(_options).Parse(flags);
 
             var parsingResult = new EpisodePathParser(_options)
-                .Parse(path, IsDirectory, fillExtendedInfo);
+                .Parse(path, IsDirectory, isNamed, isOptimistic, supportsAbsoluteNumbers, fillExtendedInfo);
             
             return new EpisodeInfo
             {
