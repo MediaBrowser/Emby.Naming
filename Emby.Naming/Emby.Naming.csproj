@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
-    <FileVersion>1.1.4.0</FileVersion>
-    <Version>1.1.4</Version>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.1.5.0</AssemblyVersion>
+    <FileVersion>1.1.5.0</FileVersion>
+    <Version>1.1.5-beta</Version>
     <PackageId>MediaBrowser.Naming</PackageId>
     <Description>A file naming engine used by Emby Server.</Description>
     <PackageIconUrl>http://www.mb3admin.com/images/mb3icons1-1.png</PackageIconUrl>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediaBrowser.Common" Version="3.3.10" />
+    <PackageReference Include="MediaBrowser.Common" Version="3.3.42-beta" />
   </ItemGroup>
 
 </Project>

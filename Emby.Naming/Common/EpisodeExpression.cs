@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System;
 
 namespace Emby.Naming.Common
 {
@@ -27,7 +28,7 @@ namespace Emby.Naming.Common
         {
             Expression = expression;
             IsByDate = byDate;
-            DateTimeFormats = new string[] { };
+            DateTimeFormats = Array.Empty<string>();
             SupportsAbsoluteEpisodeNumbers = true;
         }
 
