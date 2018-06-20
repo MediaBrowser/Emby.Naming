@@ -150,6 +150,12 @@ namespace Emby.Naming.Tests.TV
         }
 
         [TestMethod]
+        public void TestEpisodeNumber64()
+        {
+            Assert.AreEqual(368, GetEpisodeNumberFromFile(@"Running Man\Running Man S2017E368.mkv"));
+        }
+
+        [TestMethod]
         public void TestEpisodeNumber30()
         {
             Assert.AreEqual(03, GetEpisodeNumberFromFile(@"Season 2\02x03 - 02x04 - 02x15 - Ep Name.mp4"));

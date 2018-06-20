@@ -44,6 +44,12 @@ namespace Emby.Naming.Tests.TV
             Test(@"\\server\ABC News 2018_03_24_19_00_00.mkv", "james.corden", 2018, 03, 24);
         }
 
+        [TestMethod]
+        public void TestDailyEpisode7()
+        {
+            Test(@"\\server\Last Man Standing_KTLADT_2018_05_25_01_28_00.wtv", "Last Man Standing", 2018, 05, 25);
+        }
+
         private void Test(string path, string seriesName, int? year, int? month, int? day)
         {
             var options = new NamingOptions();

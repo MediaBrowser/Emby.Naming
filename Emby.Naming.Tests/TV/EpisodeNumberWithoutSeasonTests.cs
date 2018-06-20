@@ -84,6 +84,7 @@ namespace Emby.Naming.Tests.TV
         [TestMethod]
         public void TestEpisodeNumberWithoutSeason13()
         {
+            // This is not supported anymore after removing the episode number 365+ hack from EpisodePathParser
             Assert.AreEqual(13, GetEpisodeNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 13.mkv"));
         }
 
@@ -92,6 +93,12 @@ namespace Emby.Naming.Tests.TV
         {
             Assert.AreEqual(3, GetSeasonNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 317.mkv"));
             Assert.AreEqual(17, GetEpisodeNumberFromFile(@"Case Closed (1996-2007)\Case Closed - 317.mkv"));
+        }
+
+        [TestMethod]
+        public void TestEpisodeNumberWithoutSeason15()
+        {
+            Assert.AreEqual(2017, GetSeasonNumberFromFile(@"Running Man\Running Man S2017E368.mkv"));
         }
 
         private int? GetEpisodeNumberFromFile(string path)
