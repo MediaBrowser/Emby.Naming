@@ -123,12 +123,12 @@ namespace Emby.Naming.TV
                 else if (expression.IsNamed)
                 {
                     int num;
-                    if (int.TryParse(match.Groups["seasonnumber"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
+                    if (int.TryParse(match.Groups["seasonnumber"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
                     {
                         result.SeasonNumber = num;
                     }
 
-                    if (int.TryParse(match.Groups["epnumber"].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
+                    if (int.TryParse(match.Groups["epnumber"].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
                     {
                         result.EpisodeNumber = num;
                     }
@@ -142,7 +142,7 @@ namespace Emby.Naming.TV
                         int nextIndex = endingNumberGroup.Index + endingNumberGroup.Length;
                         if (nextIndex >= name.Length || "0123456789iIpP".IndexOf(name[nextIndex]) == -1)
                         {
-                            if (int.TryParse(endingNumberGroup.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
+                            if (int.TryParse(endingNumberGroup.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
                             {
                                 result.EndingEpsiodeNumber = num;
                             }
@@ -155,11 +155,11 @@ namespace Emby.Naming.TV
                 else
                 {
                     int num;
-                    if (int.TryParse(match.Groups[1].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
+                    if (int.TryParse(match.Groups[1].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
                     {
                         result.SeasonNumber = num;
                     }
-                    if (int.TryParse(match.Groups[2].Value, NumberStyles.Any, CultureInfo.InvariantCulture, out num))
+                    if (int.TryParse(match.Groups[2].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out num))
                     {
                         result.EpisodeNumber = num;
                     }

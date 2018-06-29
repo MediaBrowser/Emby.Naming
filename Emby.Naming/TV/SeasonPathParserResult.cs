@@ -13,5 +13,6 @@ namespace Emby.Naming.TV
         /// </summary>
         /// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
         public bool Success { get; set; }
+        public bool IsSeasonFolder { get; set; }
     }
 }

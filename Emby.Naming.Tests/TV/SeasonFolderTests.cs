@@ -91,6 +91,12 @@ namespace Emby.Naming.Tests.TV
             Assert.AreEqual(3, GetSeasonNumberFromPath(@"\Drive\3.Staffel"));
         }
 
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath15()
+        {
+            Assert.IsNull(GetSeasonNumberFromPath(@"\Drive\s06e05"));
+        }
+
         private int? GetSeasonNumberFromPath(string path)
         {
             var options = new NamingOptions();
