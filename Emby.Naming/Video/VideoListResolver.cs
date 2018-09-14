@@ -29,7 +29,7 @@ namespace Emby.Naming.Video
             // Filter out all extras, otherwise they could cause stacks to not be resolved
             // See the unit test TestStackedWithTrailer
             var nonExtras = videoInfos
-                .Where(i => string.IsNullOrEmpty(i.ExtraType))
+                .Where(i => !i.ExtraType.HasValue)
                 .Select(i => new FileSystemMetadata
                 {
                     FullName = i.Path,
@@ -76,7 +76,7 @@ namespace Emby.Naming.Video
             }
 
             var standaloneMedia = remainingFiles
-                .Where(i => string.IsNullOrEmpty(i.ExtraType))
+                .Where(i => !i.ExtraType.HasValue)
                 .ToList();
 
             foreach (var media in standaloneMedia)
@@ -145,7 +145,7 @@ namespace Emby.Naming.Video
             if (list.Count == 1)
             {
                 var trailers = remainingFiles
-                    .Where(i => string.Equals(i.ExtraType, "trailer", StringComparison.OrdinalIgnoreCase))
+                    .Where(i => i.ExtraType == MediaBrowser.Model.Entities.ExtraType.Trailer)
                     .ToList();
 
                 list[0].Extras.AddRange(trailers);
@@ -251,7 +251,7 @@ namespace Emby.Naming.Video
             }
 
             return remainingFiles
-                .Where(i => !string.IsNullOrEmpty(i.ExtraType))
+                .Where(i => i.ExtraType.HasValue)
                 .Where(i => baseNames.Any(b => i.FileNameWithoutExtension.StartsWith(b, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }

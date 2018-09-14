@@ -60,6 +60,29 @@ namespace Emby.Naming.Tests.Video
         }
 
         [TestMethod]
+        public void TestMultiEdition3()
+        {
+            // This is currently not supported and will fail, but we should try to figure it out
+            var files = new[]
+            {
+                @"\\movies\The Phantom of the Opera (1925)\The Phantom of the Opera (1925) - 1925 version.mkv",
+                @"\\movies\The Phantom of the Opera (1925)\The Phantom of the Opera (1925) - 1929 version.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(1, result[0].AlternateVersions.Count);
+        }
+
+        [TestMethod]
         public void TestLetterFolders()
         {
             var files = new[]

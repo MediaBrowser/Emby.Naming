@@ -44,7 +44,8 @@ namespace Emby.Naming.TV
             "staffel",
             "series",
             "сезон",
-            "stagione"
+            "stagione",
+            "seizoen"
         };
 
         /// <summary>

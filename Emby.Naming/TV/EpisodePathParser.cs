@@ -91,10 +91,10 @@ namespace Emby.Naming.TV
             {
                 if (expression.IsByDate)
                 {
-                    DateTime date;
+                    DateTimeOffset date;
                     if (expression.DateTimeFormats.Length > 0)
                     {
-                        if (DateTime.TryParseExact(match.Groups[0].Value,
+                        if (DateTimeOffset.TryParseExact(match.Groups[0].Value,
                             expression.DateTimeFormats,
                             CultureInfo.InvariantCulture,
                             DateTimeStyles.None,
@@ -108,7 +108,7 @@ namespace Emby.Naming.TV
                     }
                     else
                     {
-                        if (DateTime.TryParse(match.Groups[0].Value, out date))
+                        if (DateTimeOffset.TryParse(match.Groups[0].Value, out date))
                         {
                             result.Year = date.Year;
                             result.Month = date.Month;

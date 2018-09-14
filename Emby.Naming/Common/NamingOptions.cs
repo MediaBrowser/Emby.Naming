@@ -402,127 +402,134 @@ namespace Emby.Naming.Common
             {
                 new ExtraRule
                 {
-                    ExtraType = "trailer",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Trailer,
                     RuleType = ExtraRuleType.Filename,
                     Token = "trailer",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "trailer",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Trailer,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-trailer",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "trailer",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Trailer,
                     RuleType = ExtraRuleType.Suffix,
                     Token = ".trailer",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "trailer",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Trailer,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "_trailer",
                     MediaType = MediaType.Video
                 },
                  new ExtraRule
                 {
-                    ExtraType = "trailer",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Trailer,
                     RuleType = ExtraRuleType.Suffix,
                     Token = " trailer",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "sample",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Sample,
                     RuleType = ExtraRuleType.Filename,
                     Token = "sample",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "sample",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Sample,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-sample",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "sample",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Sample,
                     RuleType = ExtraRuleType.Suffix,
                     Token = ".sample",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "sample",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Sample,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "_sample",
                     MediaType = MediaType.Video
                 },
                  new ExtraRule
                 {
-                    ExtraType = "sample",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Sample,
                     RuleType = ExtraRuleType.Suffix,
                     Token = " sample",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "themesong",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.ThemeSong,
                     RuleType = ExtraRuleType.Filename,
+                    Token = "theme",
+                    MediaType = MediaType.Audio
+                },
+                new ExtraRule
+                {
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.ThemeSong,
+                    RuleType = ExtraRuleType.Suffix,
                     Token = "theme",
                     MediaType = MediaType.Audio
                 },
 
                 new ExtraRule
                 {
-                    ExtraType = "scene",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Scene,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-scene",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "clip",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Clip,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-clip",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "interview",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Interview,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-interview",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "behindthescenes",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.BehindTheScenes,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-behindthescenes",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "deletedscene",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.DeletedScene,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-deleted",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "featurette",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Clip,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-featurette",
                     MediaType = MediaType.Video
                 },
                 new ExtraRule
                 {
-                    ExtraType = "short",
+                    ExtraType = MediaBrowser.Model.Entities.ExtraType.Clip,
                     RuleType = ExtraRuleType.Suffix,
                     Token = "-short",
                     MediaType = MediaType.Video

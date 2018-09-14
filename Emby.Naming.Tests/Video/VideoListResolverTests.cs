@@ -428,6 +428,27 @@ namespace Emby.Naming.Tests.Video
             Assert.AreEqual(4, result.Count);
         }
 
+        [TestMethod]
+        public void TestSubfolders()
+        {
+            var files = new[]
+            {
+                @"\\Movies\Despicable Me\Despicable Me.mkv",
+                @"\\Movies\Despicable Me\trailers\trailer.mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+        }
+
         private VideoListResolver GetResolver()
         {
             var options = new NamingOptions();
