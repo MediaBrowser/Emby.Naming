@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using MediaBrowser.Model.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -65,7 +66,7 @@ namespace Emby.Naming.Tests.Video
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
-            Assert.AreEqual("trailer", result.ExtraType);
+            Assert.AreEqual(ExtraType.Trailer, result.ExtraType);
             Assert.AreEqual("Brave (2006)-trailer", result.Name);
         }
 
@@ -82,7 +83,7 @@ namespace Emby.Naming.Tests.Video
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
             Assert.AreEqual("300 (2006)-trailer", result.Name);
-            Assert.AreEqual("trailer", result.ExtraType);
+            Assert.AreEqual(ExtraType.Trailer, result.ExtraType);
         }
 
         [TestMethod]

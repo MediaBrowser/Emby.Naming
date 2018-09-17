@@ -69,12 +69,12 @@ namespace Emby.Naming.Video
 
             var match = expression.Match(name);
 
-            if (match.Success && match.Groups.Count == 4)
+            if (match.Success && match.Groups.Count == 5)
             {
                 int year;
                 if (match.Groups[1].Success && match.Groups[2].Success && int.TryParse(match.Groups[2].Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out year))
                 {
-                    name = match.Groups[1].Value;
+                    name = match.Groups[1].Value.TrimEnd();
                     result.Year = year;
                     result.HasChanged = true;
                 }
