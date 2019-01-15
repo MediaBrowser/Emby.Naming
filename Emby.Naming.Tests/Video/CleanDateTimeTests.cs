@@ -76,6 +76,12 @@ namespace Emby.Naming.Tests.Video
             Test("Super movie(2009).mp4", "Super movie", 2009);
         }
 
+        [TestMethod]
+        public void TestCleanDateTimeWithoutDate2()
+        {
+            Test("Drug War 2013.mp4", "Drug War", 2013);
+        }
+
         private void Test(string input, string expectedName, int? expectedYear)
         {
             input = Path.GetFileName(input);
