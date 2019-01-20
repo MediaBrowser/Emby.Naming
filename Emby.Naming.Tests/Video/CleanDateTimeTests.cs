@@ -77,15 +77,33 @@ namespace Emby.Naming.Tests.Video
         }
 
         [TestMethod]
-        public void TestCleanDateTimeWithoutDate2()
+        public void TestCleanDateTimeWithoutParenthesis()
         {
             Test("Drug War 2013.mp4", "Drug War", 2013);
         }
 
         [TestMethod]
-        public void TestCleanDateTimeWithoutDate3()
+        public void TestCleanDateTimeWithMultipleYears()
         {
             Test("My Movie (1997) - GreatestReleaseGroup 2019.mp4", "My Movie", 1997);
+        }
+
+        [TestMethod]
+        public void TestCleanDateTimeWithYearAndResolution()
+        {
+            Test("First Man 2018 1080p.mkv", "First Man", 2018);
+        }
+
+        [TestMethod]
+        public void TestCleanDateTimeWithYearAndResolution1()
+        {
+            Test("First Man (2018) 1080p.mkv", "First Man", 2018);
+        }
+
+        [TestMethod]
+        public void TestCleanDateTimeWithSceneRelease()
+        {
+            Test("Maximum Ride - 2016 - WEBDL-1080p - x264 AC3.mkv", "Maximum Ride", 2016);
         }
 
         private void Test(string input, string expectedName, int? expectedYear)
