@@ -372,12 +372,35 @@ namespace Emby.Naming.Tests.Video
         [TestMethod]
         public void TestMultiVersion10()
         {
-            // Currently not supported but we should probably handle this.
-
             var files = new[]
             {
                 @"\\movies\Blade Runner (1982)\Blade Runner (1982) [Final Cut] [1080p HEVC AAC].mkv",
                 @"\\movies\Blade Runner (1982)\Blade Runner (1982) [EE by ADM] [480p HEVC AAC,AAC,AAC].mkv"
+            };
+
+            var resolver = GetResolver();
+
+            var result = resolver.Resolve(files.Select(i => new FileSystemMetadata
+            {
+                IsDirectory = false,
+                FullName = i
+
+            }).ToList()).ToList();
+
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(0, result[0].Extras.Count);
+            Assert.AreEqual(1, result[0].AlternateVersions.Count);
+        }
+
+        [TestMethod]
+        public void TestMultiVersion11()
+        {
+            // Currently not supported but we should probably handle this.
+
+            var files = new[]
+            {
+                @"\\movies\X-Men Apocalypse (2016)\X-Men Apocalypse (2016) [1080p] Blu-ray.x264.DTS.mkv",
+                @"\\movies\X-Men Apocalypse (2016)\X-Men Apocalypse (2016) [2160p] Blu-ray.x265.AAC.mkv"
             };
 
             var resolver = GetResolver();

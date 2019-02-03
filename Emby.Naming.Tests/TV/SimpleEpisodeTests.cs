@@ -76,6 +76,12 @@ namespace Emby.Naming.Tests.TV
             Test(@"Series\4x12 - The Woman.mp4", string.Empty, 4, 12);
         }
 
+        [TestMethod]
+        public void TestSimpleEpisodePath12()
+        {
+            Test(@"Series\LA X, Pt. 1_s06e32.mp4", "LA X, Pt. 1", 6, 32);
+        }
+
         private void Test(string path, string seriesName, int? seasonNumber, int? episodeNumber)
         {
             var options = new NamingOptions();

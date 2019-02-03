@@ -106,6 +106,12 @@ namespace Emby.Naming.Tests.Video
             Test("Maximum Ride - 2016 - WEBDL-1080p - x264 AC3.mkv", "Maximum Ride", 2016);
         }
 
+        [TestMethod]
+        public void TestYearInBrackets()
+        {
+            Test("Robin Hood [Multi-Subs] [2018].mkv", "Robin Hood", 2018);
+        }
+
         private void Test(string input, string expectedName, int? expectedYear)
         {
             input = Path.GetFileName(input);

@@ -40,6 +40,60 @@ namespace Emby.Naming.Tests.Video
             Test(@"[rec].mkv", "[rec].mkv");
         }
 
+        [TestMethod]
+        public void Test4k()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.4k.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestUltraHd()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.UltraHD.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestUHd()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.UHD.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestHDR()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.HDR.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestHDC()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.HDC.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestHDC1()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon-HDC.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestBDrip()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.BDrip.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestBDripHDC()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.BDrip-HDC.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
+        [TestMethod]
+        public void TestMulti()
+        {
+            Test("Crouching.Tiger.Hidden.Dragon.4K.UltraHD.HDR.BDrip-HDC.mkv", "Crouching.Tiger.Hidden.Dragon");
+        }
+
         private void Test(string input, string expectedName)
         {
             var result = GetParser().CleanString(input);
