@@ -39,6 +39,18 @@ namespace Emby.Naming.Tests.TV
             Assert.AreEqual(2, GetEpisodeNumberFromFile(@"The Simpsons\Foo_ep_02.avi"));
         }
 
+        [TestMethod]
+        public void TestAbsoluteEpisodeNumber6()
+        {
+            Assert.AreEqual(889, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 889.avi"));
+        }
+
+        [TestMethod]
+        public void TestAbsoluteEpisodeNumber7()
+        {
+            Assert.AreEqual(101, GetEpisodeNumberFromFile(@"The Simpsons\The Simpsons 101.avi"));
+        }
+
         private int? GetEpisodeNumberFromFile(string path)
         {
             var options = new NamingOptions();
