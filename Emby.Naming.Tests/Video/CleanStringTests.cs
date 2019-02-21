@@ -98,13 +98,13 @@ namespace Emby.Naming.Tests.Video
         public void TestLeadingBraces()
         {
             // Not actually supported, just reported by a user
-            Test("[0004] - After The Sunset\\After The Sunset 1080p.el.mkv", "After The Sunset");
+            Test("[0004] - After The Sunset.el.mkv", "After The Sunset");
         }
 
         [TestMethod]
         public void TestTrailingBraces()
         {
-            Test("After The Sunset - [0004]\\After The Sunset 1080p.el.mkv", "After The Sunset");
+            Test("After The Sunset - [0004].mkv", "After The Sunset");
         }
 
         private void Test(string input, string expectedName)
