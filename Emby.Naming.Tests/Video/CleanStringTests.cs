@@ -110,9 +110,9 @@ namespace Emby.Naming.Tests.Video
 
         private void Test(string input, string expectedName)
         {
-            var result = GetParser().CleanString(input.AsSpan());
+            var result = GetParser().CleanString(input.AsSpan()).ToString();
 
-            Assert.AreEqual(expectedName, result.Name, true, CultureInfo.InvariantCulture);
+            Assert.AreEqual(expectedName, result, true, CultureInfo.InvariantCulture);
         }
     }
 }
