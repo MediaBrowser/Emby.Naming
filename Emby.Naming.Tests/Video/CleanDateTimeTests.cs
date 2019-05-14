@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -116,7 +117,7 @@ namespace Emby.Naming.Tests.Video
         {
             input = Path.GetFileName(input);
 
-            var result = GetParser().CleanDateTime(input);
+            var result = GetParser().CleanDateTime(input.AsSpan());
 
             Assert.AreEqual(expectedName, result.Name, true, CultureInfo.InvariantCulture);
             Assert.AreEqual(expectedYear, result.Year);

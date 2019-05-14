@@ -3,6 +3,7 @@ using Emby.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 using MediaBrowser.Model.Entities;
+using System;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -62,7 +63,7 @@ namespace Emby.Naming.Tests.Video
         {
             var parser = GetExtraTypeParser(videoOptions);
 
-            var extraType = parser.GetExtraInfo(input).ExtraType;
+            var extraType = parser.GetExtraInfo(input.AsSpan()).ExtraType;
 
             if (expectedType == null)
             {

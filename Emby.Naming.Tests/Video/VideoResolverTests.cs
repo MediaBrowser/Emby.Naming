@@ -1,5 +1,6 @@
 ﻿using MediaBrowser.Model.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -12,9 +13,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\Brave (2007)\\Brave (2006).mkv");
+                parser.ResolveFile(@"\\server\\Movies\\Brave (2007)\\Brave (2006).mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -28,9 +28,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\Bad Boys (1995)\\Bad Boys (1995).mkv");
+                parser.ResolveFile(@"\\server\\Movies\\Bad Boys (1995)\\Bad Boys (1995).mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(1995, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -44,9 +43,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).mkv");
+                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -60,9 +58,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\Brave (2007)\\Brave (2006)-trailer.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\Brave (2007)\\Brave (2006)-trailer.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -76,9 +73,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-trailer.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-trailer.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -92,9 +88,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).bluray.disc");
+                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).bluray.disc".AsSpan());
 
-            Assert.AreEqual("disc", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(true, result.IsStub);
             Assert.AreEqual("bluray", result.StubType);
@@ -109,9 +104,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\Brave (2007)\\Brave (2006).bluray.disc");
+                parser.ResolveFile(@"\\server\\Movies\\Brave (2007)\\Brave (2006).bluray.disc".AsSpan());
 
-            Assert.AreEqual("disc", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(true, result.IsStub);
             Assert.AreEqual("bluray", result.StubType);
@@ -126,9 +120,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-trailer.bluray.disc");
+                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006)-trailer.bluray.disc".AsSpan());
 
-            Assert.AreEqual("disc", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(true, result.IsStub);
             Assert.AreEqual("bluray", result.StubType);
@@ -144,9 +137,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\brave (2007)\\brave (2006)-trailer.bluray.disc");
+                parser.ResolveFile(@"\\server\\Movies\\brave (2007)\\brave (2006)-trailer.bluray.disc".AsSpan());
 
-            Assert.AreEqual("disc", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(true, result.IsStub);
             Assert.AreEqual("bluray", result.StubType);
@@ -161,9 +153,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).3d.sbs.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).3d.sbs.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(true, result.Is3D);
@@ -178,9 +169,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).3d1.sbas.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\300 (2007)\\300 (2006).3d1.sbas.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -195,9 +185,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\brave (2007)\\brave (2006).3d.sbs.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\brave (2007)\\brave (2006).3d.sbs.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2006, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(true, result.Is3D);
@@ -212,9 +201,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\American Psycho\\American.Psycho.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\American Psycho\\American.Psycho.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(null, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -230,9 +218,8 @@ namespace Emby.Naming.Tests.Video
 
             // In this test case, running CleanDateTime first produces no date, so it will attempt to run CleanString first and then CleanDateTime again
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\3.Days.to.Kill\\3.Days.to.Kill.2014.720p.BluRay.x264.YIFY.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\3.Days.to.Kill\\3.Days.to.Kill.2014.720p.BluRay.x264.YIFY.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2014, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -248,9 +235,8 @@ namespace Emby.Naming.Tests.Video
 
             // In this test case, running CleanDateTime first produces no date, so it will attempt to run CleanString first and then CleanDateTime again
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\3 days to kill (2005)\\3 days to kill (2005).mkv");
+                parser.ResolveFile(@"\\server\\Movies\\3 days to kill (2005)\\3 days to kill (2005).mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.AreEqual(2005, result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);
@@ -265,9 +251,8 @@ namespace Emby.Naming.Tests.Video
             var parser = GetParser();
 
             var result =
-                parser.ResolveFile(@"\\server\\Movies\\7 Psychos.mkv\\7 Psychos.mkv");
+                parser.ResolveFile(@"\\server\\Movies\\7 Psychos.mkv\\7 Psychos.mkv".AsSpan());
 
-            Assert.AreEqual("mkv", result.Container);
             Assert.IsNull(result.Year);
             Assert.AreEqual(false, result.IsStub);
             Assert.AreEqual(false, result.Is3D);

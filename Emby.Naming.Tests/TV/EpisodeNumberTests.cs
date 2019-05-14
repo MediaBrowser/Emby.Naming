@@ -156,6 +156,13 @@ namespace Emby.Naming.Tests.TV
         }
 
         [TestMethod]
+        public void TestEpisodeNumber65()
+        {
+            // Not supported yet
+            Assert.AreEqual(7, GetEpisodeNumberFromFile(@"\The.Legend.of.Condor.Heroes.2017.V2.web-dl.1080p.h264.aac-hdctv\\The.Legend.of.Condor.Heroes.2017.E07.V2.web-dl.1080p.h264.aac-hdctv.mkv"));
+        }
+
+        [TestMethod]
         public void TestEpisodeNumber30()
         {
             Assert.AreEqual(03, GetEpisodeNumberFromFile(@"Season 2\02x03 - 02x04 - 02x15 - Ep Name.mp4"));

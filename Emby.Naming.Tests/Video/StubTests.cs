@@ -3,6 +3,7 @@ using Emby.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 using MediaBrowser.Model.Logging;
+using System;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -30,7 +31,7 @@ namespace Emby.Naming.Tests.Video
         public void TestStubName()
         {
             var result =
-                GetParser().ResolveFile(@"C:\\Users\\media\\Desktop\\Video Test\\Movies\\Oblivion\\Oblivion.dvd.disc");
+                GetParser().ResolveFile(@"C:\\Users\\media\\Desktop\\Video Test\\Movies\\Oblivion\\Oblivion.dvd.disc".AsSpan());
 
             Assert.AreEqual("Oblivion", result.Name);
         }
@@ -40,17 +41,17 @@ namespace Emby.Naming.Tests.Video
             var options = new NamingOptions();
             var parser = new StubResolver(options);
 
-            var result = parser.ResolveFile(path);
+            var resultStubType = parser.ResolveFile(path.AsSpan());
 
-            Assert.AreEqual(isStub, result.IsStub);
+            Assert.AreEqual(isStub, !string.IsNullOrEmpty(resultStubType));
 
             if (stubType == null)
             {
-                Assert.IsNull(result.StubType);
+                Assert.IsNull(resultStubType);
             }
             else
             {
-                Assert.AreEqual(stubType, result.StubType, true, CultureInfo.InvariantCulture);
+                Assert.AreEqual(stubType, resultStubType, true, CultureInfo.InvariantCulture);
             }
         }
     }

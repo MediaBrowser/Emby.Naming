@@ -97,6 +97,12 @@ namespace Emby.Naming.Tests.TV
             Assert.IsNull(GetSeasonNumberFromPath(@"\Drive\s06e05"));
         }
 
+        [TestMethod]
+        public void TestGetSeasonNumberFromPath16()
+        {
+            Assert.IsNull(GetSeasonNumberFromPath(@"\Drive\The.Legend.of.Condor.Heroes.2017.V2.web-dl.1080p.h264.aac-hdctv"));
+        }
+
         private int? GetSeasonNumberFromPath(string path)
         {
             var options = new NamingOptions();

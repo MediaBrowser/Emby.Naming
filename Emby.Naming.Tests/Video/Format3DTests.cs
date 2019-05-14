@@ -3,6 +3,7 @@ using Emby.Naming.Video;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 using MediaBrowser.Model.Logging;
+using System;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -26,7 +27,7 @@ namespace Emby.Naming.Tests.Video
         public void Test3DName()
         {
             var result =
-                GetParser().ResolveFile(@"C:\\Users\\media\\Desktop\\Video Test\\Movies\\Oblivion\\Oblivion.3d.hsbs.mkv");
+                GetParser().ResolveFile(@"C:\\Users\\media\\Desktop\\Video Test\\Movies\\Oblivion\\Oblivion.3d.hsbs.mkv".AsSpan());
 
             Assert.AreEqual("hsbs", result.Format3D);
             Assert.AreEqual("Oblivion", result.Name);
@@ -64,7 +65,7 @@ namespace Emby.Naming.Tests.Video
         {
             var parser = new Format3DParser(options);
 
-            var result = parser.Parse(input);
+            var result = parser.Parse(input.AsSpan());
 
             Assert.AreEqual(is3D, result.Is3D);
 

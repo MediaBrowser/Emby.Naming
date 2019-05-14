@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Emby.Naming.Tests.Video
 {
@@ -109,7 +110,7 @@ namespace Emby.Naming.Tests.Video
 
         private void Test(string input, string expectedName)
         {
-            var result = GetParser().CleanString(input);
+            var result = GetParser().CleanString(input.AsSpan());
 
             Assert.AreEqual(expectedName, result.Name, true, CultureInfo.InvariantCulture);
         }
